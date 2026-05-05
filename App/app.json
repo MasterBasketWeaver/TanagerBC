@@ -1,0 +1,46 @@
+{
+  "id": "9ac25096-0cd1-ab62-9123-cc823016a977",
+  "name": "Tanager Customizations",
+  "description": "Provides customizations for Tanager.",
+  "publisher": "BryanA BC Developments Inc.",
+  "version": "27.0.1.0",
+  "runtime": "16.0",
+  "target": "Cloud",
+  "application": "27.0.0.0",
+  "platform": "27.0.0.0",
+  "resourceExposurePolicy": {
+    "allowDebugging": false,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false,
+    "applyToDevExtension": false
+  },
+  "features": [
+    "NoImplicitWith"
+  ],
+  "dependencies": [
+    {
+      "id": "e7e4551c-46e4-40a0-98aa-d33dc1d10bde",
+      "name": "Multi-Entity Management (NA)",
+      "version": "1.1.142.0",
+      "publisher": "Binary Stream Software Inc."
+    },
+    {
+      "id": "3c959f73-5fef-46ac-a8cf-0da8f7260611",
+      "name": "Binary Stream Inc License Management",
+      "version": "1.41.0.0",
+      "publisher": "Binary Stream Software Inc."
+    },
+    {
+      "id": "f4fa2ab5-beb9-467f-bd19-21e4ac4f32af",
+      "name": "ApplicationCheckJournals",
+      "publisher": "Nalashaa Solutions",
+      "version": "1.0.0.0"
+    }
+  ],
+  "idRanges": [
+    {
+      "from": 80000,
+      "to": 80000
+    }
+  ]
+}
