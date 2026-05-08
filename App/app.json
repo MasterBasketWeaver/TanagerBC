@@ -9,10 +9,10 @@
   "application": "27.0.0.0",
   "platform": "27.0.0.0",
   "resourceExposurePolicy": {
-    "allowDebugging": false,
-    "allowDownloadingSource": false,
-    "includeSourceInSymbolFile": false,
-    "applyToDevExtension": false
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true,
+    "applyToDevExtension": true
   },
   "features": [
     "NoImplicitWith"
@@ -29,12 +29,6 @@
       "name": "Binary Stream Inc License Management",
       "version": "1.41.0.0",
       "publisher": "Binary Stream Software Inc."
-    },
-    {
-      "id": "f4fa2ab5-beb9-467f-bd19-21e4ac4f32af",
-      "name": "ApplicationCheckJournals",
-      "publisher": "Nalashaa Solutions",
-      "version": "1.0.0.0"
     }
   ],
   "idRanges": [

@@ -1893,7 +1893,7 @@
             <PageBreak>
               <BreakLocation>End</BreakLocation>
             </PageBreak>
-            <Top>0.03125in</Top>
+            <Top>0in</Top>
             <Left>0.03125in</Left>
             <Height>2.31469in</Height>
             <Width>7.22903in</Width>
@@ -2187,6 +2187,9 @@
               <Height>0.16321in</Height>
               <Width>0.89652in</Width>
               <ZIndex>11</ZIndex>
+              <Visibility>
+                <Hidden>=Trim(Cstr(Choose(6,Split(Cstr(ReportItems!values.Value),Chr(177))))) = ""</Hidden>
+              </Visibility>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
@@ -2597,6 +2600,9 @@ Zz/ax/4KK/sDeCfhPY/BrwnoetNc2mq+I7ybxvFJBaT2UrrHDBiDMglUJKWYLsDbcE5I/VaigOY/Ln/g
         <Field Name="Gen__Journal_Line_Applies_to_ID">
           <DataField>Gen__Journal_Line_Applies_to_ID</DataField>
         </Field>
+        <Field Name="GenJnlLine_AccountNo">
+          <DataField>GenJnlLine_AccountNo</DataField>
+        </Field>
         <Field Name="GreetingText">
           <DataField>GreetingText</DataField>
         </Field>
@@ -2659,6 +2665,15 @@ Zz/ax/4KK/sDeCfhPY/BrwnoetNc2mq+I7ybxvFJBaT2UrrHDBiDMglUJKWYLsDbcE5I/VaigOY/Ln/g
         </Field>
         <Field Name="EmailAddr">
           <DataField>EmailAddr</DataField>
+        </Field>
+        <Field Name="RecBankAccName">
+          <DataField>RecBankAccName</DataField>
+        </Field>
+        <Field Name="RecBankAccNo">
+          <DataField>RecBankAccNo</DataField>
+        </Field>
+        <Field Name="RecBankTransitNo">
+          <DataField>RecBankTransitNo</DataField>
         </Field>
         <Field Name="CopyTxt">
           <DataField>CopyTxt</DataField>
@@ -3013,15 +3028,6 @@ Zz/ax/4KK/sDeCfhPY/BrwnoetNc2mq+I7ybxvFJBaT2UrrHDBiDMglUJKWYLsDbcE5I/VaigOY/Ln/g
         </Field>
         <Field Name="Unapplied_Number">
           <DataField>Unapplied_Number</DataField>
-        </Field>
-        <Field Name="RecBankAccName">
-          <DataField>RecBankAccName</DataField>
-        </Field>
-        <Field Name="RecBankAccNo">
-          <DataField>RecBankAccNo</DataField>
-        </Field>
-        <Field Name="RecBankTransitNo">
-          <DataField>RecBankTransitNo</DataField>
         </Field>
       </Fields>
       <Query>
