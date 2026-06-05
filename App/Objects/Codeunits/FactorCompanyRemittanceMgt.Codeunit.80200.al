@@ -58,6 +58,8 @@ codeunit 80200 "BA Factor Company Remit. Mgt."
         GenJnlLine.FindSet();
     end;
 
+
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Custom Layout Reporting", "OnBeforeRunReport", '', true, true)]
     local procedure CustomLayoutReporting_OnBeforeRunReport(var InHandled: Boolean)
     begin
@@ -71,6 +73,7 @@ codeunit 80200 "BA Factor Company Remit. Mgt."
         if SingleInstance.GetDisableReportOutput() and Rec."Check Exported" and (Rec."Account Type" = Rec."Account Type"::Vendor) and (Rec."Account No." <> '') then
             SingleInstance.AddRecordIDs(Rec.RecordID);
     end;
+
 
 
     [EventSubscriber(ObjectType::Page, Page::"Payment Journal", "OnAfterActionEvent", "ExportPaymentsToFile", true, true)]
