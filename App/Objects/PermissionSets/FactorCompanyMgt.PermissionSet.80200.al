@@ -1,4 +1,4 @@
-permissionset 80000 "BA Factor Company Mgt."
+permissionset 80200 "BA Factor Comp. Mgt."
 {
     Assignable = true;
     Caption = 'Factor Company Mgt. Permissions';
