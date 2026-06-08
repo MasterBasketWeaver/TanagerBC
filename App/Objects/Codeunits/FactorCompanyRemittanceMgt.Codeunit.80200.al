@@ -92,10 +92,12 @@ codeunit 80200 "BA Factor Company Remit. Mgt."
         GenJnlLine: Record "Gen. Journal Line";
         ReportSelections: Record "Report Selections";
         CustomReportSelection: Record "Custom Report Selection";
+        ReportLayoutList: Record "Report Layout List";
+        AllObjWithCaption: Record AllObjWithCaption;
         TempBlob: Codeunit "Temp Blob";
         DataCompression: Codeunit "Data Compression";
-        AllObjWithCaption: Record AllObjWithCaption;
         RecsToPrintDict: Dictionary of [Integer, List of [RecordID]];
+        DefaultReportLayoutNames: Dictionary of [Integer, Text[250]];
         RecordIDs, RecordIds2 : List of [RecordID];
         RecordId: RecordID;
         RecordRef: RecordRef;
@@ -104,15 +106,17 @@ codeunit 80200 "BA Factor Company Remit. Mgt."
         FilterText: TextBuilder;
         FileName: Text;
         DefaultReportID, ReportID : Integer;
-        result: boolean;
+        HasReportSelection: Boolean;
     begin
         RecordIDs := SingleInstance.GetRecordIDs();
         if RecordIDs.Count() = 0 then
             exit;
 
         ReportSelections.SetRange(Usage, ReportSelections.Usage::"V.Remittance");
-        if ReportSelections.FindFirst() then
-            DefaultReportID := ReportSelections."Report ID";
+        if not ReportSelections.FindFirst() then
+            Error(NoVendorRemitReportIDSelectedErr);
+        DefaultReportID := ReportSelections."Report ID";
+
 
         SetCustomReportSelectionFilters(CustomReportSelection);
         foreach RecordId in RecordIDs do begin
@@ -134,11 +138,20 @@ codeunit 80200 "BA Factor Company Remit. Mgt."
                     RecsToPrintDict.Get(DefaultReportID).Add(RecordId);
         end;
 
+
         GenJnlLine.Get(RecordId);
         GenJnlLine.SetRange("Journal Template Name", GenJnlLine."Journal Template Name");
         GenJnlLine.SetRange("Journal Batch Name", GenJnlLine."Journal Batch Name");
         DataCompression.CreateZipArchive();
         foreach ReportID in RecsToPrintDict.Keys() do begin
+            AllObjWithCaption.Get(ObjectType::Report, ReportID);
+            if not GetDefaultReportLayoutSelection(ReportID, ReportLayoutList) then
+                Error(NoDefaultLayoutErr, AllObjWithCaption."Object Caption", ReportID);
+            ReportSelections.Reset();
+            ReportSelections.SetRange("Report ID", ReportID);
+            ReportSelections.SetRange("Report Layout Name", ReportLayoutList.Description);
+            HasReportSelection := ReportSelections.FindFirst();
+
             foreach RecordId in RecsToPrintDict.Get(ReportID) do begin
                 GenJnlLine.Get(RecordId);
                 if FilterText.Length() = 0 then
@@ -148,14 +161,16 @@ codeunit 80200 "BA Factor Company Remit. Mgt."
             end;
             GenJnlLine.SetFilter("Line No.", FilterText.ToText());
 
-            RecordRef.GetTable(GenJnlLine);
-            TempBlob.CreateOutStream(OStream);
-            if Report.SaveAs(ReportID, '', ReportFormat::Pdf, OStream, RecordRef) then begin
-                TempBlob.CreateInStream(IStream);
-                AllObjWithCaption.Get(ObjectType::Report, ReportID);
-                DataCompression.AddEntry(IStream, StrSubstNo('%1.pdf', AllObjWithCaption."Object Caption"));
-            end;
-            Clear(RecordRef);
+            if not HasReportSelection then begin
+                RecordRef.GetTable(GenJnlLine);
+                TempBlob.CreateOutStream(OStream);
+                Report.SaveAs(ReportID, '', ReportFormat::Pdf, OStream, RecordRef);
+                Clear(RecordRef);
+            end else
+                ReportSelections.SaveReportAsPDFInTempBlob(TempBlob, ReportID, GenJnlLine, '', ReportSelections.Usage::"V.Remittance");
+            TempBlob.CreateInStream(IStream);
+
+            DataCompression.AddEntry(IStream, StrSubstNo('%1.pdf', AllObjWithCaption."Object Caption"));
             Clear(TempBlob);
             FilterText.Clear();
         end;
@@ -189,8 +204,35 @@ codeunit 80200 "BA Factor Company Remit. Mgt."
         exit(false);
     end;
 
+
+
+    local procedure GetDefaultReportLayoutSelection(ReportId: Integer; var DefaultReportLayoutList: Record "Report Layout List"): Boolean
+    var
+        ReportMetadata: Record "Report Metadata";
+        TenantReportLayoutSelection: Record "Tenant Report Layout Selection";
+        EmptyGuid: Guid;
+    begin
+        DefaultReportLayoutList.Reset();
+        if TenantReportLayoutSelection.Get(ReportId, CompanyName(), EmptyGuid) then begin
+            DefaultReportLayoutList.SetRange("Name", TenantReportLayoutSelection."Layout Name");
+            DefaultReportLayoutList.SetRange("Application ID", TenantReportLayoutSelection."App ID");
+            DefaultReportLayoutList.SetRange("Report ID", ReportId);
+            exit(DefaultReportLayoutList.FindFirst());
+        end;
+        if ReportMetadata.Get(ReportId) then begin
+            DefaultReportLayoutList.SetRange("Name", ReportMetadata."DefaultLayoutName");
+            DefaultReportLayoutList.SetFilter("Application ID", '<>%1', EmptyGuid);
+            DefaultReportLayoutList.SetRange("Report ID", ReportId);
+            exit(DefaultReportLayoutList.FindFirst());
+        end;
+
+        exit(false);
+    end;
+
     var
         SingleInstance: Codeunit "BA Single Instance";
 
         GenJnlFilter: Label '<DataItem name="Gen. Journal Line">VERSION(1) SORTING(Field1,Field51,Field2) WHERE(';
+        NoDefaultLayoutErr: Label 'Must select a default report layout for report %1 (ID %2).', Comment = '%1 = Report Name, %2 = Report ID';
+        NoVendorRemitReportIDSelectedErr: Label 'No Report ID specified for Vendor Remittance in Report Selections.\Please update via Report Selectiions - Purchase.';
 }
