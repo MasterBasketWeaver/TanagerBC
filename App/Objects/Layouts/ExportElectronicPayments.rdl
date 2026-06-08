@@ -511,7 +511,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!VendLedgEntry__External_Document_No__.Value</Value>
+                                  <Value>=Fields!VendLedgEntry_DocumentNo.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -1045,7 +1045,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Vendor_Ledger_Entry__External_Document_No__.Value</Value>
+                                  <Value>=Fields!VendorLedgerEntry_DocumentNo.Value</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -1893,7 +1893,6 @@
             <PageBreak>
               <BreakLocation>End</BreakLocation>
             </PageBreak>
-            <Top>0in</Top>
             <Left>0.03125in</Left>
             <Height>2.31469in</Height>
             <Width>7.22903in</Width>
@@ -2843,6 +2842,9 @@ Zz/ax/4KK/sDeCfhPY/BrwnoetNc2mq+I7ybxvFJBaT2UrrHDBiDMglUJKWYLsDbcE5I/VaigOY/Ln/g
         <Field Name="AmountPaid_Control43Caption">
           <DataField>AmountPaid_Control43Caption</DataField>
         </Field>
+        <Field Name="VendLedgEntry_DocumentNo">
+          <DataField>VendLedgEntry_DocumentNo</DataField>
+        </Field>
         <Field Name="CompanyPicture">
           <DataField>CompanyPicture</DataField>
         </Field>
@@ -2962,6 +2964,9 @@ Zz/ax/4KK/sDeCfhPY/BrwnoetNc2mq+I7ybxvFJBaT2UrrHDBiDMglUJKWYLsDbcE5I/VaigOY/Ln/g
         </Field>
         <Field Name="BuyFromAddr8">
           <DataField>BuyFromAddr8</DataField>
+        </Field>
+        <Field Name="VendorLedgerEntry_DocumentNo">
+          <DataField>VendorLedgerEntry_DocumentNo</DataField>
         </Field>
         <Field Name="AmountPaid_Customer">
           <DataField>AmountPaid_Customer</DataField>

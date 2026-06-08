@@ -252,6 +252,8 @@ report 80000 "BA Export Elec Payments"
                     column(AmountPaid_Control43Caption; AmountPaid_Control43CaptionLbl)
                     {
                     }
+                    column(VendLedgEntry_DocumentNo; VendLedgEntry."Document No.") { }
+
                     dataitem(PrintCompanyAddress; "Integer")
                     {
                         DataItemTableView = sorting(Number) where(Number = const(1));
@@ -416,6 +418,7 @@ report 80000 "BA Export Elec Payments"
                         column(BuyFromAddr8; BuyFromAddr[8])
                         {
                         }
+                        column(VendorLedgerEntry_DocumentNo; "Document No.") { }
 
                         trigger OnAfterGetRecord()
                         var
