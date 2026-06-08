@@ -142,6 +142,32 @@ codeunit 80200 "BA Factor Company Remit. Mgt."
         GenJnlLine.Get(RecordId);
         GenJnlLine.SetRange("Journal Template Name", GenJnlLine."Journal Template Name");
         GenJnlLine.SetRange("Journal Batch Name", GenJnlLine."Journal Batch Name");
+
+        if RecsToPrintDict.Count() = 1 then begin
+            ReportID := RecsToPrintDict.Keys().Get(1);
+            AllObjWithCaption.Get(ObjectType::Report, ReportID);
+            if not GetDefaultReportLayoutSelection(ReportID, ReportLayoutList) then
+                Error(NoDefaultLayoutErr, AllObjWithCaption."Object Caption", ReportID);
+            ReportSelections.Reset();
+            ReportSelections.SetRange("Report ID", ReportID);
+            ReportSelections.SetRange("Report Layout Name", ReportLayoutList.Description);
+            HasReportSelection := ReportSelections.FindFirst();
+
+            foreach RecordId in RecsToPrintDict.Get(ReportID) do begin
+                GenJnlLine.Get(RecordId);
+                if FilterText.Length() = 0 then
+                    FilterText.Append(Format(GenJnlLine."Line No."))
+                else
+                    FilterText.Append(StrSubstNo('|%1', GenJnlLine."Line No."));
+            end;
+            GenJnlLine.SetFilter("Line No.", FilterText.ToText());
+            RecordRef.GetTable(GenJnlLine);
+            TempBlob.CreateOutStream(OStream);
+            Report.SaveAs(ReportID, '', ReportFormat::Pdf, OStream, RecordRef);
+
+            exit;
+        end;
+
         DataCompression.CreateZipArchive();
         foreach ReportID in RecsToPrintDict.Keys() do begin
             AllObjWithCaption.Get(ObjectType::Report, ReportID);
