@@ -9,9 +9,4 @@ tableextension 80200 "BA G/L Entry" extends "G/L Entry"
             Caption = 'Multi-Load No.';
         }
     }
-
-    // keys
-    // {
-    //     key(Key1; "BA Multi-Load No.") { }
-    // }
 }
