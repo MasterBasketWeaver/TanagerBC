@@ -7,9 +7,13 @@ codeunit 80202 "BA Populate Entry Load Nos."
         TableData "Purch. Cr. Memo Hdr." = RIMD;
 
     trigger OnRun()
+    var
+        DisableAggregateTableUpdate: Codeunit "Disable Aggregate Table Update";
     begin
+        DisableAggregateTableUpdate.SetDisableAllRecords(true);
         PopulatePurchLoadNos();
         PopulateSalesLoadNos();
+        DisableAggregateTableUpdate.SetDisableAllRecords(false);
     end;
 
     local procedure PopulatePurchLoadNos()
