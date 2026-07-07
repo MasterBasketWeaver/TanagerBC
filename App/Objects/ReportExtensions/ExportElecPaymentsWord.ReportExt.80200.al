@@ -35,6 +35,9 @@ reportextension 80200 "BA ExportElecPayments - Word" extends "ExportElecPayments
             column(BA_RecBankAccName; RecBankAccName) { }
             column(BA_RecBankAccNo; RecBankAccNo) { }
             column(BA_RecBankTransitNo; RecBankTransitNo) { }
+            column(BA_BuyFromVendorNo; BuyFromVendorNo) { }
+            column(BA_BuyFromVendorName; BuyFromVendorName) { }
+            column(BA_PaidAmount; GetPaidAmount("Gen. Journal Line"."Account No.")) { }
         }
 
         add("Vendor Ledger Entry")
@@ -66,13 +69,16 @@ reportextension 80200 "BA ExportElecPayments - Word" extends "ExportElecPayments
             column(BA_BuyFromAddr8; BuyFromAddr[8])
             {
             }
-            column("BA_VendorLedgerEntry_DocumentNo"; "Document No.") { }
-            column("BA_VendorLedgerEntry_LoadNo"; LoadNo) { }
+            column(BA_VendorLedgerEntry_DocumentNo; "Document No.") { }
+            column(BA_VendorLedgerEntry_LoadNo; LoadNo) { }
+            column(BA_VendorLedgerEntry_BuyFromVendorNo; BuyFromVendorNo) { }
+            column(BA_VendorLedgerEntry_BuyFromVendorName; BuyFromVendorName) { }
         }
         modify("Vendor Ledger Entry")
         {
             trigger OnAfterAfterGetRecord()
             var
+                Vendor: Record Vendor;
                 PurchInvHeader: Record "Purch. Inv. Header";
                 RecRef: RecordRef;
             begin
@@ -84,6 +90,14 @@ reportextension 80200 "BA ExportElecPayments - Word" extends "ExportElecPayments
 
                 if ("Vendor Ledger Entry"."Document Type" = "Vendor Ledger Entry"."Document Type"::"Invoice") and PurchInvHeader.Get("Vendor Ledger Entry"."Document No.") then
                     FormatAddress.PurchInvBuyFrom(BuyFromAddr, PurchInvHeader);
+
+                if Vendor.Get("Vendor Ledger Entry"."Buy-from Vendor No.") then begin
+                    BuyFromVendorNo := Vendor."No.";
+                    BuyFromVendorName := Vendor.Name;
+                end else begin
+                    BuyFromVendorNo := '';
+                    BuyFromVendorName := '';
+                end;
             end;
         }
 
@@ -100,6 +114,8 @@ reportextension 80200 "BA ExportElecPayments - Word" extends "ExportElecPayments
                 DocNo := '';
                 PurchLoadNo := '';
                 EmailAddr := '';
+                BuyFromVendorNo := '';
+                BuyFromVendorName := '';
                 GLSetup.Get();
                 if DimensionValue.Get(GLSetup."Global Dimension 1 Code", "Gen. Journal Line"."Shortcut Dimension 1 Code") then begin
                     EntityAddr[1] := DimensionValue.Name;
@@ -116,6 +132,8 @@ reportextension 80200 "BA ExportElecPayments - Word" extends "ExportElecPayments
                         if PurchInvHeader.Get("Applies-to Doc. No.") then begin
                             PurchLoadNo := PurchInvHeader."Pre-Assigned No.";
                             DocNo := PurchInvHeader."No.";
+                            BuyFromVendorNo := PurchInvHeader."Buy-from Vendor No.";
+                            BuyFromVendorName := PurchInvHeader."Buy-from Vendor Name";
                         end;
                 end;
                 if ("Account Type" = "Account Type"::Vendor) and (Vendor.Get("Account No.")) then begin
@@ -125,6 +143,11 @@ reportextension 80200 "BA ExportElecPayments - Word" extends "ExportElecPayments
                     CustRepSelection.SetFilter("Send To Email", '<>%1', '');
                     if CustRepSelection.FindFirst() then
                         EmailAddr := CustRepSelection."Send To Email";
+
+                    if PaidAmounts.ContainsKey(Vendor."No.") then
+                        PaidAmounts.Set(Vendor."No.", PaidAmounts.Get(Vendor."No.") + "Gen. Journal Line".Amount)
+                    else
+                        PaidAmounts.Add(Vendor."No.", "Gen. Journal Line".Amount);
                 end;
 
                 if ("Gen. Journal Line"."Bal. Account Type" = "Gen. Journal Line"."Bal. Account Type"::"Bank Account") and BankAccount2.Get("Gen. Journal Line"."Bal. Account No.") then begin
@@ -157,21 +180,17 @@ reportextension 80200 "BA ExportElecPayments - Word" extends "ExportElecPayments
         DimensionValue: Record "Dimension Value";
         FormatAddress: Codeunit "Format Address";
         EntityAddr, BuyFromAddr : array[8] of Text[100];
-        LoadNo, DocNo, RecBankAccName, RecBankAccNo, RecBankTransitNo : Text;
+        LoadNo, DocNo, RecBankAccName, RecBankAccNo, RecBankTransitNo, BuyFromVendorNo, BuyFromVendorName : Text;
         EmailAddr: Text[100];
         PurchLoadNo: Code[20];
         PurchLoadNo2: Code[20];
+        PaidAmounts: Dictionary of [Code[20], Decimal];
+        PaidAmount: Decimal;
 
-
-
-
-
-
-
-
-
-
-
-
-
+    local procedure GetPaidAmount(VendorNo: Code[20]): Decimal
+    begin
+        if PaidAmounts.ContainsKey(VendorNo) then
+            exit(PaidAmounts.Get(VendorNo));
+        exit(0);
+    end;
 }
