@@ -27,8 +27,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
         LoadNo: Code[20];
     begin
         RecRef.Open(Database::"G/L Entry");
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Source Code"), GLEntry.FieldNo("Entry No."));
-        RecRef.Field(50101).SetRange('');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Source Code"), GLEntry.FieldNo("Entry No."));
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
         RecRef.SetTable(GLEntry);
         RecRef.Close();
         GLEntry.SetFilter("Source Code", '%1|%2', 'PURCHJNL', 'PURCHASES');
@@ -130,12 +130,12 @@ codeunit 80202 "BA Populate Entry Load Nos."
             repeat
                 if VendorLedgerEntry.Get(PurchInvHeader."Vendor Ledger Entry No.") then begin
                     RecRef.GetTable(VendorLedgerEntry);
-                    RecRef.Field(70202).Value(PurchInvHeader."Pre-Assigned No.");
+                    RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value(PurchInvHeader."Pre-Assigned No.");
                     RecRef.Modify(false);
                     RecRef.Close();
                     if VendorLedgerEntry2.Get(VendorLedgerEntry."Closed by Entry No.") then begin
                         RecRef.GetTable(VendorLedgerEntry2);
-                        RecRef.Field(70202).Value(PurchInvHeader."Pre-Assigned No.");
+                        RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value(PurchInvHeader."Pre-Assigned No.");
                         RecRef.Modify(false);
                         RecRef.Close();
                     end;
@@ -145,8 +145,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
         Commit();
 
         RecRef.Open(Database::"Vendor Ledger Entry");
-        RecRef.SetLoadFields(70202, VendorLedgerEntry.FieldNo("Closed by Entry No."));
-        RecRef.Field(70202).SetFilter('<>%1', '');
+        RecRef.SetLoadFields(VendorLedgerEntryLoadNoFieldNo(), VendorLedgerEntry.FieldNo("Closed by Entry No."));
+        RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
         RecRef.SetTable(VendorLedgerEntry);
         RecRef.Close();
         VendorLedgerEntry.SetFilter("Closed by Entry No.", '<>%1', 0);
@@ -154,10 +154,10 @@ codeunit 80202 "BA Populate Entry Load Nos."
             repeat
                 if VendorLedgerEntry2.Get(VendorLedgerEntry."Closed by Entry No.") then begin
                     RecRef.GetTable(VendorLedgerEntry);
-                    LoadNo := RecRef.Field(70202).Value();
+                    LoadNo := RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value();
                     RecRef.Close();
                     RecRef.GetTable(VendorLedgerEntry2);
-                    RecRef.Field(70202).Value(LoadNo);
+                    RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                     RecRef.Modify(false);
                     RecRef.Close();
                 end;
@@ -174,14 +174,14 @@ codeunit 80202 "BA Populate Entry Load Nos."
         LoadNo: Code[20];
     begin
         RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(50101).SetRange('');
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
         RecRef.SetTable(GLEntry);
         RecRef.Close();
 
         RecRef.Open(Database::"Vendor Ledger Entry");
-        RecRef.Field(70202).SetFilter('<>%1', '');
-        RecRef.SetLoadFields(70202, VendorLedgerEntry.FieldNo("Transaction No."), VendorLedgerEntry.FieldNo("Vendor No."), VendorLedgerEntry.FieldNo("Amount"), VendorLedgerEntry.FieldNo("Currency Code"), VendorLedgerEntry.FieldNo("Posting Date"));
+        RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
+        RecRef.SetLoadFields(VendorLedgerEntryLoadNoFieldNo(), VendorLedgerEntry.FieldNo("Transaction No."), VendorLedgerEntry.FieldNo("Vendor No."), VendorLedgerEntry.FieldNo("Amount"), VendorLedgerEntry.FieldNo("Currency Code"), VendorLedgerEntry.FieldNo("Posting Date"));
         RecRef.SetTable(VendorLedgerEntry);
         VendorLedgerEntry.SetRange("Currency Code", '');
         VendorLedgerEntry.SetAutoCalcFields(Amount);
@@ -195,11 +195,11 @@ codeunit 80202 "BA Populate Entry Load Nos."
                 GLEntry.SetRange("Source Type", GLEntry."Source Type"::Vendor);
                 if GLEntry.FindSet() then begin
                     RecRef.GetTable(VendorLedgerEntry);
-                    LoadNo := RecRef.Field(70202).Value();
+                    LoadNo := RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value();
                     RecRef.Close();
                     repeat
                         RecRef.GetTable(GLEntry);
-                        RecRef.Field(50101).Value(LoadNo);
+                        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                         RecRef.Modify(false);
                         RecRef.Close();
                     until GLEntry.Next() = 0;
@@ -211,11 +211,11 @@ codeunit 80202 "BA Populate Entry Load Nos."
                 GLEntry.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::Vendor);
                 if GLEntry.FindSet() then begin
                     RecRef.GetTable(VendorLedgerEntry);
-                    LoadNo := RecRef.Field(70202).Value();
+                    LoadNo := RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value();
                     RecRef.Close();
                     repeat
                         RecRef.GetTable(GLEntry);
-                        RecRef.Field(50101).Value(LoadNo);
+                        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                         RecRef.Modify(false);
                         RecRef.Close();
                     until GLEntry.Next() = 0;
@@ -233,8 +233,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
     //     RecRef: RecordRef;
     // begin
     //     RecRef.Open(Database::"G/L Entry");
-    //     RecRef.Field(50101).SetRange('');
-    //     RecRef.SetLoadFields(50101, GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
+    //     RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+    //     RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
     //     RecRef.SetTable(GLEntry);
     //     RecRef.Close();
     //     GLEntry.SetRange("Source Type", GLEntry."Source Type"::"Bank Account");
@@ -245,8 +245,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
     //     GLEntry2.SetRange("Source Type", GLEntry."Source Type"::Vendor);
     //     GLEntry2.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::"Bank Account");
     //     RecRef.GetTable(GLEntry2);
-    //     // RecRef.Field(50101).SetFilter('<>%1', '');
-    //     RecRef.SetLoadFields(50101, GLEntry2.FieldNo("Transaction No."), GLEntry2.FieldNo("Source No."), GLEntry2.FieldNo("Amount"), GLEntry2.FieldNo("Source Type"), GLEntry2.FieldNo("Posting Date"));
+    //     // RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
+    //     RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry2.FieldNo("Transaction No."), GLEntry2.FieldNo("Source No."), GLEntry2.FieldNo("Amount"), GLEntry2.FieldNo("Source Type"), GLEntry2.FieldNo("Posting Date"));
     //     RecRef.SetTable(GLEntry2);
     //     RecRef.Close();
     //     SetMultiLoadNos(GLEntry, GLEntry2);
@@ -259,8 +259,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
     //     RecRef: RecordRef;
     // begin
     //     RecRef.Open(Database::"G/L Entry");
-    //     RecRef.Field(50101).SetRange('');
-    //     RecRef.SetLoadFields(50101, GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"),
+    //     RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+    //     RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"),
     //         GLEntry.FieldNo("Bal. Account No."), GLEntry.FieldNo("Bal. Account Type"), GLEntry.FieldNo("BA Multi-Load No."));
     //     RecRef.SetTable(GLEntry);
     //     RecRef.Close();
@@ -272,8 +272,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
     //     GLEntry2.SetRange("Source Type", GLEntry."Source Type"::Customer);
     //     GLEntry2.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::"Bank Account");
     //     RecRef.GetTable(GLEntry2);
-    //     // RecRef.Field(50101).SetFilter('<>%1', '');
-    //     RecRef.SetLoadFields(50101, GLEntry2.FieldNo("Transaction No."), GLEntry2.FieldNo("Source No."), GLEntry2.FieldNo("Amount"), GLEntry2.FieldNo("Source Type"), GLEntry2.FieldNo("Posting Date"),
+    //     // RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
+    //     RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry2.FieldNo("Transaction No."), GLEntry2.FieldNo("Source No."), GLEntry2.FieldNo("Amount"), GLEntry2.FieldNo("Source Type"), GLEntry2.FieldNo("Posting Date"),
     //         GLEntry2.FieldNo("Bal. Account No."), GLEntry2.FieldNo("Bal. Account Type"), GLEntry2.FieldNo("BA Multi-Load No."));
     //     RecRef.SetTable(GLEntry2);
     //     RecRef.Close();
@@ -301,8 +301,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
         SingleLoad: Boolean;
     begin
         RecRef.Open(Database::"G/L Entry");
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Source Code"), GLEntry.FieldNo("Entry No."));
-        RecRef.Field(50101).SetRange('');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Source Code"), GLEntry.FieldNo("Entry No."));
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
         RecRef.SetTable(GLEntry);
         RecRef.Close();
         GLEntry.SetRange("Source Code", 'SALES');
@@ -395,12 +395,12 @@ codeunit 80202 "BA Populate Entry Load Nos."
             repeat
                 if CustomerLedgerEntry.Get(SalesInvHeader."Cust. Ledger Entry No.") then begin
                     RecRef.GetTable(CustomerLedgerEntry);
-                    RecRef.Field(70201).Value(SalesInvHeader."Pre-Assigned No.");
+                    RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value(SalesInvHeader."Pre-Assigned No.");
                     RecRef.Modify(false);
                     RecRef.Close();
                     if CustomerLedgerEntry2.Get(CustomerLedgerEntry."Closed by Entry No.") then begin
                         RecRef.GetTable(CustomerLedgerEntry2);
-                        RecRef.Field(70201).Value(SalesInvHeader."Pre-Assigned No.");
+                        RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value(SalesInvHeader."Pre-Assigned No.");
                         RecRef.Modify(false);
                         RecRef.Close();
                     end;
@@ -409,8 +409,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
         Commit();
 
         RecRef.Open(Database::"Cust. Ledger Entry");
-        RecRef.SetLoadFields(70201, CustomerLedgerEntry.FieldNo("Closed by Entry No."));
-        RecRef.Field(70201).SetFilter('<>%1', '');
+        RecRef.SetLoadFields(CustomerLedgerEntryLoadNoFieldNo(), CustomerLedgerEntry.FieldNo("Closed by Entry No."));
+        RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
         RecRef.SetTable(CustomerLedgerEntry);
         RecRef.Close();
         CustomerLedgerEntry.SetFilter("Closed by Entry No.", '<>%1', 0);
@@ -418,10 +418,10 @@ codeunit 80202 "BA Populate Entry Load Nos."
             repeat
                 if CustomerLedgerEntry2.Get(CustomerLedgerEntry."Closed by Entry No.") then begin
                     RecRef.GetTable(CustomerLedgerEntry);
-                    LoadNo := RecRef.Field(70201).Value();
+                    LoadNo := RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value();
                     RecRef.Close();
                     RecRef.GetTable(CustomerLedgerEntry2);
-                    RecRef.Field(70201).Value(LoadNo);
+                    RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                     RecRef.Modify(false);
                     RecRef.Close();
                 end;
@@ -437,14 +437,14 @@ codeunit 80202 "BA Populate Entry Load Nos."
         LoadNo: Code[20];
     begin
         RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(50101).SetRange('');
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
         RecRef.SetTable(GLEntry);
         RecRef.Close();
 
         RecRef.Open(Database::"Cust. Ledger Entry");
-        RecRef.Field(70201).SetFilter('<>%1', '');
-        RecRef.SetLoadFields(70201, CustomerLedgerEntry.FieldNo("Transaction No."), CustomerLedgerEntry.FieldNo("Customer No."), CustomerLedgerEntry.FieldNo("Amount"), CustomerLedgerEntry.FieldNo("Currency Code"), CustomerLedgerEntry.FieldNo("Posting Date"));
+        RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
+        RecRef.SetLoadFields(CustomerLedgerEntryLoadNoFieldNo(), CustomerLedgerEntry.FieldNo("Transaction No."), CustomerLedgerEntry.FieldNo("Customer No."), CustomerLedgerEntry.FieldNo("Amount"), CustomerLedgerEntry.FieldNo("Currency Code"), CustomerLedgerEntry.FieldNo("Posting Date"));
         RecRef.SetTable(CustomerLedgerEntry);
         CustomerLedgerEntry.SetRange("Currency Code", '');
         CustomerLedgerEntry.SetAutoCalcFields(Amount);
@@ -457,10 +457,10 @@ codeunit 80202 "BA Populate Entry Load Nos."
                 GLEntry.SetRange("Source No.", CustomerLedgerEntry."Customer No.");
                 if GLEntry.FindSet() then begin
                     RecRef.GetTable(CustomerLedgerEntry);
-                    LoadNo := RecRef.Field(70201).Value();
+                    LoadNo := RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value();
                     repeat
                         RecRef.GetTable(GLEntry);
-                        RecRef.Field(50101).Value(LoadNo);
+                        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                         RecRef.Modify(false);
                         RecRef.Close();
                     until GLEntry.Next() = 0;
@@ -472,10 +472,10 @@ codeunit 80202 "BA Populate Entry Load Nos."
                 GLEntry.SetRange("Bal. Account No.", CustomerLedgerEntry."Customer No.");
                 if GLEntry.FindSet() then begin
                     RecRef.GetTable(CustomerLedgerEntry);
-                    LoadNo := RecRef.Field(70201).Value();
+                    LoadNo := RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value();
                     repeat
                         RecRef.GetTable(GLEntry);
-                        RecRef.Field(50101).Value(LoadNo);
+                        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                         RecRef.Modify(false);
                         RecRef.Close();
                     until GLEntry.Next() = 0;
@@ -524,7 +524,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
     //                 UpdateLoadNoForEntries(VendorLedgerEntry."Closed by Entry No.", LoadNo, IsVendor, EntryNos);
     //             end;
     //         RecRef.GetTable(VendorLedgerEntry);
-    //         RecRef.Field(70202).Value(LoadNo);
+    //         RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value(LoadNo);
     //         RecRef.Modify(false);
     //         RecRef.Close();
     //         GLEntry.SetRange("Transaction No.", VendorLedgerEntry."Transaction No.");
@@ -536,7 +536,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
     //                 UpdateLoadNoForEntries(CustomerLedgerEntry."Closed by Entry No.", LoadNo, IsVendor, EntryNos);
     //             end;
     //         RecRef.GetTable(CustomerLedgerEntry);
-    //         RecRef.Field(70201).Value(LoadNo);
+    //         RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value(LoadNo);
     //         RecRef.Modify(false);
     //         RecRef.Close();
     //         GLEntry.SetRange("Transaction No.", CustomerLedgerEntry."Transaction No.");
@@ -544,7 +544,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
     //     RecRef.GetTable(GLEntry);
     //     if RecRef.FindSet() then
     //         repeat
-    //             RecRef.Field(50101).Value(LoadNo);
+    //             RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
     //             RecRef.Modify(false);
     //         until RecRef.Next() = 0;
     //     RecRef.Close();
@@ -558,10 +558,10 @@ codeunit 80202 "BA Populate Entry Load Nos."
         GLEntry.SetRange("Posting Date", PostingDate);
         GLEntry.SetRange("Document No.", DocumentNo);
         RecRef.GetTable(GLEntry);
-        RecRef.Field(50101).SetFilter('<>%1', '');
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
         if RecRef.FindSet() then
             repeat
-                RecRef.Field(50101).Value(LoadNo);
+                RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                 RecRef.Modify(false);
             until RecRef.Next() = 0;
         RecRef.Close();
@@ -578,11 +578,11 @@ codeunit 80202 "BA Populate Entry Load Nos."
     begin
         if SalesInvHeader.Get(CustomerLedgerEntry."Document No.") and (SalesInvHeader."Pre-Assigned No." <> '') then begin
             RecRef.GetTable(GLEntry);
-            RecRef.Field(50101).Value(SalesInvHeader."Pre-Assigned No.");
+            RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(SalesInvHeader."Pre-Assigned No.");
             RecRef.Modify(false);
             RecRef.Close();
             RecRef.GetTable(CustomerLedgerEntry);
-            RecRef.Field(70201).Value(SalesInvHeader."Pre-Assigned No.");
+            RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value(SalesInvHeader."Pre-Assigned No.");
             RecRef.Modify(false);
             RecRef.Close();
         end;
@@ -600,11 +600,11 @@ codeunit 80202 "BA Populate Entry Load Nos."
             SalesInvHeader.SetFilter("Pre-Assigned No.", '<>%1', '');
             if SalesInvHeader.FindFirst() then begin
                 RecRef.GetTable(GLEntry);
-                RecRef.Field(50101).Value(SalesInvHeader."Pre-Assigned No.");
+                RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(SalesInvHeader."Pre-Assigned No.");
                 RecRef.Modify(false);
                 RecRef.Close();
                 RecRef.GetTable(CustomerLedgerEntry);
-                RecRef.Field(70201).Value(SalesInvHeader."Pre-Assigned No.");
+                RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value(SalesInvHeader."Pre-Assigned No.");
                 RecRef.Modify(false);
                 RecRef.Close();
             end;
@@ -620,11 +620,11 @@ codeunit 80202 "BA Populate Entry Load Nos."
     begin
         if PurchInvHeader.Get(VendorLedgerEntry."Document No.") and (PurchInvHeader."Pre-Assigned No." <> '') then begin
             RecRef.GetTable(GLEntry);
-            RecRef.Field(50101).Value(PurchInvHeader."Pre-Assigned No.");
+            RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(PurchInvHeader."Pre-Assigned No.");
             RecRef.Modify(false);
             RecRef.Close();
             RecRef.GetTable(VendorLedgerEntry);
-            RecRef.Field(70202).Value(PurchInvHeader."Pre-Assigned No.");
+            RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value(PurchInvHeader."Pre-Assigned No.");
             RecRef.Modify(false);
             RecRef.Close();
         end;
@@ -642,11 +642,11 @@ codeunit 80202 "BA Populate Entry Load Nos."
             PurchInvHeader.SetFilter("Pre-Assigned No.", '<>%1', '');
             if PurchInvHeader.FindFirst() then begin
                 RecRef.GetTable(GLEntry);
-                RecRef.Field(50101).Value(PurchInvHeader."Pre-Assigned No.");
+                RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(PurchInvHeader."Pre-Assigned No.");
                 RecRef.Modify(false);
                 RecRef.Close();
                 RecRef.GetTable(VendorLedgerEntry);
-                RecRef.Field(70202).Value(PurchInvHeader."Pre-Assigned No.");
+                RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value(PurchInvHeader."Pre-Assigned No.");
                 RecRef.Modify(false);
                 RecRef.Close();
             end;
@@ -667,14 +667,14 @@ codeunit 80202 "BA Populate Entry Load Nos."
         EntryNo: Integer;
     begin
         RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(50101).SetFilter('<>%1', '');
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."));
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."));
         RecRef.SetTable(GLEntry);
         RecRef.Close();
 
         RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(50101).SetRange('');
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."));
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."));
         RecRef.SetTable(GLEntry2);
         RecRef.Close();
 
@@ -695,12 +695,12 @@ codeunit 80202 "BA Populate Entry Load Nos."
         foreach EntryNo in DictOfEntryNos.Keys() do begin
             GLEntry.Get(EntryNo);
             RecRef.GetTable(GLEntry);
-            LoadNo := RecRef.Field(50101).Value();
+            LoadNo := RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value();
             RecRef.Close();
             foreach EntryNo in DictOfEntryNos.Get(GLEntry."Entry No.") do begin
                 GLEntry2.Get(EntryNo);
                 RecRef.GetTable(GLEntry2);
-                RecRef.Field(50101).Value(LoadNo);
+                RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                 RecRef.Modify(false);
                 RecRef.Close();
             end;
@@ -716,14 +716,14 @@ codeunit 80202 "BA Populate Entry Load Nos."
         EntryNo: Integer;
     begin
         RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(50101).SetRange('');
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Amount"));
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Amount"));
         RecRef.SetTable(GLEntry);
         RecRef.Close();
 
         RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(50101).SetFilter('<>%1', '');
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Amount"));
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Amount"));
         RecRef.SetTable(GLEntry2);
         RecRef.Close();
 
@@ -736,10 +736,10 @@ codeunit 80202 "BA Populate Entry Load Nos."
                 GLEntry2.SetRange(Amount, -GLEntry."Amount");
                 if GLEntry2.FindFirst() then begin
                     RecRef.GetTable(GLEntry2);
-                    LoadNo := RecRef.Field(50101).Value();
+                    LoadNo := RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value();
                     RecRef.Close();
                     RecRef.GetTable(GLEntry);
-                    RecRef.Field(50101).Value(LoadNo);
+                    RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                     RecRef.Modify(false);
                     RecRef.Close();
                 end;
@@ -766,8 +766,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
             GLEntry.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::Vendor);
         GLEntry.SetFilter("Bal. Account No.", '<>%1', '');
         RecRef.GetTable(GLEntry);
-        RecRef.Field(50101).SetRange('');
-        RecRef.SetLoadFields(50101, GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"),
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"),
             GLEntry.FieldNo("Bal. Account No."), GLEntry.FieldNo("Bal. Account Type"), GLEntry.FieldNo("BA Multi-Load No."));
 
         if IsCustomer then
@@ -776,7 +776,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
             GLEntry2.SetRange("Source Type", GLEntry."Source Type"::Vendor);
         GLEntry2.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::"Bank Account");
         RecRef2.GetTable(GLEntry2);
-        RecRef2.SetLoadFields(50101, GLEntry2.FieldNo("Transaction No."), GLEntry2.FieldNo("Source No."), GLEntry2.FieldNo("Amount"), GLEntry2.FieldNo("Source Type"), GLEntry2.FieldNo("Posting Date"),
+        RecRef2.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry2.FieldNo("Transaction No."), GLEntry2.FieldNo("Source No."), GLEntry2.FieldNo("Amount"), GLEntry2.FieldNo("Source Type"), GLEntry2.FieldNo("Posting Date"),
             GLEntry2.FieldNo("Bal. Account No."), GLEntry2.FieldNo("Bal. Account Type"), GLEntry2.FieldNo("BA Multi-Load No."));
         RecRef2.SetTable(GLEntry2);
         RecRef2.Close();
@@ -790,7 +790,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                 GLEntry2.SetRange("Bal. Account No.", GLEntry."Source No.");
                 if GLEntry2.FindSet() then begin
                     RecRef2.GetTable(GLEntry2);
-                    MultiLoadNo := Format(RecRef2.Field(50101).Value());
+                    MultiLoadNo := Format(RecRef2.Field(GeneralLedgerEntryLoadNoFieldNo()).Value());
                     if MultiLoadNo <> '' then
                         LoadNos.Add(MultiLoadNo);
                     Amount := -GLEntry2.Amount;
@@ -799,7 +799,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                     if GLEntry2.Next() <> 0 then
                         repeat
                             RecRef2.GetTable(GLEntry2);
-                            LoadNo := Format(RecRef2.Field(50101).Value());
+                            LoadNo := Format(RecRef2.Field(GeneralLedgerEntryLoadNoFieldNo()).Value());
                             if (LoadNo <> '') then
                                 if not LoadNos.Contains(LoadNo) then begin
                                     LoadNos.Add(LoadNo);
@@ -815,15 +815,31 @@ codeunit 80202 "BA Populate Entry Load Nos."
                     if MultiLoadNo[1] = ',' then
                         MultiLoadNo := CopyStr(MultiLoadNo, 2);
                     if SingleLoad and (MultiLoadNo <> '') then begin
-                        RecRef.Field(50101).Value(CopyStr(MultiLoadNo, 1, RecRef.Field(50101).Length()));
+                        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(CopyStr(MultiLoadNo, 1, RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Length()));
                         RecRef.Modify(false);
                     end else if GLEntry.Amount = Amount then begin
-                        RecRef.Field(GLEntry.FieldNo("BA Multi-Load No.")).Value(CopyStr(MultiLoadNo, 1, MaxStrLen(GLEntry."BA Multi-Load No.")));
+                        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(CopyStr(MultiLoadNo, 1, MaxStrLen(GLEntry."BA Multi-Load No.")));
                         RecRef.Modify(false);
                     end;
                     Clear(LoadNos);
                 end;
             until RecRef.Next() = 0;
         Commit();
+    end;
+
+
+    procedure VendorLedgerEntryLoadNoFieldNo(): Integer
+    begin
+        exit(70202);
+    end;
+
+    procedure CustomerLedgerEntryLoadNoFieldNo(): Integer
+    begin
+        exit(70201);
+    end;
+
+    procedure GeneralLedgerEntryLoadNoFieldNo(): Integer
+    begin
+        exit(50101);
     end;
 }
