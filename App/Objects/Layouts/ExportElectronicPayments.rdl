@@ -22,19 +22,22 @@
                   <Width>0.03125in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.48819in</Width>
+                  <Width>1.2in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.37905in</Width>
+                  <Width>1.1in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.31002in</Width>
+                  <Width>1.2in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.64257in</Width>
+                  <Width>2.08528in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.37795in</Width>
+                  <Width>1.15in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.15in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -89,7 +92,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <ZIndex>34</ZIndex>
@@ -103,9 +108,10 @@
                               <Width>1pt</Width>
                             </BottomBorder>
                             <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>8pt</PaddingBottom>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -124,7 +130,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <ZIndex>33</ZIndex>
@@ -138,9 +146,10 @@
                               <Width>1pt</Width>
                             </BottomBorder>
                             <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>8pt</PaddingBottom>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -160,7 +169,7 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -175,9 +184,49 @@
                               <Width>1pt</Width>
                             </BottomBorder>
                             <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>8pt</PaddingBottom>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox21">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Buy-from Vendor No.</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox21</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -212,9 +261,10 @@
                               <Width>1pt</Width>
                             </BottomBorder>
                             <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>8pt</PaddingBottom>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -249,9 +299,10 @@
                               <Width>1pt</Width>
                             </BottomBorder>
                             <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
-                            <PaddingBottom>8pt</PaddingBottom>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -269,7 +320,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!CompanyAddress_1_.Value+Chr(177)+Fields!CompanyAddress_2_.Value+Chr(177)+Fields!CompanyAddress_3_.Value+Chr(177)+Fields!CompanyAddress_4_.Value+Chr(177)+Fields!CompanyAddress_5_.Value+Chr(177)+Fields!CompanyAddress_6_.Value+Chr(177)+Fields!CompanyAddress_7_.Value+Chr(177)+Fields!CompanyAddress_8_.Value + Chr(177) + Fields!EntityAddr1.Value + Chr(177) + Fields!EntityAddr2.Value + Chr(177) + Fields!EntityAddr3.Value + Chr(177) + Fields!EntityAddr4.Value + Chr(177) + Fields!EntityAddr5.Value + Chr(177) + Fields!EntityAddr6.Value</Value>
+                                  <Value EvaluationMode="Constant" />
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>Red</Color>
@@ -298,13 +349,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="PayeeAddress">
+                        <Textbox Name="Textbox16">
+                          <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PayeeAddress_1_.Value+Chr(177)+Fields!PayeeAddress_2_.Value+Chr(177)+Fields!PayeeAddress_3_.Value+Chr(177)+Fields!PayeeAddress_4_.Value+Chr(177)+Fields!PayeeAddress_5_.Value+Chr(177)+Fields!PayeeAddress_6_.Value+Chr(177)+Fields!PayeeAddress_7_.Value+Chr(177)+Fields!PayeeAddress_8_.Value + Chr(177) + Last(Fields!BuyFromAddr1.Value, "DataSet_Result") + Chr(177) + Last(Fields!BuyFromAddr2.Value, "DataSet_Result") + Chr(177) + Last(Fields!BuyFromAddr3.Value, "DataSet_Result") + Chr(177) + Last(Fields!BuyFromAddr4.Value, "DataSet_Result") + Chr(177) + Last(Fields!BuyFromAddr5.Value, "DataSet_Result") + Chr(177) + Last(Fields!BuyFromAddr6.Value, "DataSet_Result") + Chr(177) + Last(Fields!BuyFromAddr7.Value, "DataSet_Result") + Chr(177) + Last(Fields!BuyFromAddr8.Value, "DataSet_Result") + Chr(177) + Last(Fields!EmailAddr.Value, "DataSet_Result")</Value>
+                                  <Value />
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>Red</Color>
@@ -316,9 +368,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <Visibility>
-                            <Hidden>true</Hidden>
-                          </Visibility>
+                          <rd:DefaultName>Textbox16</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -333,13 +383,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Captions">
+                        <Textbox Name="Textbox18">
+                          <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!To_Caption.Value+Chr(177)+Fields!REMITTANCE_ADVICECaption.Value+Chr(177)+Fields!Remittance_Advice_Number_Caption.Value+Chr(177)+Fields!Settlement_Date_Caption.Value+Chr(177)+Fields!Page_Caption.Value+Chr(177)+Fields!ExportAmountCaption.Value+Chr(177)+Fields!Deposited_In_Caption.Value+Chr(177)+Fields!PayeeBankTransitNoCaption.Value+Chr(177)+Fields!PayeeBankAccountNoCaption.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>Red</Color>
@@ -351,9 +402,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <Visibility>
-                            <Hidden>true</Hidden>
-                          </Visibility>
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
                           <Style>
                             <VerticalAlign>Bottom</VerticalAlign>
                             <PaddingLeft>0.04134in</PaddingLeft>
@@ -365,45 +414,8 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="values">
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!CopyTxt.Value+Chr(177)+Fields!Gen__Journal_Line___Document_No__.Value+Chr(177)+Cstr(Fields!SettleDate.Value)+Chr(177)+Cstr(Fields!PayeeBankTransitNo.Value)+Chr(177)+Cstr(Fields!PayeeBankAccountNo.Value) +Chr(177)+Cstr(Fields!RecBankAccName.Value) + Chr(177) + Cstr(Fields!RecBankAccNo.Value) + Chr(177) + Cstr(Fields!RecBankTransitNo.Value) + Chr(177) + Cstr(Fields!mypostingdate.Value) + Chr(177) + Cstr(Fields!PayeeAddress_1_.Value)</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                    <Color>Red</Color>
-                                    <Language>sq</Language>
-                                    <NumeralLanguage>ar</NumeralLanguage>
-                                    <NumeralVariant>2</NumeralVariant>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Visibility>
-                            <Hidden>true</Hidden>
-                          </Visibility>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>8pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="data">
+                        <Textbox Name="Textbox27">
+                          <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -424,8 +436,106 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingRight>0.04134in</PaddingRight>
+                            <PaddingBottom>8pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox28">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Red</Color>
+                                    <Language>sq</Language>
+                                    <NumeralLanguage>ar</NumeralLanguage>
+                                    <NumeralVariant>2</NumeralVariant>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox28</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingRight>0.04134in</PaddingRight>
+                            <PaddingBottom>8pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="data">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=""</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Red</Color>
+                                    <Language>sq</Language>
+                                    <NumeralLanguage>ar</NumeralLanguage>
+                                    <NumeralVariant>2</NumeralVariant>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
                           <Visibility>
-                            <Hidden>=Code.SetData(Fields!Gen__Journal_Line_Journal_Template_Name.Value+Chr(177)+Cstr(Fields!myNumber.Value)+Chr(177)+Fields!Gen__Journal_Line_Journal_Template_Name.Value+Chr(177)+Fields!Gen__Journal_Line_Journal_Batch_Name.Value+Chr(177)+Fields!Gen__Journal_Line___Document_No__.Value+Chr(177)+Cstr(Fields!ExportAmountFormat.Value))</Hidden>
+                            <Hidden>=Code.SetData(CStr(Fields!VendorLine_EmailAddr.Value)
++ Chr(177) + Cstr(Fields!VendorLine_BankName.Value)
++ Chr(177) + Cstr(Fields!VendorLine_BankAccNo.Value)
++ Chr(177) + Cstr(Fields!VendorLine_BankTransitNo.Value)
++ Chr(177) + Cstr(Fields!VendorLine_TotalPaidAmount.Value)
++ Chr(177) + Cstr(Fields!EntityAddr1.Value)
++ Chr(177) + Cstr(Fields!EntityAddr2.Value)
++ Chr(177) + Cstr(Fields!EntityAddr3.Value)
++ Chr(177) + Cstr(Fields!EntityAddr4.Value)
++ Chr(177) + Cstr(Fields!EntityAddr5.Value)
++ Chr(177) + Cstr(Fields!EntityAddr6.Value)
++ Chr(177) + ""
++ Chr(177) + ""
++ Chr(177) + ""
++ Chr(177) + ""
++ Chr(177) + ""
++ Chr(177) + ""
++ Chr(177) + ""
++ Chr(177) + ""
++ Chr(177) + Cstr(Fields!VendorLine_EmailAddr.Value)
++ Chr(177) + Cstr(Fields!VendorLine_BankName.Value)
++ Chr(177) + Cstr(Fields!VendorLine_BankAccNo.Value)
++ Chr(177) + Cstr(Fields!VendorLine_BankTransitNo.Value)
++ Chr(177) + Cstr(Fields!VendorLine_VendorName.Value)
++ Chr(177) + Cstr(Fields!VendorLine_PaymentDate.Value)
+)</Hidden>
                           </Visibility>
                           <Style>
                             <VerticalAlign>Bottom</VerticalAlign>
@@ -444,10 +554,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ExportAmount.Value</Value>
+                                  <Value EvaluationMode="Constant" />
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Format>=Fields!ExportAmountFormat.Value</Format>
                                     <Color>Red</Color>
                                     <Language>sq</Language>
                                     <NumeralVariant>2</NumeralVariant>
@@ -474,7 +583,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.16654in</Height>
+                  <Height>0.03125in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -504,868 +613,6 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Vendor_Ledger_Entry__External_Document_No__">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!VendLedgEntry_DocumentNo.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <ZIndex>28</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Vendor_Ledger_Entry__Document_Date_">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!VendLedgEntry__Document_Date_.Value</Value>
-                                  <Style>
-                                    <Format>d</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <ZIndex>27</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="DiscountTaken_Control40">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!PurchLoadNo.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!DiscountTakenFormat.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <ZIndex>25</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Remaining_Amt___LCY___Control37">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!VendLedgEntry__Remaining_Amt___LCY__.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!CustLedgEntry__Remaining_Amt___LCY__Format.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <ZIndex>26</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="AmountPaid_Control43">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!AmountPaid.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!AmountPaidFormat.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <ZIndex>24</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.16654in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox7">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox7</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="CustLedgEntry__Document_No__">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!CustLedgEntry__Document_No__.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>CustLedgEntry__Document_No__</rd:DefaultName>
-                          <ZIndex>22</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="CustLedgEntry__Document_Date_">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!CustLedgEntry__Document_Date_.Value</Value>
-                                  <Style>
-                                    <Format>d</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>CustLedgEntry__Document_Date_</rd:DefaultName>
-                          <ZIndex>21</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox38">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox38</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="CustLedgEntry__Remaining_Amt___LCY__2">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!CustLedgEntry__Remaining_Amt___LCY__.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!CustLedgEntry__Remaining_Amt___LCY__Format.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>CustLedgEntry__Remaining_Amt___LCY__</rd:DefaultName>
-                          <ZIndex>20</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="AmountPaid">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!AmountPaid.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!AmountPaidFormat.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>AmountPaid</rd:DefaultName>
-                          <ZIndex>18</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.16654in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox8">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox8</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Cust__Ledger_Entry__Document_No__">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Cust__Ledger_Entry__Document_No__.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Cust__Ledger_Entry__Document_No__</rd:DefaultName>
-                          <ZIndex>16</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Cust__Ledger_Entry__Document_Date_">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Cust__Ledger_Entry__Document_Date_.Value</Value>
-                                  <Style>
-                                    <Format>d</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Cust__Ledger_Entry__Document_Date_</rd:DefaultName>
-                          <ZIndex>15</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox39">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox39</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Remaining_Amt___LCY__2">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Remaining_Amt___LCY__.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!Remaining_Amt___LCY__Format.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Remaining_Amt___LCY__</rd:DefaultName>
-                          <ZIndex>14</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="AmountPaid_Control50">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!AmountPaid_Control50.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!AmountPaid_Control50Format.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>AmountPaid_Control50</rd:DefaultName>
-                          <ZIndex>12</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.16654in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox9">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox9</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Vendor_Ledger_Entry__External_Document_No___1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!VendorLedgerEntry_DocumentNo.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Vendor_Ledger_Entry__External_Document_No___1</rd:DefaultName>
-                          <ZIndex>10</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Vendor_Ledger_Entry__Document_Date__1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Vendor_Ledger_Entry__Document_Date_.Value</Value>
-                                  <Style>
-                                    <Format>d</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Vendor_Ledger_Entry__Document_Date__1</rd:DefaultName>
-                          <ZIndex>9</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="DiscountTaken_Control38_3">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Vendor_Ledger_Entry_PurchLoadNo.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!DiscountTaken_Control38Format.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>DiscountTaken_Control38_1</rd:DefaultName>
-                          <ZIndex>7</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Remaining_Amt___LCY___Control36_2">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Remaining_Amt___LCY___Control36.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!Remaining_Amt___LCY___Control36Format.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Remaining_Amt___LCY___Control36_1</rd:DefaultName>
-                          <ZIndex>8</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="AmountPaid_Control43_1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!AmountPaid_Control43.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!AmountPaid_Control43Format.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>AmountPaid_Control43_1</rd:DefaultName>
-                          <ZIndex>6</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.16654in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="format">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                    <Color>Red</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <VerticalAlign>Bottom</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Text004">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Text004.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Text004</rd:DefaultName>
-                          <ZIndex>4</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="textbox3">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <Format>d</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>textbox3</rd:DefaultName>
-                          <ZIndex>3</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                        <ColSpan>3</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell />
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="AmountPaid_Control65">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!AmountPaid_Control65.Value</Value>
-                                  <Style>
-                                    <Format>=Fields!AmountPaidFormat.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>AmountPaid_Control65</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.3404in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox10">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox11">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Total</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox11</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="Textbox12">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1374,7 +621,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value />
-                                  <Style />
+                                  <Style>
+                                    <Color>Red</Color>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -1387,6 +636,7 @@
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>0.04134in</PaddingLeft>
                             <PaddingRight>0.04134in</PaddingRight>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1401,12 +651,12 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value />
-                                  <Style />
+                                  <Style>
+                                    <Color>Red</Color>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox13</rd:DefaultName>
@@ -1420,101 +670,6 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="DiscountTaken_Control39">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <Format>=Fields!DiscountTakenFormat.Value</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <ZIndex>25</ZIndex>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>0.04134in</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="TotalAmountPaid">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Sum(Fields!AmountPaid.Value) + sum(Fields!AmountPaid_Control65.Value)</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                    <Format>'$'#,0.00;('$'#,0.00)</Format>
-                                    <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <ZIndex>24</ZIndex>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>0.04134in</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.33308in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox16">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox16</rd:DefaultName>
-                          <Style>
-                            <VerticalAlign>Middle</VerticalAlign>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="Textbox15">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1522,18 +677,16 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total</Value>
+                                  <Value />
                                   <Style>
-                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Red</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
+                              <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>0.04134in</PaddingLeft>
@@ -1544,7 +697,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox18">
+                        <Textbox Name="Textbox25">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1556,15 +709,16 @@
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <rd:DefaultName>Textbox25</rd:DefaultName>
                           <Style>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>0.04134in</PaddingLeft>
                             <PaddingRight>0.04134in</PaddingRight>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1592,13 +746,47 @@
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>0.04134in</PaddingLeft>
                             <PaddingRight>0.04134in</PaddingRight>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="DiscountTaken_Control38_2">
+                        <Textbox Name="Textbox20">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox20</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox2">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1607,17 +795,71 @@
                                 <TextRun>
                                   <Value />
                                   <Style>
-                                    <Format>=Fields!DiscountTaken_Control38Format.Value</Format>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>Red</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>DiscountTaken_Control38_1</rd:DefaultName>
-                          <ZIndex>7</ZIndex>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Line_DocNo.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingRight>0.04134in</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox7">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Line_DocDate.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
                           <Style>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>0.04134in</PaddingLeft>
@@ -1628,19 +870,65 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="AmountPaid_Control51">
+                        <Textbox Name="Textbox8">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!AmountPaid_Control50.Value) + Sum(Fields!AmountPaid_Control65.Value)</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                    <Format>'$'#,0.00;('$'#,0.00)</Format>
-                                    <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
-                                  </Style>
+                                  <Value>=Fields!Line_LoadNo.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingRight>0.04134in</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox26">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Line_VendorName.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox26</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingRight>0.04134in</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox9">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=FormatNumber(CDec(Fields!Line_RemainingAmt.Value), 2)</Value>
+                                  <Style />
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -1648,8 +936,34 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>AmountPaid_Control50</rd:DefaultName>
-                          <ZIndex>12</ZIndex>
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.04134in</PaddingLeft>
+                            <PaddingRight>0.04134in</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=FormatNumber(CDec(Fields!Line_Amount.Value), 2)</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
                           <Style>
                             <VerticalAlign>Middle</VerticalAlign>
                             <PaddingLeft>0.04134in</PaddingLeft>
@@ -1746,9 +1060,10 @@
                             <PaddingRight>0.04134in</PaddingRight>
                           </Style>
                         </Textbox>
-                        <ColSpan>3</ColSpan>
+                        <ColSpan>4</ColSpan>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell>
@@ -1760,10 +1075,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!AmountPaid_Control43.Value) + Sum(Fields!AmountPaid_Control65.Value)</Value>
+                                  <Value>=FormatNumber(Fields!VendorLine_TotalPaidAmount.Value, 2)</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Format>'$'#,0.00;('$'#,0.00)</Format>
                                     <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                                   </Style>
                                 </TextRun>
@@ -1795,6 +1109,7 @@
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1805,87 +1120,60 @@
                   <KeepTogether>true</KeepTogether>
                 </TablixMember>
                 <TablixMember>
-                  <Group Name="GroupOn_Key2">
+                  <Group Name="Vendors">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!Gen__Journal_Line_Journal_Template_Name.Value</GroupExpression>
-                      <GroupExpression>=Fields!Gen__Journal_Line_Journal_Batch_Name.Value</GroupExpression>
-                      <GroupExpression>=Fields!mypostingdate.Value</GroupExpression>
-                      <GroupExpression>=Fields!Gen__Journal_Line___Document_No__.Value</GroupExpression>
-                      <GroupExpression>=Fields!myNumber.Value</GroupExpression>
+                      <GroupExpression>=Fields!VendorLine_VendorNo.Value</GroupExpression>
                     </GroupExpressions>
                     <PageBreak>
                       <BreakLocation>Between</BreakLocation>
                     </PageBreak>
+                    <Filters>
+                      <Filter>
+                        <FilterExpression>=Fields!VendorLine_VendorNo.Value</FilterExpression>
+                        <Operator>NotEqual</Operator>
+                        <FilterValues>
+                          <FilterValue>""</FilterValue>
+                        </FilterValues>
+                      </Filter>
+                    </Filters>
                   </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!VendorLine_LineNo.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
                   <TablixMembers>
                     <TablixMember>
-                      <Visibility>
-                        <Hidden>true</Hidden>
-                      </Visibility>
                       <KeepWithGroup>After</KeepWithGroup>
                       <RepeatOnNewPage>true</RepeatOnNewPage>
                       <KeepTogether>true</KeepTogether>
                     </TablixMember>
                     <TablixMember>
-                      <Visibility>
-                        <Hidden>=IIF(Fields!Gen__Journal_Line___Applies_to_Doc__No__.Value&lt;&gt;"" and Fields!myType.Value=0,false,true)</Hidden>
-                      </Visibility>
                       <KeepWithGroup>After</KeepWithGroup>
                       <RepeatOnNewPage>true</RepeatOnNewPage>
                       <KeepTogether>true</KeepTogether>
                     </TablixMember>
                     <TablixMember>
-                      <Visibility>
-                        <Hidden>=IIF(Fields!Gen__Journal_Line___Applies_to_Doc__No__.Value&lt;&gt;"" and Fields!myType.Value=1,false,true)</Hidden>
-                      </Visibility>
-                      <KeepWithGroup>After</KeepWithGroup>
-                      <RepeatOnNewPage>true</RepeatOnNewPage>
-                      <KeepTogether>true</KeepTogether>
-                    </TablixMember>
-                    <TablixMember>
-                      <Group Name="Table1_Details_Group">
+                      <Group Name="Lines">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!Line_LineNo.Value</GroupExpression>
+                        </GroupExpressions>
                         <DataElementName>Detail</DataElementName>
                       </Group>
                       <TablixMembers>
-                        <TablixMember>
-                          <Visibility>
-                            <Hidden>=IIF(Fields!Cust__Ledger_Entry__Document_No__.Value &lt;&gt; "",False,True)</Hidden>
-                          </Visibility>
-                        </TablixMember>
-                        <TablixMember>
-                          <Visibility>
-                            <Hidden>=IIF(Fields!VendLedgEntry__Document_Type_.Value &lt;&gt; "",False,True)</Hidden>
-                          </Visibility>
-                        </TablixMember>
-                        <TablixMember>
-                          <Visibility>
-                            <Hidden>=IIF(Fields!Text004.Value &lt;&gt; "",False,True)</Hidden>
-                          </Visibility>
-                        </TablixMember>
+                        <TablixMember />
                       </TablixMembers>
                       <DataElementName>Detail_Collection</DataElementName>
                       <DataElementOutput>Output</DataElementOutput>
                       <KeepTogether>true</KeepTogether>
                     </TablixMember>
                     <TablixMember>
-                      <Visibility>
-                        <Hidden>=IIF(Fields!Gen__Journal_Line___Applies_to_Doc__No__.Value&lt;&gt;"" and Fields!myType.Value=0,false,true)</Hidden>
-                      </Visibility>
-                      <KeepWithGroup>Before</KeepWithGroup>
-                    </TablixMember>
-                    <TablixMember>
-                      <Visibility>
-                        <Hidden>=IIF(Fields!Cust__Ledger_Entry__Document_No__.Value &lt;&gt; "",False,True)</Hidden>
-                      </Visibility>
-                      <KeepWithGroup>Before</KeepWithGroup>
-                    </TablixMember>
-                    <TablixMember>
-                      <Visibility>
-                        <Hidden>=IIF(Fields!VendLedgEntry__Document_Type_.Value &lt;&gt; "",False,True)</Hidden>
-                      </Visibility>
                       <KeepWithGroup>Before</KeepWithGroup>
                     </TablixMember>
                   </TablixMembers>
+                  <Visibility>
+                    <Hidden>=Fields!VendorLine_VendorNo.Value = ""</Hidden>
+                  </Visibility>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
@@ -1894,18 +1182,18 @@
               <BreakLocation>End</BreakLocation>
             </PageBreak>
             <Left>0.03125in</Left>
-            <Height>2.31469in</Height>
-            <Width>7.22903in</Width>
+            <Height>1.08976in</Height>
+            <Width>7.91653in</Width>
             <Style />
           </Tablix>
         </ReportItems>
-        <Height>2.34594in</Height>
+        <Height>1.08976in</Height>
         <Style />
       </Body>
-      <Width>7.26028in</Width>
+      <Width>7.94778in</Width>
       <Page>
         <PageHeader>
-          <Height>3.1786in</Height>
+          <Height>1.9286in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1915,7 +1203,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(9,Split(Cstr(ReportItems!Captions.Value),Chr(177))))</Value>
+                      <Value EvaluationMode="Constant">Bank Account:</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
@@ -1924,8 +1212,8 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>2.10914in</Top>
-              <Left>0.20158in</Left>
+              <Top>0.85753in</Top>
+              <Left>0.13176in</Left>
               <Height>0.15708in</Height>
               <Width>0.89652in</Width>
               <Style>
@@ -1938,7 +1226,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(8,Split(Cstr(ReportItems!Captions.Value),Chr(177))))</Value>
+                      <Value EvaluationMode="Constant">Bank Transit:</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
@@ -1947,8 +1235,8 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>2.28011in</Top>
-              <Left>0.20158in</Left>
+              <Top>1.0285in</Top>
+              <Left>0.13176in</Left>
               <Height>0.14571in</Height>
               <Width>0.89652in</Width>
               <ZIndex>1</ZIndex>
@@ -1962,7 +1250,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(1,Split(Cstr(ReportItems!Captions.Value),Chr(177))))</Value>
+                      <Value>To:</Value>
                       <Style>
                         <FontWeight>Bold</FontWeight>
                       </Style>
@@ -1971,8 +1259,8 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>1.52257in</Top>
-              <Left>0.20158in</Left>
+              <Top>0.27096in</Top>
+              <Left>0.13176in</Left>
               <Height>0.19432in</Height>
               <Width>0.51821in</Width>
               <ZIndex>2</ZIndex>
@@ -1986,17 +1274,17 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(7,Split(Cstr(ReportItems!values.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(22)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>2.10914in</Top>
-              <Left>1.0981in</Left>
+              <Top>0.85753in</Top>
+              <Left>1.20275in</Left>
               <Height>0.15708in</Height>
-              <Width>1.42913in</Width>
+              <Width>1.6505in</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2008,17 +1296,17 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(8,Split(Cstr(ReportItems!values.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(23)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>2.28011in</Top>
-              <Left>1.0981in</Left>
+              <Top>1.0285in</Top>
+              <Left>1.20275in</Left>
               <Height>0.14571in</Height>
-              <Width>1.40551in</Width>
+              <Width>1.62688in</Width>
               <ZIndex>4</ZIndex>
               <Style>
                 <VerticalAlign>Top</VerticalAlign>
@@ -2030,15 +1318,15 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(1,Split(Cstr(ReportItems!PayeeAddress.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(24)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>1.71689in</Top>
-              <Left>0.20158in</Left>
+              <Top>0.46528in</Top>
+              <Left>0.13176in</Left>
               <Height>0.17348in</Height>
               <Width>4.54281in</Width>
               <ZIndex>5</ZIndex>
@@ -2052,7 +1340,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(13,Split(Cstr(ReportItems!CompAddr.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(10)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
@@ -2062,10 +1350,13 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.97182in</Top>
-              <Left>4.90408in</Left>
+              <Left>5.64778in</Left>
               <Height>0.16654in</Height>
-              <Width>2.3562in</Width>
+              <Width>2.18542in</Width>
               <ZIndex>6</ZIndex>
+              <Visibility>
+                <Hidden>true</Hidden>
+              </Visibility>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
@@ -2076,7 +1367,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(12,Split(Cstr(ReportItems!CompAddr.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(9)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
@@ -2086,9 +1377,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.80529in</Top>
-              <Left>4.90408in</Left>
+              <Left>5.64778in</Left>
               <Height>0.16654in</Height>
-              <Width>2.3562in</Width>
+              <Width>2.18542in</Width>
               <ZIndex>7</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2100,7 +1391,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(11,Split(Cstr(ReportItems!CompAddr.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(8)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
@@ -2110,9 +1401,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.63875in</Top>
-              <Left>4.90408in</Left>
+              <Left>5.64778in</Left>
               <Height>0.16654in</Height>
-              <Width>2.3562in</Width>
+              <Width>2.18542in</Width>
               <ZIndex>8</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2124,7 +1415,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(10,Split(Cstr(ReportItems!CompAddr.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(7)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
@@ -2134,9 +1425,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.47222in</Top>
-              <Left>4.90408in</Left>
+              <Left>5.64778in</Left>
               <Height>0.16654in</Height>
-              <Width>2.3562in</Width>
+              <Width>2.18542in</Width>
               <ZIndex>9</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2148,7 +1439,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(9,Split(Cstr(ReportItems!CompAddr.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(6)</Value>
                       <Style>
                         <FontWeight>Bold</FontWeight>
                       </Style>
@@ -2160,9 +1451,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.30568in</Top>
-              <Left>4.90408in</Left>
+              <Left>5.64778in</Left>
               <Height>0.16654in</Height>
-              <Width>2.3562in</Width>
+              <Width>2.18542in</Width>
               <ZIndex>10</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2181,14 +1472,11 @@
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>1.93204in</Top>
-              <Left>0.2007in</Left>
+              <Top>0.68043in</Top>
+              <Left>0.13088in</Left>
               <Height>0.16321in</Height>
               <Width>0.89652in</Width>
               <ZIndex>11</ZIndex>
-              <Visibility>
-                <Hidden>=Trim(Cstr(Choose(6,Split(Cstr(ReportItems!values.Value),Chr(177))))) = ""</Hidden>
-              </Visibility>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
@@ -2199,17 +1487,17 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(6,Split(Cstr(ReportItems!values.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(21)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>1.93204in</Top>
-              <Left>1.0981in</Left>
+              <Top>0.68043in</Top>
+              <Left>1.20275in</Left>
               <Height>0.16321in</Height>
-              <Width>1.42825in</Width>
+              <Width>1.64962in</Width>
               <ZIndex>12</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2264,10 +1552,10 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>2.65893in</Top>
-              <Left>0.19252in</Left>
+              <Top>1.40732in</Top>
+              <Left>0.1227in</Left>
               <Height>0.16654in</Height>
-              <Width>1.07013in</Width>
+              <Width>1.0106in</Width>
               <ZIndex>14</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2279,17 +1567,17 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(9,Split(Cstr(ReportItems!values.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(25)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>2.65893in</Top>
-              <Left>1.33232in</Left>
+              <Top>1.40732in</Top>
+              <Left>1.20275in</Left>
               <Height>0.16654in</Height>
-              <Width>1.40551in</Width>
+              <Width>1.46526in</Width>
               <ZIndex>15</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2310,10 +1598,10 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>2.87234in</Top>
-              <Left>0.2007in</Left>
+              <Top>1.62073in</Top>
+              <Left>0.13088in</Left>
               <Height>0.16654in</Height>
-              <Width>1.07013in</Width>
+              <Width>1.00242in</Width>
               <ZIndex>16</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -2325,17 +1613,17 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Cstr(Choose(17,Split(Cstr(ReportItems!PayeeAddress.Value),Chr(177))))</Value>
+                      <Value>=Code.GetData(20)</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
               </Paragraphs>
-              <Top>2.88103in</Top>
-              <Left>1.3405in</Left>
+              <Top>1.62942in</Top>
+              <Left>1.21093in</Left>
               <Height>0.16654in</Height>
-              <Width>2.89926in</Width>
+              <Width>2.95901in</Width>
               <ZIndex>17</ZIndex>
               <Style>
                 <Border>
@@ -2347,7 +1635,8 @@
           </ReportItems>
           <Style />
         </PageHeader>
-        <LeftMargin>0.07874in</LeftMargin>
+        <LeftMargin>0.25in</LeftMargin>
+        <RightMargin>0.25in</RightMargin>
         <TopMargin>0.03937in</TopMargin>
         <BottomMargin>0.49213in</BottomMargin>
         <Style />
@@ -2602,42 +1891,6 @@ Zz/ax/4KK/sDeCfhPY/BrwnoetNc2mq+I7ybxvFJBaT2UrrHDBiDMglUJKWYLsDbcE5I/VaigOY/Ln/g
         <Field Name="GenJnlLine_AccountNo">
           <DataField>GenJnlLine_AccountNo</DataField>
         </Field>
-        <Field Name="GreetingText">
-          <DataField>GreetingText</DataField>
-        </Field>
-        <Field Name="ClosingText">
-          <DataField>ClosingText</DataField>
-        </Field>
-        <Field Name="BodyText">
-          <DataField>BodyText</DataField>
-        </Field>
-        <Field Name="CompanyAddress_1">
-          <DataField>CompanyAddress_1</DataField>
-        </Field>
-        <Field Name="CompanyAddress_2">
-          <DataField>CompanyAddress_2</DataField>
-        </Field>
-        <Field Name="CompanyAddress_3">
-          <DataField>CompanyAddress_3</DataField>
-        </Field>
-        <Field Name="CompanyAddress_4">
-          <DataField>CompanyAddress_4</DataField>
-        </Field>
-        <Field Name="CompanyAddress_5">
-          <DataField>CompanyAddress_5</DataField>
-        </Field>
-        <Field Name="CompanyAddress_6">
-          <DataField>CompanyAddress_6</DataField>
-        </Field>
-        <Field Name="CompanyAddress_7">
-          <DataField>CompanyAddress_7</DataField>
-        </Field>
-        <Field Name="CompanyAddress_8">
-          <DataField>CompanyAddress_8</DataField>
-        </Field>
-        <Field Name="CompanyLegalOffice">
-          <DataField>CompanyLegalOffice</DataField>
-        </Field>
         <Field Name="EntityAddr1">
           <DataField>EntityAddr1</DataField>
         </Field>
@@ -2656,383 +1909,59 @@ Zz/ax/4KK/sDeCfhPY/BrwnoetNc2mq+I7ybxvFJBaT2UrrHDBiDMglUJKWYLsDbcE5I/VaigOY/Ln/g
         <Field Name="EntityAddr6">
           <DataField>EntityAddr6</DataField>
         </Field>
-        <Field Name="EntityPicture">
-          <DataField>EntityPicture</DataField>
+        <Field Name="VendorLine_LineNo">
+          <DataField>VendorLine_LineNo</DataField>
         </Field>
-        <Field Name="PurchLoadNo">
-          <DataField>PurchLoadNo</DataField>
+        <Field Name="VendorLine_VendorNo">
+          <DataField>VendorLine_VendorNo</DataField>
         </Field>
-        <Field Name="EmailAddr">
-          <DataField>EmailAddr</DataField>
+        <Field Name="VendorLine_EmailAddr">
+          <DataField>VendorLine_EmailAddr</DataField>
         </Field>
-        <Field Name="RecBankAccName">
-          <DataField>RecBankAccName</DataField>
+        <Field Name="VendorLine_BankName">
+          <DataField>VendorLine_BankName</DataField>
         </Field>
-        <Field Name="RecBankAccNo">
-          <DataField>RecBankAccNo</DataField>
+        <Field Name="VendorLine_BankAccNo">
+          <DataField>VendorLine_BankAccNo</DataField>
         </Field>
-        <Field Name="RecBankTransitNo">
-          <DataField>RecBankTransitNo</DataField>
+        <Field Name="VendorLine_BankTransitNo">
+          <DataField>VendorLine_BankTransitNo</DataField>
         </Field>
-        <Field Name="CopyTxt">
-          <DataField>CopyTxt</DataField>
+        <Field Name="VendorLine_VendorName">
+          <DataField>VendorLine_VendorName</DataField>
         </Field>
-        <Field Name="PayeeAddress_1_">
-          <DataField>PayeeAddress_1_</DataField>
+        <Field Name="VendorLine_PaymentDate">
+          <DataField>VendorLine_PaymentDate</DataField>
         </Field>
-        <Field Name="PayeeAddress_2_">
-          <DataField>PayeeAddress_2_</DataField>
+        <Field Name="VendorLine_TotalPaidAmount">
+          <DataField>VendorLine_TotalPaidAmount</DataField>
         </Field>
-        <Field Name="PayeeAddress_3_">
-          <DataField>PayeeAddress_3_</DataField>
+        <Field Name="VendorLine_TotalPaidAmountFormat">
+          <DataField>VendorLine_TotalPaidAmountFormat</DataField>
         </Field>
-        <Field Name="PayeeAddress_4_">
-          <DataField>PayeeAddress_4_</DataField>
+        <Field Name="Line_LineNo">
+          <DataField>Line_LineNo</DataField>
         </Field>
-        <Field Name="PayeeAddress_5_">
-          <DataField>PayeeAddress_5_</DataField>
+        <Field Name="Line_LoadNo">
+          <DataField>Line_LoadNo</DataField>
         </Field>
-        <Field Name="PayeeAddress_6_">
-          <DataField>PayeeAddress_6_</DataField>
+        <Field Name="Line_DocNo">
+          <DataField>Line_DocNo</DataField>
         </Field>
-        <Field Name="PayeeAddress_7_">
-          <DataField>PayeeAddress_7_</DataField>
+        <Field Name="Line_VendorNo">
+          <DataField>Line_VendorNo</DataField>
         </Field>
-        <Field Name="PayeeAddress_8_">
-          <DataField>PayeeAddress_8_</DataField>
+        <Field Name="Line_VendorName">
+          <DataField>Line_VendorName</DataField>
         </Field>
-        <Field Name="PayeeType">
-          <DataField>PayeeType</DataField>
+        <Field Name="Line_RemainingAmt">
+          <DataField>Line_RemainingAmt</DataField>
         </Field>
-        <Field Name="PayeeNo">
-          <DataField>PayeeNo</DataField>
+        <Field Name="Line_Amount">
+          <DataField>Line_Amount</DataField>
         </Field>
-        <Field Name="Gen__Journal_Line___Document_No__">
-          <DataField>Gen__Journal_Line___Document_No__</DataField>
-        </Field>
-        <Field Name="SettleDate">
-          <DataField>SettleDate</DataField>
-        </Field>
-        <Field Name="ExportAmount">
-          <DataField>ExportAmount</DataField>
-        </Field>
-        <Field Name="ExportAmountFormat">
-          <DataField>ExportAmountFormat</DataField>
-        </Field>
-        <Field Name="PayeeBankTransitNo">
-          <DataField>PayeeBankTransitNo</DataField>
-        </Field>
-        <Field Name="PayeeBankAccountNo">
-          <DataField>PayeeBankAccountNo</DataField>
-        </Field>
-        <Field Name="myNumber">
-          <DataField>myNumber</DataField>
-        </Field>
-        <Field Name="myBal">
-          <DataField>myBal</DataField>
-        </Field>
-        <Field Name="mypostingdate">
-          <DataField>mypostingdate</DataField>
-        </Field>
-        <Field Name="Gen__Journal_Line___Applies_to_Doc__No__">
-          <DataField>Gen__Journal_Line___Applies_to_Doc__No__</DataField>
-        </Field>
-        <Field Name="myType">
-          <DataField>myType</DataField>
-        </Field>
-        <Field Name="AmountPaid">
-          <DataField>AmountPaid</DataField>
-        </Field>
-        <Field Name="AmountPaidFormat">
-          <DataField>AmountPaidFormat</DataField>
-        </Field>
-        <Field Name="DiscountTaken">
-          <DataField>DiscountTaken</DataField>
-        </Field>
-        <Field Name="DiscountTakenFormat">
-          <DataField>DiscountTakenFormat</DataField>
-        </Field>
-        <Field Name="VendLedgEntry__Remaining_Amt___LCY__">
-          <DataField>VendLedgEntry__Remaining_Amt___LCY__</DataField>
-        </Field>
-        <Field Name="VendLedgEntry__Remaining_Amt___LCY__Format">
-          <DataField>VendLedgEntry__Remaining_Amt___LCY__Format</DataField>
-        </Field>
-        <Field Name="VendLedgEntry__Document_Date_">
-          <DataField>VendLedgEntry__Document_Date_</DataField>
-        </Field>
-        <Field Name="VendLedgEntry__External_Document_No__">
-          <DataField>VendLedgEntry__External_Document_No__</DataField>
-        </Field>
-        <Field Name="VendLedgEntry__Document_Type_">
-          <DataField>VendLedgEntry__Document_Type_</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control57">
-          <DataField>AmountPaid_Control57</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control57Format">
-          <DataField>AmountPaid_Control57Format</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Control58">
-          <DataField>DiscountTaken_Control58</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Control58Format">
-          <DataField>DiscountTaken_Control58Format</DataField>
-        </Field>
-        <Field Name="CustLedgEntry__Remaining_Amt___LCY__">
-          <DataField>CustLedgEntry__Remaining_Amt___LCY__</DataField>
-        </Field>
-        <Field Name="CustLedgEntry__Remaining_Amt___LCY__Format">
-          <DataField>CustLedgEntry__Remaining_Amt___LCY__Format</DataField>
-        </Field>
-        <Field Name="CustLedgEntry__Document_Date_">
-          <DataField>CustLedgEntry__Document_Date_</DataField>
-        </Field>
-        <Field Name="CustLedgEntry__Document_No__">
-          <DataField>CustLedgEntry__Document_No__</DataField>
-        </Field>
-        <Field Name="CustLedgEntry__Document_Type_">
-          <DataField>CustLedgEntry__Document_Type_</DataField>
-        </Field>
-        <Field Name="PageLoop_Number">
-          <DataField>PageLoop_Number</DataField>
-        </Field>
-        <Field Name="REMITTANCE_ADVICECaption">
-          <DataField>REMITTANCE_ADVICECaption</DataField>
-        </Field>
-        <Field Name="To_Caption">
-          <DataField>To_Caption</DataField>
-        </Field>
-        <Field Name="Remittance_Advice_Number_Caption">
-          <DataField>Remittance_Advice_Number_Caption</DataField>
-        </Field>
-        <Field Name="Settlement_Date_Caption">
-          <DataField>Settlement_Date_Caption</DataField>
-        </Field>
-        <Field Name="Page_Caption">
-          <DataField>Page_Caption</DataField>
-        </Field>
-        <Field Name="ExportAmountCaption">
-          <DataField>ExportAmountCaption</DataField>
-        </Field>
-        <Field Name="PayeeBankTransitNoCaption">
-          <DataField>PayeeBankTransitNoCaption</DataField>
-        </Field>
-        <Field Name="Deposited_In_Caption">
-          <DataField>Deposited_In_Caption</DataField>
-        </Field>
-        <Field Name="PayeeBankAccountNoCaption">
-          <DataField>PayeeBankAccountNoCaption</DataField>
-        </Field>
-        <Field Name="Vendor_Ledger_Entry__Document_Type_Caption">
-          <DataField>Vendor_Ledger_Entry__Document_Type_Caption</DataField>
-        </Field>
-        <Field Name="Cust__Ledger_Entry__Document_No__Caption">
-          <DataField>Cust__Ledger_Entry__Document_No__Caption</DataField>
-        </Field>
-        <Field Name="Vendor_Ledger_Entry__Document_Date_Caption">
-          <DataField>Vendor_Ledger_Entry__Document_Date_Caption</DataField>
-        </Field>
-        <Field Name="Remaining_Amt___LCY___Control36Caption">
-          <DataField>Remaining_Amt___LCY___Control36Caption</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Control38Caption">
-          <DataField>DiscountTaken_Control38Caption</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control43Caption">
-          <DataField>AmountPaid_Control43Caption</DataField>
-        </Field>
-        <Field Name="VendLedgEntry_DocumentNo">
-          <DataField>VendLedgEntry_DocumentNo</DataField>
-        </Field>
-        <Field Name="CompanyPicture">
-          <DataField>CompanyPicture</DataField>
-        </Field>
-        <Field Name="CompanyAddress_1_">
-          <DataField>CompanyAddress_1_</DataField>
-        </Field>
-        <Field Name="CompanyAddress_2_">
-          <DataField>CompanyAddress_2_</DataField>
-        </Field>
-        <Field Name="CompanyAddress_3_">
-          <DataField>CompanyAddress_3_</DataField>
-        </Field>
-        <Field Name="CompanyAddress_4_">
-          <DataField>CompanyAddress_4_</DataField>
-        </Field>
-        <Field Name="CompanyAddress_5_">
-          <DataField>CompanyAddress_5_</DataField>
-        </Field>
-        <Field Name="CompanyAddress_6_">
-          <DataField>CompanyAddress_6_</DataField>
-        </Field>
-        <Field Name="CompanyAddress_7_">
-          <DataField>CompanyAddress_7_</DataField>
-        </Field>
-        <Field Name="CompanyAddress_8_">
-          <DataField>CompanyAddress_8_</DataField>
-        </Field>
-        <Field Name="Cust__Ledger_Entry__Document_Type_">
-          <DataField>Cust__Ledger_Entry__Document_Type_</DataField>
-        </Field>
-        <Field Name="Cust__Ledger_Entry__Document_No__">
-          <DataField>Cust__Ledger_Entry__Document_No__</DataField>
-        </Field>
-        <Field Name="Cust__Ledger_Entry__Document_Date_">
-          <DataField>Cust__Ledger_Entry__Document_Date_</DataField>
-        </Field>
-        <Field Name="Remaining_Amt___LCY__">
-          <DataField>Remaining_Amt___LCY__</DataField>
-        </Field>
-        <Field Name="Remaining_Amt___LCY__Format">
-          <DataField>Remaining_Amt___LCY__Format</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Control49">
-          <DataField>DiscountTaken_Control49</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Control49Format">
-          <DataField>DiscountTaken_Control49Format</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control50">
-          <DataField>AmountPaid_Control50</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control50Format">
-          <DataField>AmountPaid_Control50Format</DataField>
-        </Field>
-        <Field Name="Cust__Ledger_Entry_Entry_No_">
-          <DataField>Cust__Ledger_Entry_Entry_No_</DataField>
-        </Field>
-        <Field Name="Cust__Ledger_Entry_Applies_to_ID">
-          <DataField>Cust__Ledger_Entry_Applies_to_ID</DataField>
-        </Field>
-        <Field Name="Vendor_Ledger_Entry__Document_Type_">
-          <DataField>Vendor_Ledger_Entry__Document_Type_</DataField>
-        </Field>
-        <Field Name="Vendor_Ledger_Entry__External_Document_No__">
-          <DataField>Vendor_Ledger_Entry__External_Document_No__</DataField>
-        </Field>
-        <Field Name="Vendor_Ledger_Entry__Document_Date_">
-          <DataField>Vendor_Ledger_Entry__Document_Date_</DataField>
-        </Field>
-        <Field Name="Remaining_Amt___LCY___Control36">
-          <DataField>Remaining_Amt___LCY___Control36</DataField>
-        </Field>
-        <Field Name="Remaining_Amt___LCY___Control36Format">
-          <DataField>Remaining_Amt___LCY___Control36Format</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Control38">
-          <DataField>DiscountTaken_Control38</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Control38Format">
-          <DataField>DiscountTaken_Control38Format</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control43">
-          <DataField>AmountPaid_Control43</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control43Format">
-          <DataField>AmountPaid_Control43Format</DataField>
-        </Field>
-        <Field Name="Vendor_Ledger_Entry_Entry_No_">
-          <DataField>Vendor_Ledger_Entry_Entry_No_</DataField>
-        </Field>
-        <Field Name="Vendor_Ledger_Entry_Applies_to_ID">
-          <DataField>Vendor_Ledger_Entry_Applies_to_ID</DataField>
-        </Field>
-        <Field Name="Vendor_Ledger_Entry_PurchLoadNo">
-          <DataField>Vendor_Ledger_Entry_PurchLoadNo</DataField>
-        </Field>
-        <Field Name="BuyFromAddr1">
-          <DataField>BuyFromAddr1</DataField>
-        </Field>
-        <Field Name="BuyFromAddr2">
-          <DataField>BuyFromAddr2</DataField>
-        </Field>
-        <Field Name="BuyFromAddr3">
-          <DataField>BuyFromAddr3</DataField>
-        </Field>
-        <Field Name="BuyFromAddr4">
-          <DataField>BuyFromAddr4</DataField>
-        </Field>
-        <Field Name="BuyFromAddr5">
-          <DataField>BuyFromAddr5</DataField>
-        </Field>
-        <Field Name="BuyFromAddr6">
-          <DataField>BuyFromAddr6</DataField>
-        </Field>
-        <Field Name="BuyFromAddr7">
-          <DataField>BuyFromAddr7</DataField>
-        </Field>
-        <Field Name="BuyFromAddr8">
-          <DataField>BuyFromAddr8</DataField>
-        </Field>
-        <Field Name="VendorLedgerEntry_DocumentNo">
-          <DataField>VendorLedgerEntry_DocumentNo</DataField>
-        </Field>
-        <Field Name="AmountPaid_Customer">
-          <DataField>AmountPaid_Customer</DataField>
-        </Field>
-        <Field Name="AmountPaid_CustomerFormat">
-          <DataField>AmountPaid_CustomerFormat</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Customer">
-          <DataField>DiscountTaken_Customer</DataField>
-        </Field>
-        <Field Name="DiscountTaken_CustomerFormat">
-          <DataField>DiscountTaken_CustomerFormat</DataField>
-        </Field>
-        <Field Name="Cust_Remaining_Amt_LCY">
-          <DataField>Cust_Remaining_Amt_LCY</DataField>
-        </Field>
-        <Field Name="Cust_Remaining_Amt_LCYFormat">
-          <DataField>Cust_Remaining_Amt_LCYFormat</DataField>
-        </Field>
-        <Field Name="Cust_Document_Date">
-          <DataField>Cust_Document_Date</DataField>
-        </Field>
-        <Field Name="Cust_Document_No">
-          <DataField>Cust_Document_No</DataField>
-        </Field>
-        <Field Name="Cust_Document_Type">
-          <DataField>Cust_Document_Type</DataField>
-        </Field>
-        <Field Name="Vend_Remaining_Amt_LCY">
-          <DataField>Vend_Remaining_Amt_LCY</DataField>
-        </Field>
-        <Field Name="Vend_Remaining_Amt_LCYFormat">
-          <DataField>Vend_Remaining_Amt_LCYFormat</DataField>
-        </Field>
-        <Field Name="Vend_Document_Date">
-          <DataField>Vend_Document_Date</DataField>
-        </Field>
-        <Field Name="Vend_External_Document_No">
-          <DataField>Vend_External_Document_No</DataField>
-        </Field>
-        <Field Name="Vend_Document_Type">
-          <DataField>Vend_Document_Type</DataField>
-        </Field>
-        <Field Name="AmountPaid_Vendor">
-          <DataField>AmountPaid_Vendor</DataField>
-        </Field>
-        <Field Name="AmountPaid_VendorFormat">
-          <DataField>AmountPaid_VendorFormat</DataField>
-        </Field>
-        <Field Name="DiscountTaken_Vendor">
-          <DataField>DiscountTaken_Vendor</DataField>
-        </Field>
-        <Field Name="DiscountTaken_VendorFormat">
-          <DataField>DiscountTaken_VendorFormat</DataField>
-        </Field>
-        <Field Name="Text004">
-          <DataField>Text004</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control65">
-          <DataField>AmountPaid_Control65</DataField>
-        </Field>
-        <Field Name="AmountPaid_Control65Format">
-          <DataField>AmountPaid_Control65Format</DataField>
-        </Field>
-        <Field Name="Unapplied_Number">
-          <DataField>Unapplied_Number</DataField>
+        <Field Name="Line_DocDate">
+          <DataField>Line_DocDate</DataField>
         </Field>
       </Fields>
       <Query>
