@@ -7,6 +7,7 @@ tableextension 80200 "BA G/L Entry" extends "G/L Entry"
             DataClassification = CustomerContent;
             Editable = false;
             Caption = 'Multi-Load No.';
+            ToolTip = 'Specifies when a payment has been applied to multiple loads.';
         }
     }
 }
