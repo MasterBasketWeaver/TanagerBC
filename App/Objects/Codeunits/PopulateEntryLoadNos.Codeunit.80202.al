@@ -814,18 +814,20 @@ codeunit 80202 "BA Populate Entry Load Nos."
                         SingleLoad := true;
                     if MultiLoadNo[1] = ',' then
                         MultiLoadNo := CopyStr(MultiLoadNo, 2);
-                    if SingleLoad and (MultiLoadNo <> '') then begin
+                    if SingleLoad and (MultiLoadNo <> '') and not MultiLoadNo.Contains(',') then begin
                         RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(CopyStr(MultiLoadNo, 1, RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Length()));
                         RecRef.Modify(false);
                     end else if GLEntry.Amount = Amount then begin
-                        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(CopyStr(MultiLoadNo, 1, MaxStrLen(GLEntry."BA Multi-Load No.")));
-                        RecRef.Modify(false);
+                        GLEntry."BA Multi-Load No." := CopyStr(MultiLoadNo, 1, MaxStrLen(GLEntry."BA Multi-Load No."));
+                        GLEntry.Modify(false);
                     end;
                     Clear(LoadNos);
                 end;
             until RecRef.Next() = 0;
         Commit();
     end;
+
+    //The length of the string is 29, but it must be less than or equal to 20 characters. Value: VCH120437,VCH120435,VCH120436
 
 
     procedure VendorLedgerEntryLoadNoFieldNo(): Integer
