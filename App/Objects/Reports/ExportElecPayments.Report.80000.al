@@ -39,7 +39,7 @@ report 80000 "BA Export Elec Payments"
                 DimValue: Record "Dimension Value";
             begin
                 if not GenJnlLine.FindFirst() then
-                    Error('No records found for the selected filters.');
+                    Error(NoRecordsErr, GenJnlLine.GetFilters());
 
                 GLSetup.Get();
                 if DimValue.Get(GLSetup."Global Dimension 1 Code", GenJnlLine."Shortcut Dimension 1 Code") then begin
@@ -58,17 +58,14 @@ report 80000 "BA Export Elec Payments"
             var
                 PurchInvHeader: Record "Purch. Inv. Header";
                 Vendor: Record Vendor;
+                VendorBankAccount: Record "Vendor Bank Account";
                 VendorLedgerEntry: Record "Vendor Ledger Entry";
                 CustRepSelection: Record "Custom Report Selection";
-                BankAccount2: Record "Bank Account";
-
                 Values: Dictionary of [Integer, List of [Text]];
                 LineValues, Temp : List of [Text];
                 EmailAddr, BankAccountNo, BankTransitNo, BankName : Text;
                 AppliedAmount: Decimal;
                 i: Integer;
-
-                Derp: TextBuilder;
             begin
                 for i := 1 to 7 do
                     LineValues.Add('');
@@ -154,11 +151,11 @@ report 80000 "BA Export Elec Payments"
                             EmailAddr := CustRepSelection."Send To Email"
                         else
                             EmailAddr := Vendor."E-Mail";
-                    end;
-                    if BankAccount2.Get(GenJnlLine."Bal. Account No.") then begin
-                        BankName := BankAccount2.Name;
-                        BankAccountNo := BankAccount2."Bank Account No.";
-                        BankTransitNo := BankAccount2."Transit No.";
+                        if VendorBankAccount.Get(Vendor."No.", GenJnlLine."Recipient Bank Account") then begin
+                            BankName := VendorBankAccount.Name;
+                            BankAccountNo := VendorBankAccount."Bank Account No.";
+                            BankTransitNo := VendorBankAccount."Transit No.";
+                        end;
                     end;
 
                     Clear(LineValues);
@@ -234,14 +231,6 @@ report 80000 "BA Export Elec Payments"
                         TableRelation = "Bank Account";
                         ToolTip = 'Specifies the bank account that the payment is transmitted to.';
                     }
-                    // field(NumberOfCopies; NoCopies)
-                    // {
-                    //     ApplicationArea = All;
-                    //     Caption = 'Number of Copies';
-                    //     MaxValue = 9;
-                    //     MinValue = 0;
-                    //     ToolTip = 'Specifies the number of copies of each document (in addition to the original) that you want to print.';
-                    // }
                     group(OutputOptions)
                     {
                         Caption = 'Output Options';
@@ -402,5 +391,7 @@ report 80000 "BA Export Elec Payments"
         ChosenOutputMethod, NoCopies : Integer;
         SupportedOutputMethod: Option Print,Preview,PDF,Email,Word,XML;
         PrintIfEmailIsMissing, ShowPrintIfEmailIsMissing : Boolean;
+
+        NoRecordsErr: Label 'No records found for the selected filters:\%1', Comment = '%1 = GenJnlLine filters';
 
 }
