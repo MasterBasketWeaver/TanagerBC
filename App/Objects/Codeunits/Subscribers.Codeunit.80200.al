@@ -316,7 +316,6 @@ codeunit 80200 "BA Subscribers"
         RecRef.SetTable(GLEntry);
         RecRef.Close();
 
-        // VendorLedgerEntry.CalcFields(Amount);
         GLEntry.SetRange("Transaction No.", TransactionNo);
         GLEntry.SetRange("Posting Date", PostingDate);
         GLEntry.SetFilter(Amount, '%1|%2', Amount, -Amount);
@@ -349,45 +348,6 @@ codeunit 80200 "BA Subscribers"
                 RecRef.Close();
             until GLEntry.Next() = 0;
     end;
-
-    // local procedure CopyCustomerLoadNoToGLEntry(var CustomerLedgerEntry: Record "Cust. Ledger Entry"; LoadNo: Code[20])
-    // var
-    //     GLEntry: Record "G/L Entry";
-    //     RecRef: RecordRef;
-    // begin
-    //     RecRef.Open(Database::"G/L Entry");
-    //     RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
-    //     RecRef.SetLoadFields(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
-    //     RecRef.SetTable(GLEntry);
-    //     RecRef.Close();
-
-    //     CustomerLedgerEntry.CalcFields(Amount);
-    //     GLEntry.SetRange("Transaction No.", CustomerLedgerEntry."Transaction No.");
-    //     GLEntry.SetRange("Posting Date", CustomerLedgerEntry."Posting Date");
-    //     GLEntry.SetFilter(Amount, '%1|%2', CustomerLedgerEntry.Amount, -CustomerLedgerEntry.Amount);
-    //     GLEntry.SetRange("Source Type", GLEntry."Source Type"::Customer);
-    //     GLEntry.SetRange("Source No.", CustomerLedgerEntry."Customer No.");
-    //     if GLEntry.FindSet() then
-    //         repeat
-    //             RecRef.GetTable(GLEntry);
-    //             RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
-    //             RecRef.Modify(false);
-    //             RecRef.Close();
-    //         until GLEntry.Next() = 0;
-
-    //     GLEntry.SetRange("Source Type");
-    //     GLEntry.SetRange("Source No.");
-    //     GLEntry.SetRange("Bal. Account Type", GLEntry."Source Type"::Customer);
-    //     GLEntry.SetRange("Bal. Account No.", CustomerLedgerEntry."Customer No.");
-    //     if GLEntry.FindSet() then
-    //         repeat
-    //             RecRef.GetTable(GLEntry);
-    //             RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
-    //             RecRef.Modify(false);
-    //             RecRef.Close();
-    //         until GLEntry.Next() = 0;
-    // end;
-
 
 
 
