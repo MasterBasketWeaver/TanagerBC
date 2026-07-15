@@ -147,6 +147,28 @@ codeunit 80201 "BA Single Instance"
     end;
 
 
+    procedure SetFilterACHReport(NewValue: Boolean)
+    begin
+        FilterACHReport := NewValue;
+    end;
+
+    procedure GetFilterACHReport(): Boolean
+    begin
+        exit(FilterACHReport);
+    end;
+
+
+    procedure SetACHFromEmail(NewValue: Boolean)
+    begin
+        ACHFromEmail := NewValue;
+    end;
+
+    procedure GetACHFromEmail(): Boolean
+    begin
+        exit(ACHFromEmail);
+    end;
+
+
     var
         AppliesToDocNos: Dictionary of [Integer, List of [Code[20]]];
         RecordIDs: List of [RecordID];
@@ -155,6 +177,6 @@ codeunit 80201 "BA Single Instance"
         GenJnlView: Text;
         BankAccNo: Code[20];
         JournalTemplateName, JournalBatchName : Code[10];
-        DisableReportOutput: Boolean;
+        DisableReportOutput, FilterACHReport, ACHFromEmail : Boolean;
 
 }

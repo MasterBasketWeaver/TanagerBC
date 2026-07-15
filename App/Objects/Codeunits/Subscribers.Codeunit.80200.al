@@ -15,12 +15,14 @@ codeunit 80200 "BA Subscribers"
     local procedure PaymentJournalOnBeforeExportPaymentsToFile(var Rec: Record "Gen. Journal Line")
     begin
         SingleInstance.SetGenJnlBatchDetails(Rec);
+        SingleInstance.SetFilterACHReport(true);
     end;
 
     [EventSubscriber(ObjectType::Page, Page::"Payment Journal", OnAfterActionEvent, "ExportPaymentsToFile", true, true)]
     local procedure PaymentJournalOnAfterExportPaymentsToFile(var Rec: Record "Gen. Journal Line")
     begin
         SingleInstance.ClearGenJnlBatchDetails();
+        SingleInstance.SetFilterACHReport(false);
     end;
 
 
@@ -360,6 +362,31 @@ codeunit 80200 "BA Subscribers"
         SingleInstance.ClearAppliesToDocNos();
     end;
 
+
+
+
+
+
+
+
+
+
+
+
+
+    [EventSubscriber(ObjectType::Table, Database::"Report Selections", OnBeforeDoSaveReportAsHTMLInTempBlob, '', true, true)]
+    local procedure ReportSelectionsOnBeforeDoSaveReportAsHTMLInTempBlob(ReportID: Integer; var TemBlob: Codeunit "Temp Blob"; var RecordVariant: Variant; var IsHandled: Boolean)
+    begin
+        if ReportID = Report::"BA Export Elec Payments" then
+            SingleInstance.SetACHFromEmail(true);
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::"Report Selections", OnAfterDoSaveReportAsHTMLInTempBlob, '', true, true)]
+    local procedure ReportSelectionsOnAfterDoSaveReportAsHTMLInTempBlob(ReportID: Integer)
+    begin
+        if ReportID = Report::"BA Export Elec Payments" then
+            SingleInstance.SetACHFromEmail(false);
+    end;
 
 
 

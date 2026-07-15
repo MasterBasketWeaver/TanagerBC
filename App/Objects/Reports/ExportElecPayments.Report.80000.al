@@ -10,26 +10,13 @@ report 80000 "BA Export Elec Payments"
     {
         dataitem(GenJnlLine; "Gen. Journal Line")
         {
-            DataItemTableView = sorting("Journal Template Name", "Journal Batch Name", "Line No.")
-                where("Bank Payment Type" = filter("Electronic Payment" | "Electronic Payment-IAT"),
-                    "Document Type" = filter(Payment | Refund),
-                    "Account Type" = filter(Vendor),
-                    "Bal. Account Type" = filter("Bank Account"),
-                    "Check Printed" = const(false));
+            DataItemTableView = sorting("Journal Template Name", "Journal Batch Name", "Line No.");
             RequestFilterFields = "Journal Template Name", "Journal Batch Name";
 
-            column(Gen__Journal_Line_Journal_Template_Name; "Journal Template Name")
-            {
-            }
-            column(Gen__Journal_Line_Journal_Batch_Name; "Journal Batch Name")
-            {
-            }
-            column(Gen__Journal_Line_Line_No_; "Line No.")
-            {
-            }
-            column(Gen__Journal_Line_Applies_to_ID; "Applies-to ID")
-            {
-            }
+            column(Gen__Journal_Line_Journal_Template_Name; "Journal Template Name") { }
+            column(Gen__Journal_Line_Journal_Batch_Name; "Journal Batch Name") { }
+            column(Gen__Journal_Line_Line_No_; "Line No.") { }
+            column(Gen__Journal_Line_Applies_to_ID; "Applies-to ID") { }
             column(GenJnlLine_AccountNo; "Account No.") { }
 
 
@@ -38,6 +25,16 @@ report 80000 "BA Export Elec Payments"
                 GLSetup: Record "General Ledger Setup";
                 DimValue: Record "Dimension Value";
             begin
+                GenJnlLine.SetFilter("Bank Payment Type", '%1|%2', GenJnlLine."Bank Payment Type"::"Electronic Payment", GenJnlLine."Bank Payment Type"::"Electronic Payment-IAT");
+                GenJnlLine.SetFilter("Document Type", '%1|%2', GenJnlLine."Document Type"::Payment, GenJnlLine."Document Type"::Refund);
+                GenJnlLine.SetRange("Account Type", GenJnlLine."Account Type"::Vendor);
+                GenJnlLine.SetRange("Bal. Account Type", GenJnlLine."Bal. Account Type"::"Bank Account");
+                case true of
+                    SingleInstance.GetACHFromEmail():
+                        GenJnlLine.SetRange("Check Printed", true);
+                    SingleInstance.GetFilterACHReport():
+                        GenJnlLine.SetRange("Check Printed", false);
+                end;
                 if not GenJnlLine.FindFirst() then
                     Error(NoRecordsErr, GenJnlLine.GetFilters());
 
