@@ -29,14 +29,8 @@ report 80000 "BA Export Elec Payments"
                 GenJnlLine.SetFilter("Document Type", '%1|%2', GenJnlLine."Document Type"::Payment, GenJnlLine."Document Type"::Refund);
                 GenJnlLine.SetRange("Account Type", GenJnlLine."Account Type"::Vendor);
                 GenJnlLine.SetRange("Bal. Account Type", GenJnlLine."Bal. Account Type"::"Bank Account");
-                case true of
-                    SingleInstance.GetACHFromEmail():
-                        GenJnlLine.SetRange("Check Printed", true);
-                    SingleInstance.GetFilterACHReport():
-                        GenJnlLine.SetRange("Check Printed", false);
-                end;
                 if not GenJnlLine.FindFirst() then
-                    Error(NoRecordsErr, GenJnlLine.GetFilters());
+                    CurrReport.Break();
 
                 GLSetup.Get();
                 if DimValue.Get(GLSetup."Global Dimension 1 Code", GenJnlLine."Shortcut Dimension 1 Code") then begin
@@ -204,6 +198,8 @@ report 80000 "BA Export Elec Payments"
 
             trigger OnPreDataItem()
             begin
+                if VendorLineValues.Count() = 0 then
+                    CurrReport.Break();
                 VendorLine.SetRange(Number, 1, VendorLineValues.Count());
             end;
         }

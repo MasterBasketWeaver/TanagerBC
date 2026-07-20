@@ -374,19 +374,6 @@ codeunit 80200 "BA Subscribers"
 
 
 
-    [EventSubscriber(ObjectType::Table, Database::"Report Selections", OnBeforeDoSaveReportAsHTMLInTempBlob, '', true, true)]
-    local procedure ReportSelectionsOnBeforeDoSaveReportAsHTMLInTempBlob(ReportID: Integer; var TemBlob: Codeunit "Temp Blob"; var RecordVariant: Variant; var IsHandled: Boolean)
-    begin
-        if ReportID = Report::"BA Export Elec Payments" then
-            SingleInstance.SetACHFromEmail(true);
-    end;
-
-    [EventSubscriber(ObjectType::Table, Database::"Report Selections", OnAfterDoSaveReportAsHTMLInTempBlob, '', true, true)]
-    local procedure ReportSelectionsOnAfterDoSaveReportAsHTMLInTempBlob(ReportID: Integer)
-    begin
-        if ReportID = Report::"BA Export Elec Payments" then
-            SingleInstance.SetACHFromEmail(false);
-    end;
 
 
 

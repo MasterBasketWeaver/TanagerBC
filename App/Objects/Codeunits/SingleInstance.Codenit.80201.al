@@ -158,15 +158,6 @@ codeunit 80201 "BA Single Instance"
     end;
 
 
-    procedure SetACHFromEmail(NewValue: Boolean)
-    begin
-        ACHFromEmail := NewValue;
-    end;
-
-    procedure GetACHFromEmail(): Boolean
-    begin
-        exit(ACHFromEmail);
-    end;
 
 
     var
