@@ -52,7 +52,13 @@ codeunit 80200 "BA Subscribers"
         FldRef: FieldRef;
     begin
         if (PurchInvHeader."No." <> '') and (PurchInvHeader."Pre-Assigned No." <> '') and VendorLedgerEntry.Get(PurchInvHeader."Vendor Ledger Entry No.") then begin
+            RecRef.Open(Database::"G/L Entry");
+            if not RecRef.FieldExist(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()) then
+                exit;
+            RecRef.Close();
             RecRef.GetTable(VendorLedgerEntry);
+            if not RecRef.FieldExist(PopulateEntryLoadNos.VendorLedgerEntryLoadNoFieldNo()) then
+                exit;
             FldRef := RecRef.Field(PopulateEntryLoadNos.VendorLedgerEntryLoadNoFieldNo());
             if Format(FldRef.Value()) <> PurchInvHeader."Pre-Assigned No." then begin
                 FldRef.Value(PurchInvHeader."Pre-Assigned No.");
@@ -111,7 +117,13 @@ codeunit 80200 "BA Subscribers"
         FldRef: FieldRef;
     begin
         if (SalesInvoiceHeader."No." <> '') and (SalesInvoiceHeader."Pre-Assigned No." <> '') and CustLedgerEntry.Get(SalesInvoiceHeader."Cust. Ledger Entry No.") then begin
+            RecRef.Open(Database::"G/L Entry");
+            if not RecRef.FieldExist(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()) then
+                exit;
+            RecRef.Close();
             RecRef.GetTable(CustLedgerEntry);
+            if not RecRef.FieldExist(PopulateEntryLoadNos.CustomerLedgerEntryLoadNoFieldNo()) then
+                exit;
             FldRef := RecRef.Field(PopulateEntryLoadNos.CustomerLedgerEntryLoadNoFieldNo());
             if Format(FldRef.Value()) <> SalesInvoiceHeader."Pre-Assigned No." then begin
                 FldRef.Value(SalesInvoiceHeader."Pre-Assigned No.");
