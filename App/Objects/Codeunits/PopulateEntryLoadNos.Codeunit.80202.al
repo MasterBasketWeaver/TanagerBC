@@ -844,4 +844,14 @@ codeunit 80202 "BA Populate Entry Load Nos."
     begin
         exit(50101);
     end;
+
+    procedure PurchaseCreditMemoLoadNoFieldNo(): Integer
+    begin
+        exit(70200);
+    end;
+
+    procedure SalesCreditMemoLoadNoFieldNo(): Integer
+    begin
+        exit(70200);
+    end;
 }
