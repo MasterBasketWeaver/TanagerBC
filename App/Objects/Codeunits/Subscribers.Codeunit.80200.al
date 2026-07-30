@@ -79,7 +79,7 @@ codeunit 80200 "BA Subscribers"
                 CopyLoadNoToGLEntry(false, PurchInvHeader."Pre-Assigned No.", VendorLedgerEntry.Amount, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date");
             end;
         end;
-        if (PurchCrMemoHdr."No." <> '') and (PurchCrMemoHdr."Pre-Assigned No." <> '') and VendorLedgerEntry.Get(PurchCrMemoHdr."Vendor Ledger Entry No.") and (PurchCrMemoHdr."Applies-to Doc. No." = '') then begin
+        if (PurchCrMemoHdr."No." <> '') and VendorLedgerEntry.Get(PurchCrMemoHdr."Vendor Ledger Entry No.") and (PurchCrMemoHdr."Applies-to Doc. No." = '') then begin
             RecRef.GetTable(PurchCrMemoHdr);
             if not RecRef.FieldExist(PopulateEntryLoadNos.PurchaseCreditMemoLoadNoFieldNo()) then
                 exit;
@@ -87,6 +87,8 @@ codeunit 80200 "BA Subscribers"
             LoadNo := Format(FldRef2.Value());
             if LoadNo = '' then
                 LoadNo := PurchCrMemoHdr."Pre-Assigned No.";
+            if (LoadNo = '') and (PurchCrMemoHdr."No. Series" <> '') then
+                LoadNo := NoSeries.PeekNextNo(PurchCrMemoHdr."No. Series", PurchCrMemoHdr."Posting Date");
             if LoadNo = '' then
                 LoadNo := PurchCrMemoHdr."No.";
             RecRef.Close();
@@ -182,7 +184,8 @@ codeunit 80200 "BA Subscribers"
                 CopyLoadNoToGLEntry(true, SalesInvoiceHeader."Pre-Assigned No.", CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
             end;
         end;
-        if (SalesCrMemoHeader."No." <> '') and (SalesCrMemoHeader."Pre-Assigned No." <> '') and CustLedgerEntry.Get(SalesCrMemoHeader."Cust. Ledger Entry No.") and (SalesCrMemoHeader."Applies-to Doc. No." = '') then begin
+
+        if (SalesCrMemoHeader."No." <> '') and CustLedgerEntry.Get(SalesCrMemoHeader."Cust. Ledger Entry No.") and (SalesCrMemoHeader."Applies-to Doc. No." = '') then begin
             RecRef.GetTable(SalesCrMemoHeader);
             if not RecRef.FieldExist(PopulateEntryLoadNos.SalesCreditMemoLoadNoFieldNo()) then
                 exit;
@@ -190,6 +193,8 @@ codeunit 80200 "BA Subscribers"
             LoadNo := Format(FldRef2.Value());
             if LoadNo = '' then
                 LoadNo := SalesCrMemoHeader."Pre-Assigned No.";
+            if (LoadNo = '') and (SalesCrMemoHeader."No. Series" <> '') then
+                LoadNo := NoSeries.PeekNextNo(SalesCrMemoHeader."No. Series", SalesCrMemoHeader."Posting Date");
             if LoadNo = '' then
                 LoadNo := SalesCrMemoHeader."No.";
             RecRef.Close();
@@ -207,7 +212,7 @@ codeunit 80200 "BA Subscribers"
                 RecRef.Close();
             end;
             CustLedgerEntry.CalcFields(Amount);
-            CopyLoadNoToGLEntry(false, LoadNo, CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
+            CopyLoadNoToGLEntry(true, LoadNo, CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
             if CustLedgerEntry.Get(CustLedgerEntry."Closed by Entry No.") then begin
                 RecRef.GetTable(CustLedgerEntry);
                 FldRef := RecRef.Field(PopulateEntryLoadNos.CustomerLedgerEntryLoadNoFieldNo());
@@ -216,7 +221,7 @@ codeunit 80200 "BA Subscribers"
                     RecRef.Modify(false);
                 end;
                 CustLedgerEntry.CalcFields(Amount);
-                CopyLoadNoToGLEntry(false, LoadNo, CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
+                CopyLoadNoToGLEntry(true, LoadNo, CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
             end;
         end;
     end;
@@ -414,7 +419,6 @@ codeunit 80200 "BA Subscribers"
             GLEntry.SetRange("Source Type", GLEntry."Source Type"::Customer)
         else
             GLEntry.SetRange("Source Type", GLEntry."Source Type"::Vendor);
-
         if GLEntry.FindSet() then
             repeat
                 RecRef.GetTable(GLEntry);
@@ -469,6 +473,7 @@ codeunit 80200 "BA Subscribers"
 
 
     var
+        NoSeries: Codeunit "No. Series";
         SingleInstance: Codeunit "BA Single Instance";
         PopulateEntryLoadNos: Codeunit "BA Populate Entry Load Nos.";
 }
