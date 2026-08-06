@@ -11,14 +11,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
         DisableAggregateTableUpdate: Codeunit "Disable Aggregate Table Update";
     begin
         DisableAggregateTableUpdate.SetDisableAllRecords(true);
-        // PopulatePurchLoadNos();
-        // PopulateSalesLoadNos();
-
-        PopulateSalesCreditMemoEntries();
-        CopyCustomerLoadNosToGLEntries();
-
-        PopulatePurchaseCreditMemoEntries();
-        CopyVendorLoadNosToGLEntries();
+        PopulatePurchLoadNos();
+        PopulateSalesLoadNos();
         DisableAggregateTableUpdate.SetDisableAllRecords(false);
     end;
 
@@ -874,30 +868,36 @@ codeunit 80202 "BA Populate Entry Load Nos."
     end;
 
 
-    local procedure SetCustLedgerEntryLoadNoFilter(var CustLedgerEntry: Record "Cust. Ledger Entry"; Filter: Text; FilterValue: Text)
+    procedure SetCustLedgerEntryLoadNoFilter(var CustLedgerEntry: Record "Cust. Ledger Entry"; Filter: Text; FilterValue: Text)
     var
         RecRef: RecordRef;
     begin
         RecRef.GetTable(CustLedgerEntry);
+        if not RecRef.FieldExist(CustomerLedgerEntryLoadNoFieldNo()) then
+            exit;
         RecRef.SetLoadFields(CustomerLedgerEntryLoadNoFieldNo());
         RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).SetFilter(Filter, FilterValue);
         RecRef.SetTable(CustLedgerEntry);
     end;
 
-    local procedure SetCustLedgerEntryLoadNoValue(var CustLedgerEntry: Record "Cust. Ledger Entry"; LoadNo: Code[20])
+    procedure SetCustLedgerEntryLoadNoValue(var CustLedgerEntry: Record "Cust. Ledger Entry"; LoadNo: Code[20])
     var
         RecRef: RecordRef;
     begin
         RecRef.GetTable(CustLedgerEntry);
+        if not RecRef.FieldExist(CustomerLedgerEntryLoadNoFieldNo()) then
+            exit;
         RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value(LoadNo);
         RecRef.SetTable(CustLedgerEntry);
     end;
 
-    local procedure GetCustLedgerEntryLoadNoValue(var CustLedgerEntry: Record "Cust. Ledger Entry"): Code[20]
+    procedure GetCustLedgerEntryLoadNoValue(var CustLedgerEntry: Record "Cust. Ledger Entry"): Code[20]
     var
         RecRef: RecordRef;
     begin
         RecRef.GetTable(CustLedgerEntry);
+        if not RecRef.FieldExist(CustomerLedgerEntryLoadNoFieldNo()) then
+            exit('');
         exit(RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value());
     end;
 
@@ -960,30 +960,36 @@ codeunit 80202 "BA Populate Entry Load Nos."
     end;
 
 
-    local procedure SetVendorLedgerEntryLoadNoFilter(var VendorLedgerEntry: Record "Vendor Ledger Entry"; Filter: Text; FilterValue: Text)
+    procedure SetVendorLedgerEntryLoadNoFilter(var VendorLedgerEntry: Record "Vendor Ledger Entry"; Filter: Text; FilterValue: Text)
     var
         RecRef: RecordRef;
     begin
         RecRef.GetTable(VendorLedgerEntry);
+        if not RecRef.FieldExist(VendorLedgerEntryLoadNoFieldNo()) then
+            exit;
         RecRef.SetLoadFields(VendorLedgerEntryLoadNoFieldNo());
         RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).SetFilter(Filter, FilterValue);
         RecRef.SetTable(VendorLedgerEntry);
     end;
 
-    local procedure SetVendorLedgerEntryLoadNoValue(var VendorLedgerEntry: Record "Vendor Ledger Entry"; LoadNo: Code[20])
+    procedure SetVendorLedgerEntryLoadNoValue(var VendorLedgerEntry: Record "Vendor Ledger Entry"; LoadNo: Code[20])
     var
         RecRef: RecordRef;
     begin
         RecRef.GetTable(VendorLedgerEntry);
+        if not RecRef.FieldExist(VendorLedgerEntryLoadNoFieldNo()) then
+            exit;
         RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value(LoadNo);
         RecRef.SetTable(VendorLedgerEntry);
     end;
 
-    local procedure GetVendorLedgerEntryLoadNoValue(var VendorLedgerEntry: Record "Vendor Ledger Entry"): Code[20]
+    procedure GetVendorLedgerEntryLoadNoValue(var VendorLedgerEntry: Record "Vendor Ledger Entry"): Code[20]
     var
         RecRef: RecordRef;
     begin
         RecRef.GetTable(VendorLedgerEntry);
+        if not RecRef.FieldExist(VendorLedgerEntryLoadNoFieldNo()) then
+            exit('');
         exit(RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value());
     end;
 
