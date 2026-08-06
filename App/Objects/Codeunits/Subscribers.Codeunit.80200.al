@@ -401,30 +401,50 @@ codeunit 80200 "BA Subscribers"
 
 
     local procedure CopyLoadNoToGLEntry(IsCustomer: Boolean; LoadNo: Code[20]; Amount: Decimal; SourceNo: Code[20]; TransactionNo: Integer; PostingDate: Date)
+    begin
+        CopyLoadNoToGLEntry(IsCustomer, LoadNo, Amount, SourceNo, TransactionNo, PostingDate, false);
+    end;
+
+
+    local procedure CopyLoadNoToGLEntry(IsCustomer: Boolean; LoadNo: Code[20]; Amount: Decimal; SourceNo: Code[20]; TransactionNo: Integer; PostingDate: Date; Unapply: Boolean)
     var
-        GLEntry: Record "G/L Entry";
+        GLEntry, GLEntry2 : Record "G/L Entry";
         RecRef: RecordRef;
+        EntryNoDict: Dictionary of [Integer, List of [Integer]];
     begin
         RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+        if Unapply then
+            RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '')
+        else
+            RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
         RecRef.SetLoadFields(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Amount"), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
         RecRef.SetTable(GLEntry);
         RecRef.Close();
 
         GLEntry.SetRange("Transaction No.", TransactionNo);
         GLEntry.SetRange("Posting Date", PostingDate);
-        GLEntry.SetFilter(Amount, '%1|%2', Amount, -Amount);
         GLEntry.SetRange("Source No.", SourceNo);
+        GLEntry.SetFilter(Amount, '%1|%2', Amount, -Amount);
         if IsCustomer then
             GLEntry.SetRange("Source Type", GLEntry."Source Type"::Customer)
         else
             GLEntry.SetRange("Source Type", GLEntry."Source Type"::Vendor);
+        if Unapply then begin
+            GLEntry2.CopyFilters(GLEntry);
+            GLEntry2.SetRange(Amount);
+            RecRef.GetTable(GLEntry2);
+            RecRef.SetLoadFields(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
+            RecRef.SetTable(GLEntry2);
+            GLEntry.AddLoadFields("Document No.");
+        end;
         if GLEntry.FindSet() then
             repeat
                 RecRef.GetTable(GLEntry);
                 RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                 RecRef.Modify(false);
                 RecRef.Close();
+                if Unapply then
+                    CopyLoadNoToRelatedUnappliedGLEntries(EntryNoDict, GLEntry, GLEntry2, LoadNo);
             until GLEntry.Next() = 0;
 
         GLEntry.SetRange("Source No.");
@@ -434,13 +454,54 @@ codeunit 80200 "BA Subscribers"
         else
             GLEntry.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::Vendor);
         GLEntry.SetRange("Bal. Account No.", SourceNo);
+        if Unapply then begin
+            GLEntry2.Reset();
+            GLEntry2.CopyFilters(GLEntry);
+            GLEntry2.SetRange(Amount);
+            RecRef.GetTable(GLEntry2);
+            RecRef.SetLoadFields(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
+            RecRef.SetTable(GLEntry2);
+        end;
         if GLEntry.FindSet() then
             repeat
                 RecRef.GetTable(GLEntry);
                 RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
                 RecRef.Modify(false);
                 RecRef.Close();
+                if Unapply then
+                    CopyLoadNoToRelatedUnappliedGLEntries(EntryNoDict, GLEntry, GLEntry2, LoadNo);
             until GLEntry.Next() = 0;
+    end;
+
+
+    local procedure CopyLoadNoToRelatedUnappliedGLEntries(var EntryNoDict: Dictionary of [Integer, List of [Integer]]; var GLEntry: Record "G/L Entry"; var GLEntry2: Record "G/L Entry"; LoadNo: Code[20])
+    var
+        RecRef: RecordRef;
+        EntryNos: List of [Integer];
+        EntryNoFilter: Text;
+        EntryNo: Integer;
+    begin
+        if not EntryNoDict.ContainsKey(GLEntry."Transaction No.") then begin
+            Clear(EntryNos);
+            EntryNos.Add(GLEntry."Entry No.");
+            EntryNoDict.Add(GLEntry."Transaction No.", EntryNos);
+        end else
+            EntryNoDict.Get(GLEntry."Transaction No.").Add(GLEntry."Entry No.");
+        GLEntry2.SetFilter("Document No.", GLEntry."Document No.");
+        foreach EntryNo in EntryNoDict.Get(GLEntry."Transaction No.") do
+            if EntryNoFilter = '' then
+                EntryNoFilter := StrSubstNo('<>%1', EntryNo)
+            else
+                EntryNoFilter := StrSubstNo('%1&<>%2', EntryNoFilter, EntryNo);
+        GLEntry2.SetFilter("Entry No.", EntryNoFilter);
+        if GLEntry2.FindSet() then
+            repeat
+                RecRef.GetTable(GLEntry2);
+                RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
+                RecRef.Modify(false);
+                RecRef.Close();
+                EntryNoDict.Get(GLEntry."Transaction No.").Add(GLEntry2."Entry No.");
+            until GLEntry2.Next() = 0;
     end;
 
 
@@ -460,12 +521,44 @@ codeunit 80200 "BA Subscribers"
 
 
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"VendEntry-Apply Posted Entries", OnAfterPostUnapplyVendLedgEntry, '', true, true)]
+    local procedure VendEntryApplyPostedEntriesOnAfterPostUnapplyVendLedgEntry(var TempVendorLedgerEntry: Record "Vendor Ledger Entry" temporary)
+    var
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+    begin
+        if TempVendorLedgerEntry.FindSet() then
+            repeat
+                if VendorLedgerEntry.Get(TempVendorLedgerEntry."Entry No.") and (VendorLedgerEntry."Document Type" <> VendorLedgerEntry."Document Type"::Invoice) then begin
+                    PopulateEntryLoadNos.SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, '');
+                    VendorLedgerEntry.Modify(false);
+                    VendorLedgerEntry.CalcFields(Amount);
+                    CopyLoadNoToGLEntry(false, '', VendorLedgerEntry.Amount, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date", true);
+                end;
+            until TempVendorLedgerEntry.Next() = 0;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"CustEntry-Apply Posted Entries", OnAfterPostUnapplyCustLedgEntry, '', true, true)]
+    local procedure CustEntryApplyPostedEntriesOnAfterPostUnapplyCustLedgEntry(var TempCustLedgerEntry: Record "Cust. Ledger Entry" temporary)
+    var
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+    begin
+        TempCustLedgerEntry.SetFilter("Document Type", '<>%1', CustLedgerEntry."Document Type"::Invoice);
+        if TempCustLedgerEntry.FindSet() then
+            repeat
+                if CustLedgerEntry.Get(TempCustLedgerEntry."Entry No.") and (CustLedgerEntry."Document Type" <> CustLedgerEntry."Document Type"::Invoice) then begin
+                    PopulateEntryLoadNos.SetCustLedgerEntryLoadNoValue(CustLedgerEntry, '');
+                    CustLedgerEntry.Modify(false);
+                    CustLedgerEntry.CalcFields(Amount);
+                    CopyLoadNoToGLEntry(true, '', CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date", true);
+                end;
+            until TempCustLedgerEntry.Next() = 0;
+    end;
 
 
 
 
-
-
+    // var
+    //     p1: page 233;
 
 
 

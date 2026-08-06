@@ -14,8 +14,8 @@ codeunit 80203 "BA Install"
     var
         EnvInfo: Codeunit "Environment Information";
     begin
-        if not EnvInfo.IsProduction() then
-            exit;
+        // if not EnvInfo.IsProduction() then
+        //     exit;
         if CompanyName() <> 'Texas Transportation Group' then
             exit;
 
@@ -24,6 +24,8 @@ codeunit 80203 "BA Install"
         // ClearMultiLoadNos()
         // FixMultiLoadNos();
         // PopulateManualMultiLoadNos();
+
+        PopulateManualEntries();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -148,5 +150,20 @@ codeunit 80203 "BA Install"
                 GLEntry.Modify(false);
             end;
         end;
+    end;
+
+
+    local procedure PopulateManualEntries()
+    var
+        GLEntry: Record "G/L Entry";
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+    begin
+        GLEntry.SetFilter("Entry No.", '%1|%2', 96, 145);
+        GLEntry.ModifyAll("G/L Account No.", '199000');
+        GLEntry.SetFilter("Entry No.", '%1|%2', 30, 143);
+        GLEntry.ModifyAll("G/L Account No.", '171005');
+
+        CustLedgerEntry.SetFilter("Entry No.", '%1..%2', 656839, 656848);
+        CustLedgerEntry.ModifyAll("Customer No.", 'C05940');
     end;
 }

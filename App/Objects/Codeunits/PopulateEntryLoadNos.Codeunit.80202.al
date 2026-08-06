@@ -111,6 +111,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
         Commit();
 
         PopulateAppliedVendorEntries();
+        PopulatePurchaseCreditMemoEntries();
         CopyVendorLoadNosToGLEntries();
         SetMultiLoadNos(false);
     end;
@@ -376,6 +377,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
         Commit();
 
         PopulateAppliedCustomerEntries();
+        PopulateSalesCreditMemoEntries();
         CopyCustomerLoadNosToGLEntries();
         SetMultiLoadNos(true);
     end;
@@ -827,7 +829,180 @@ codeunit 80202 "BA Populate Entry Load Nos."
         Commit();
     end;
 
-    //The length of the string is 29, but it must be less than or equal to 20 characters. Value: VCH120437,VCH120435,VCH120436
+
+
+
+    local procedure PopulateSalesCreditMemoEntries()
+    var
+        CustLedgerEntry, CustLedgerEntry2 : Record "Cust. Ledger Entry";
+        LoadNo: Code[20];
+    begin
+        SetCustLedgerEntryLoadNoFilter(CustLedgerEntry, '%1', '');
+        CustLedgerEntry.AddLoadFields("Document Type", Open);
+        CustLedgerEntry.SetFilter("Closed by Entry No.", '<>%1', 0);
+        CustLedgerEntry.SetRange("Document Type", CustLedgerEntry."Document Type"::"Credit Memo");
+        CustLedgerEntry.SetRange("Open", false);
+        if CustLedgerEntry.FindSet() then
+            repeat
+                CustLedgerEntry2.SetRange("Entry No.", CustLedgerEntry."Closed By Entry No.");
+                if CustLedgerEntry2.FindFirst() then begin
+                    LoadNo := GetCustLedgerEntryLoadNoValue(CustLedgerEntry2);
+                    if LoadNo = '' then begin
+                        LoadNo := CustLedgerEntry."Document No.";
+                        SetCustLedgerEntryLoadNoValue(CustLedgerEntry2, LoadNo);
+                        CustLedgerEntry2.Modify(false);
+                    end;
+                    SetCustLedgerEntryLoadNoValue(CustLedgerEntry, LoadNo);
+                    CustLedgerEntry.Modify(false);
+                end;
+            until CustLedgerEntry.Next() = 0;
+
+        CustLedgerEntry.SetFilter("Document No.", '<>%1', '');
+        CustLedgerEntry.SetRange("Closed by Entry No.", 0);
+        CustLedgerEntry.SetRange("Open", true);
+        if CustLedgerEntry.FindSet() then
+            repeat
+                SetCustLedgerEntryLoadNoValue(CustLedgerEntry, CustLedgerEntry."Document No.");
+                CustLedgerEntry.Modify(false);
+            until CustLedgerEntry.Next() = 0;
+    end;
+
+
+    procedure SetCustLedgerEntryLoadNoFilter(var CustLedgerEntry: Record "Cust. Ledger Entry"; Filter: Text; FilterValue: Text)
+    var
+        RecRef: RecordRef;
+    begin
+        RecRef.GetTable(CustLedgerEntry);
+        if not RecRef.FieldExist(CustomerLedgerEntryLoadNoFieldNo()) then
+            exit;
+        RecRef.SetLoadFields(CustomerLedgerEntryLoadNoFieldNo());
+        RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).SetFilter(Filter, FilterValue);
+        RecRef.SetTable(CustLedgerEntry);
+    end;
+
+    procedure SetCustLedgerEntryLoadNoValue(var CustLedgerEntry: Record "Cust. Ledger Entry"; LoadNo: Code[20])
+    var
+        RecRef: RecordRef;
+    begin
+        RecRef.GetTable(CustLedgerEntry);
+        if not RecRef.FieldExist(CustomerLedgerEntryLoadNoFieldNo()) then
+            exit;
+        RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value(LoadNo);
+        RecRef.SetTable(CustLedgerEntry);
+    end;
+
+    procedure GetCustLedgerEntryLoadNoValue(var CustLedgerEntry: Record "Cust. Ledger Entry"): Code[20]
+    var
+        RecRef: RecordRef;
+    begin
+        RecRef.GetTable(CustLedgerEntry);
+        if not RecRef.FieldExist(CustomerLedgerEntryLoadNoFieldNo()) then
+            exit('');
+        exit(RecRef.Field(CustomerLedgerEntryLoadNoFieldNo()).Value());
+    end;
+
+
+
+
+    local procedure PopulatePurchaseCreditMemoEntries()
+    var
+        VendorLedgerEntry, VendorLedgerEntry2 : Record "Vendor Ledger Entry";
+        PurchCrMemoLine: Record "Purch. Cr. Memo Line";
+        LoadNo: Code[20];
+    begin
+        SetVendorLedgerEntryLoadNoFilter(VendorLedgerEntry, '%1', '');
+        VendorLedgerEntry.AddLoadFields("Document Type", Open);
+        VendorLedgerEntry.SetRange("Document Type", VendorLedgerEntry."Document Type"::"Credit Memo");
+        VendorLedgerEntry.SetRange("Open", false);
+        if VendorLedgerEntry.FindSet() then
+            repeat
+                VendorLedgerEntry2.SetRange("Entry No.", VendorLedgerEntry."Closed By Entry No.");
+                if VendorLedgerEntry2.FindFirst() then begin
+                    LoadNo := GetVendorLedgerEntryLoadNoValue(VendorLedgerEntry2);
+                    if LoadNo = '' then begin
+                        LoadNo := VendorLedgerEntry."Document No.";
+                        SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry2, LoadNo);
+                        VendorLedgerEntry2.Modify(false);
+                    end;
+                    SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, LoadNo);
+                    VendorLedgerEntry.Modify(false);
+                end;
+            until VendorLedgerEntry.Next() = 0;
+
+        VendorLedgerEntry.SetFilter("Document No.", '<>%1', '');
+        VendorLedgerEntry.SetRange("Closed by Entry No.", 0);
+        VendorLedgerEntry.SetRange("Open", true);
+        if VendorLedgerEntry.FindSet() then
+            repeat
+                SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, VendorLedgerEntry."Document No.");
+                VendorLedgerEntry.Modify(false);
+            until VendorLedgerEntry.Next() = 0;
+
+        VendorLedgerEntry.SetRange("Open");
+        if not VendorLedgerEntry.FindSet() then
+            exit;
+        PurchCrMemoLine.SetRange(Type, PurchCrMemoLine.Type::" ");
+        PurchCrMemoLine.SetFilter("Description", StrSubstNo('*%1*', 'Invoice No.'));
+        repeat
+            PurchCrMemoLine.SetRange("Document No.", VendorLedgerEntry."Document No.");
+            if PurchCrMemoLine.FindFirst() then
+                LoadNo := GetInvoiceNoFromCommentLine(PurchCrMemoLine)
+            else
+                LoadNo := VendorLedgerEntry."Document No.";
+            SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, LoadNo);
+            VendorLedgerEntry.Modify(false);
+        until VendorLedgerEntry.Next() = 0;
+    end;
+
+    local procedure GetInvoiceNoFromCommentLine(var PurchCrMemoLine: Record "Purch. Cr. Memo Line"): Code[20]
+    begin
+        exit(CopyStr(PurchCrMemoLine.Description, StrPos(PurchCrMemoLine.Description, 'Invoice No.') + StrLen('Invoice No.')).Trim());
+    end;
+
+
+    procedure SetVendorLedgerEntryLoadNoFilter(var VendorLedgerEntry: Record "Vendor Ledger Entry"; Filter: Text; FilterValue: Text)
+    var
+        RecRef: RecordRef;
+    begin
+        RecRef.GetTable(VendorLedgerEntry);
+        if not RecRef.FieldExist(VendorLedgerEntryLoadNoFieldNo()) then
+            exit;
+        RecRef.SetLoadFields(VendorLedgerEntryLoadNoFieldNo());
+        RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).SetFilter(Filter, FilterValue);
+        RecRef.SetTable(VendorLedgerEntry);
+    end;
+
+    procedure SetVendorLedgerEntryLoadNoValue(var VendorLedgerEntry: Record "Vendor Ledger Entry"; LoadNo: Code[20])
+    var
+        RecRef: RecordRef;
+    begin
+        RecRef.GetTable(VendorLedgerEntry);
+        if not RecRef.FieldExist(VendorLedgerEntryLoadNoFieldNo()) then
+            exit;
+        RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value(LoadNo);
+        RecRef.SetTable(VendorLedgerEntry);
+    end;
+
+    procedure GetVendorLedgerEntryLoadNoValue(var VendorLedgerEntry: Record "Vendor Ledger Entry"): Code[20]
+    var
+        RecRef: RecordRef;
+    begin
+        RecRef.GetTable(VendorLedgerEntry);
+        if not RecRef.FieldExist(VendorLedgerEntryLoadNoFieldNo()) then
+            exit('');
+        exit(RecRef.Field(VendorLedgerEntryLoadNoFieldNo()).Value());
+    end;
+
+
+
+
+
+
+
+
+
+
+
 
 
     procedure VendorLedgerEntryLoadNoFieldNo(): Integer
