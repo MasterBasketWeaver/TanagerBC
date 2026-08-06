@@ -45,11 +45,12 @@ codeunit 80200 "BA Subscribers"
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", OnRunOnBeforeFinalizePosting, '', true, true)]
-    local procedure PurchPostOnRunOnBeforeFinalizePosting(var PurchInvHeader: Record "Purch. Inv. Header")
+    local procedure PurchPostOnRunOnBeforeFinalizePosting(var PurchInvHeader: Record "Purch. Inv. Header"; var PurchCrMemoHdr: Record "Purch. Cr. Memo Hdr.")
     var
         VendorLedgerEntry: Record "Vendor Ledger Entry";
         RecRef: RecordRef;
-        FldRef: FieldRef;
+        FldRef, FldRef2 : FieldRef;
+        LoadNo: Code[20];
     begin
         if (PurchInvHeader."No." <> '') and (PurchInvHeader."Pre-Assigned No." <> '') and VendorLedgerEntry.Get(PurchInvHeader."Vendor Ledger Entry No.") then begin
             RecRef.Open(Database::"G/L Entry");
@@ -76,6 +77,45 @@ codeunit 80200 "BA Subscribers"
                 end;
                 VendorLedgerEntry.CalcFields(Amount);
                 CopyLoadNoToGLEntry(false, PurchInvHeader."Pre-Assigned No.", VendorLedgerEntry.Amount, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date");
+            end;
+        end;
+        if (PurchCrMemoHdr."No." <> '') and VendorLedgerEntry.Get(PurchCrMemoHdr."Vendor Ledger Entry No.") and (PurchCrMemoHdr."Applies-to Doc. No." = '') then begin
+            RecRef.GetTable(PurchCrMemoHdr);
+            if not RecRef.FieldExist(PopulateEntryLoadNos.PurchaseCreditMemoLoadNoFieldNo()) then
+                exit;
+            FldRef2 := RecRef.Field(PopulateEntryLoadNos.PurchaseCreditMemoLoadNoFieldNo());
+            LoadNo := Format(FldRef2.Value());
+            if LoadNo = '' then
+                LoadNo := PurchCrMemoHdr."Pre-Assigned No.";
+            if (LoadNo = '') and (PurchCrMemoHdr."No. Series" <> '') then
+                LoadNo := NoSeries.PeekNextNo(PurchCrMemoHdr."No. Series", PurchCrMemoHdr."Posting Date");
+            if LoadNo = '' then
+                LoadNo := PurchCrMemoHdr."No.";
+            RecRef.Close();
+            RecRef.Open(Database::"G/L Entry");
+            if not RecRef.FieldExist(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()) then
+                exit;
+            RecRef.Close();
+            RecRef.GetTable(VendorLedgerEntry);
+            if not RecRef.FieldExist(PopulateEntryLoadNos.VendorLedgerEntryLoadNoFieldNo()) then
+                exit;
+            FldRef := RecRef.Field(PopulateEntryLoadNos.VendorLedgerEntryLoadNoFieldNo());
+            if Format(FldRef.Value()) <> LoadNo then begin
+                FldRef.Value(LoadNo);
+                RecRef.Modify(false);
+                RecRef.Close();
+            end;
+            VendorLedgerEntry.CalcFields(Amount);
+            CopyLoadNoToGLEntry(false, LoadNo, VendorLedgerEntry.Amount, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date");
+            if VendorLedgerEntry.Get(VendorLedgerEntry."Closed by Entry No.") then begin
+                RecRef.GetTable(VendorLedgerEntry);
+                FldRef := RecRef.Field(PopulateEntryLoadNos.VendorLedgerEntryLoadNoFieldNo());
+                if Format(FldRef.Value()) <> LoadNo then begin
+                    FldRef.Value(LoadNo);
+                    RecRef.Modify(false);
+                end;
+                VendorLedgerEntry.CalcFields(Amount);
+                CopyLoadNoToGLEntry(false, LoadNo, VendorLedgerEntry.Amount, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date");
             end;
         end;
     end;
@@ -110,11 +150,12 @@ codeunit 80200 "BA Subscribers"
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", OnRunOnBeforeFinalizePosting, '', true, true)]
-    local procedure SalesPostOnRunOnBeforeFinalizePosting(var SalesInvoiceHeader: Record "Sales Invoice Header")
+    local procedure SalesPostOnRunOnBeforeFinalizePosting(var SalesInvoiceHeader: Record "Sales Invoice Header"; var SalesCrMemoHeader: Record "Sales Cr.Memo Header")
     var
         CustLedgerEntry: Record "Cust. Ledger Entry";
         RecRef: RecordRef;
-        FldRef: FieldRef;
+        FldRef, FldRef2 : FieldRef;
+        LoadNo: Code[20];
     begin
         if (SalesInvoiceHeader."No." <> '') and (SalesInvoiceHeader."Pre-Assigned No." <> '') and CustLedgerEntry.Get(SalesInvoiceHeader."Cust. Ledger Entry No.") then begin
             RecRef.Open(Database::"G/L Entry");
@@ -141,6 +182,46 @@ codeunit 80200 "BA Subscribers"
                 end;
                 CustLedgerEntry.CalcFields(Amount);
                 CopyLoadNoToGLEntry(true, SalesInvoiceHeader."Pre-Assigned No.", CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
+            end;
+        end;
+
+        if (SalesCrMemoHeader."No." <> '') and CustLedgerEntry.Get(SalesCrMemoHeader."Cust. Ledger Entry No.") and (SalesCrMemoHeader."Applies-to Doc. No." = '') then begin
+            RecRef.GetTable(SalesCrMemoHeader);
+            if not RecRef.FieldExist(PopulateEntryLoadNos.SalesCreditMemoLoadNoFieldNo()) then
+                exit;
+            FldRef2 := RecRef.Field(PopulateEntryLoadNos.SalesCreditMemoLoadNoFieldNo());
+            LoadNo := Format(FldRef2.Value());
+            if LoadNo = '' then
+                LoadNo := SalesCrMemoHeader."Pre-Assigned No.";
+            if (LoadNo = '') and (SalesCrMemoHeader."No. Series" <> '') then
+                LoadNo := NoSeries.PeekNextNo(SalesCrMemoHeader."No. Series", SalesCrMemoHeader."Posting Date");
+            if LoadNo = '' then
+                LoadNo := SalesCrMemoHeader."No.";
+            RecRef.Close();
+            RecRef.Open(Database::"G/L Entry");
+            if not RecRef.FieldExist(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()) then
+                exit;
+            RecRef.Close();
+            RecRef.GetTable(CustLedgerEntry);
+            if not RecRef.FieldExist(PopulateEntryLoadNos.CustomerLedgerEntryLoadNoFieldNo()) then
+                exit;
+            FldRef := RecRef.Field(PopulateEntryLoadNos.CustomerLedgerEntryLoadNoFieldNo());
+            if Format(FldRef.Value()) <> LoadNo then begin
+                FldRef.Value(LoadNo);
+                RecRef.Modify(false);
+                RecRef.Close();
+            end;
+            CustLedgerEntry.CalcFields(Amount);
+            CopyLoadNoToGLEntry(true, LoadNo, CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
+            if CustLedgerEntry.Get(CustLedgerEntry."Closed by Entry No.") then begin
+                RecRef.GetTable(CustLedgerEntry);
+                FldRef := RecRef.Field(PopulateEntryLoadNos.CustomerLedgerEntryLoadNoFieldNo());
+                if Format(FldRef.Value()) <> LoadNo then begin
+                    FldRef.Value(LoadNo);
+                    RecRef.Modify(false);
+                end;
+                CustLedgerEntry.CalcFields(Amount);
+                CopyLoadNoToGLEntry(true, LoadNo, CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
             end;
         end;
     end;
@@ -485,6 +566,7 @@ codeunit 80200 "BA Subscribers"
 
 
     var
+        NoSeries: Codeunit "No. Series";
         SingleInstance: Codeunit "BA Single Instance";
         PopulateEntryLoadNos: Codeunit "BA Populate Entry Load Nos.";
 }
