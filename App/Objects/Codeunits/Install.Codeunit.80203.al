@@ -25,7 +25,7 @@ codeunit 80203 "BA Install"
         // FixMultiLoadNos();
         // PopulateManualMultiLoadNos();
 
-        // PopulateManualEntries();
+        PopulateManualEntries();
     end;
 
     local procedure PopulateCustomerEntries()
