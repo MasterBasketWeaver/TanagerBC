@@ -713,7 +713,6 @@ codeunit 80200 "BA Subscribers"
         GLEntry.SetRange("Transaction No.", TransactionNo);
         GLEntry.SetRange("Posting Date", PostingDate);
         GLEntry.SetRange("Document No.", DocumentNo);
-
         if IsCustomer then
             GLEntry.SetRange("Source Type", GLEntry."Source Type"::Customer)
         else
@@ -765,21 +764,22 @@ codeunit 80200 "BA Subscribers"
             exit(false);
 
         RecRef.Open(Database::"G/L Entry");
-        FieldsExist := RecRef.FieldExist(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo());
-        RecRef.Close();
-        exit(FieldsExist);
+        exit(RecRef.FieldExist(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()));
     end;
 
 
-    local procedure JoinLoadNos(var LoadNos: List of [Code[20]]) MultiLoadNo: Text
+    local procedure JoinLoadNos(var LoadNos: List of [Code[20]]): Text
     var
+        MultiLoadNo: Text;
         LoadNo: Code[20];
     begin
+        if LoadNos.Count() = 0 then
+            exit('');
+        LoadNo := LoadNos.Get(1);
+        LoadNos.RemoveAt(1);
         foreach LoadNo in LoadNos do
-            if MultiLoadNo = '' then
-                MultiLoadNo := LoadNo
-            else
-                MultiLoadNo := StrSubstNo('%1,%2', MultiLoadNo, LoadNo);
+            MultiLoadNo := StrSubstNo('%1,%2', MultiLoadNo, LoadNo);
+        exit(MultiLoadNo);
     end;
 
 
@@ -809,7 +809,7 @@ codeunit 80200 "BA Subscribers"
 
     local procedure SetMultiLoadNoOnGLEntries(var GLEntry: Record "G/L Entry"; MultiLoadNo: Text)
     var
-        NewMultiLoadNo: Code[2048];
+        NewMultiLoadNo: Text;
     begin
         NewMultiLoadNo := CopyStr(MultiLoadNo, 1, MaxStrLen(GLEntry."BA Multi-Load No."));
         if not GLEntry.FindSet() then
@@ -822,11 +822,6 @@ codeunit 80200 "BA Subscribers"
         until GLEntry.Next() = 0;
     end;
 
-
-
-
-    // var
-    //     p1: page 233;
 
 
 
