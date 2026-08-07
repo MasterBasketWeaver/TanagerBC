@@ -487,7 +487,7 @@ codeunit 80200 "BA Subscribers"
             EntryNoDict.Add(GLEntry."Transaction No.", EntryNos);
         end else
             EntryNoDict.Get(GLEntry."Transaction No.").Add(GLEntry."Entry No.");
-        GLEntry2.SetFilter("Document No.", GLEntry."Document No.");
+        GLEntry2.SetRange("Document No.", GLEntry."Document No.");
         foreach EntryNo in EntryNoDict.Get(GLEntry."Transaction No.") do
             if EntryNoFilter = '' then
                 EntryNoFilter := StrSubstNo('<>%1', EntryNo)
@@ -552,6 +552,274 @@ codeunit 80200 "BA Subscribers"
                     CopyLoadNoToGLEntry(true, '', CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date", true);
                 end;
             until TempCustLedgerEntry.Next() = 0;
+    end;
+
+
+
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"VendEntry-Apply Posted Entries", OnAfterPostApplyVendLedgEntry, '', true, true)]
+    local procedure VendEntryApplyPostedEntriesOnAfterPostApplyVendLedgEntry(VendorLedgerEntry: Record "Vendor Ledger Entry")
+    begin
+        UpdateLoadNosForAppliedVendorEntries(VendorLedgerEntry."Entry No.");
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"CustEntry-Apply Posted Entries", OnAfterPostApplyCustLedgEntry, '', true, true)]
+    local procedure CustEntryApplyPostedEntriesOnAfterPostApplyCustLedgEntry(CustLedgerEntry: Record "Cust. Ledger Entry")
+    begin
+        UpdateLoadNosForAppliedCustomerEntries(CustLedgerEntry."Entry No.");
+    end;
+
+
+    local procedure UpdateLoadNosForAppliedVendorEntries(AppliedEntryNo: Integer)
+    var
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        TempVendorLedgerEntry: Record "Vendor Ledger Entry" temporary;
+        VendEntryApplyPostedEntries: Codeunit "VendEntry-Apply Posted Entries";
+        EntryNos: List of [Integer];
+        LoadNos: List of [Code[20]];
+        LoadNo: Code[20];
+        MultiLoadNo: Text;
+        EntryNo: Integer;
+    begin
+        if not LoadNoFieldsExist(false) then
+            exit;
+        if not VendorLedgerEntry.Get(AppliedEntryNo) then
+            exit;
+
+        EntryNos.Add(AppliedEntryNo);
+        VendEntryApplyPostedEntries.GetAppliedVendLedgerEntries(TempVendorLedgerEntry, AppliedEntryNo);
+        if TempVendorLedgerEntry.FindSet() then
+            repeat
+                if not EntryNos.Contains(TempVendorLedgerEntry."Entry No.") then
+                    EntryNos.Add(TempVendorLedgerEntry."Entry No.");
+            until TempVendorLedgerEntry.Next() = 0;
+
+        foreach EntryNo in EntryNos do
+            if VendorLedgerEntry.Get(EntryNo) then begin
+                LoadNo := PopulateEntryLoadNos.GetVendorLedgerEntryLoadNoValue(VendorLedgerEntry);
+                if (LoadNo <> '') and not LoadNos.Contains(LoadNo) then
+                    LoadNos.Add(LoadNo);
+            end;
+        if LoadNos.Count() = 0 then
+            exit;
+
+        if LoadNos.Count() = 1 then begin
+            LoadNo := LoadNos.Get(1);
+            foreach EntryNo in EntryNos do
+                if VendorLedgerEntry.Get(EntryNo) then begin
+                    if PopulateEntryLoadNos.GetVendorLedgerEntryLoadNoValue(VendorLedgerEntry) <> LoadNo then begin
+                        PopulateEntryLoadNos.SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, LoadNo);
+                        VendorLedgerEntry.Modify(false);
+                    end;
+                    VendorLedgerEntry.CalcFields(Amount);
+                    CopyLoadNoToGLEntry(false, LoadNo, VendorLedgerEntry.Amount, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date");
+                    SpreadLoadNoToDocumentGLEntries(false, LoadNo, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Document No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date");
+                    UpdateMultiLoadNoOnGLEntries(false, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date", '');
+                end;
+            exit;
+        end;
+
+        MultiLoadNo := JoinLoadNos(LoadNos);
+        foreach EntryNo in EntryNos do
+            if VendorLedgerEntry.Get(EntryNo) then begin
+                LoadNo := PopulateEntryLoadNos.GetVendorLedgerEntryLoadNoValue(VendorLedgerEntry);
+                VendorLedgerEntry.CalcFields(Amount);
+                if LoadNo <> '' then begin
+                    CopyLoadNoToGLEntry(false, LoadNo, VendorLedgerEntry.Amount, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date");
+                    SpreadLoadNoToDocumentGLEntries(false, LoadNo, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Document No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date");
+                end else
+                    UpdateMultiLoadNoOnGLEntries(false, VendorLedgerEntry."Vendor No.", VendorLedgerEntry."Transaction No.", VendorLedgerEntry."Posting Date", MultiLoadNo);
+            end;
+    end;
+
+
+    local procedure UpdateLoadNosForAppliedCustomerEntries(AppliedEntryNo: Integer)
+    var
+        CustLedgerEntry: Record "Cust. Ledger Entry";
+        TempCustLedgerEntry: Record "Cust. Ledger Entry" temporary;
+        CustEntryApplyPostedEntries: Codeunit "CustEntry-Apply Posted Entries";
+        EntryNos: List of [Integer];
+        LoadNos: List of [Code[20]];
+        LoadNo: Code[20];
+        MultiLoadNo: Text;
+        EntryNo: Integer;
+    begin
+        if not LoadNoFieldsExist(true) then
+            exit;
+        if not CustLedgerEntry.Get(AppliedEntryNo) then
+            exit;
+
+        EntryNos.Add(AppliedEntryNo);
+        CustEntryApplyPostedEntries.GetAppliedCustLedgerEntries(TempCustLedgerEntry, AppliedEntryNo);
+        if TempCustLedgerEntry.FindSet() then
+            repeat
+                if not EntryNos.Contains(TempCustLedgerEntry."Entry No.") then
+                    EntryNos.Add(TempCustLedgerEntry."Entry No.");
+            until TempCustLedgerEntry.Next() = 0;
+
+        foreach EntryNo in EntryNos do
+            if CustLedgerEntry.Get(EntryNo) then begin
+                LoadNo := PopulateEntryLoadNos.GetCustLedgerEntryLoadNoValue(CustLedgerEntry);
+                if (LoadNo <> '') and not LoadNos.Contains(LoadNo) then
+                    LoadNos.Add(LoadNo);
+            end;
+        if LoadNos.Count() = 0 then
+            exit;
+
+        if LoadNos.Count() = 1 then begin
+            LoadNo := LoadNos.Get(1);
+            foreach EntryNo in EntryNos do
+                if CustLedgerEntry.Get(EntryNo) then begin
+                    if PopulateEntryLoadNos.GetCustLedgerEntryLoadNoValue(CustLedgerEntry) <> LoadNo then begin
+                        PopulateEntryLoadNos.SetCustLedgerEntryLoadNoValue(CustLedgerEntry, LoadNo);
+                        CustLedgerEntry.Modify(false);
+                    end;
+                    CustLedgerEntry.CalcFields(Amount);
+                    CopyLoadNoToGLEntry(true, LoadNo, CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
+                    SpreadLoadNoToDocumentGLEntries(true, LoadNo, CustLedgerEntry."Customer No.", CustLedgerEntry."Document No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
+                    UpdateMultiLoadNoOnGLEntries(true, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date", '');
+                end;
+            exit;
+        end;
+
+        MultiLoadNo := JoinLoadNos(LoadNos);
+        foreach EntryNo in EntryNos do
+            if CustLedgerEntry.Get(EntryNo) then begin
+                LoadNo := PopulateEntryLoadNos.GetCustLedgerEntryLoadNoValue(CustLedgerEntry);
+                CustLedgerEntry.CalcFields(Amount);
+                if LoadNo <> '' then begin
+                    CopyLoadNoToGLEntry(true, LoadNo, CustLedgerEntry.Amount, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
+                    SpreadLoadNoToDocumentGLEntries(true, LoadNo, CustLedgerEntry."Customer No.", CustLedgerEntry."Document No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date");
+                end else
+                    UpdateMultiLoadNoOnGLEntries(true, CustLedgerEntry."Customer No.", CustLedgerEntry."Transaction No.", CustLedgerEntry."Posting Date", MultiLoadNo);
+            end;
+    end;
+
+
+    local procedure SpreadLoadNoToDocumentGLEntries(IsCustomer: Boolean; LoadNo: Code[20]; SourceNo: Code[20]; DocumentNo: Code[20]; TransactionNo: Integer; PostingDate: Date)
+    var
+        GLEntry: Record "G/L Entry";
+        RecRef: RecordRef;
+    begin
+        // Unapplying clears the Load No. on every G/L entry of the document, not just the
+        // receivables/payables line, so applying has to put it back on all of them.
+        RecRef.Open(Database::"G/L Entry");
+        RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
+        RecRef.SetLoadFields(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Transaction No."),
+            GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Source No."), GLEntry.FieldNo("Source Type"), GLEntry.FieldNo("Posting Date"));
+        RecRef.SetTable(GLEntry);
+        RecRef.Close();
+
+        GLEntry.SetRange("Transaction No.", TransactionNo);
+        GLEntry.SetRange("Posting Date", PostingDate);
+        GLEntry.SetRange("Document No.", DocumentNo);
+
+        if IsCustomer then
+            GLEntry.SetRange("Source Type", GLEntry."Source Type"::Customer)
+        else
+            GLEntry.SetRange("Source Type", GLEntry."Source Type"::Vendor);
+        GLEntry.SetRange("Source No.", SourceNo);
+        WriteLoadNoToGLEntries(GLEntry, LoadNo);
+
+        GLEntry.SetRange("Source Type");
+        GLEntry.SetRange("Source No.");
+        if IsCustomer then
+            GLEntry.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::Customer)
+        else
+            GLEntry.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::Vendor);
+        GLEntry.SetRange("Bal. Account No.", SourceNo);
+        WriteLoadNoToGLEntries(GLEntry, LoadNo);
+    end;
+
+
+    local procedure WriteLoadNoToGLEntries(var GLEntry: Record "G/L Entry"; LoadNo: Code[20])
+    var
+        RecRef: RecordRef;
+    begin
+        if not GLEntry.FindSet() then
+            exit;
+        repeat
+            RecRef.GetTable(GLEntry);
+            RecRef.Field(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
+            RecRef.Modify(false);
+            RecRef.Close();
+        until GLEntry.Next() = 0;
+    end;
+
+
+    local procedure LoadNoFieldsExist(IsCustomer: Boolean): Boolean
+    var
+        RecRef: RecordRef;
+        FieldsExist: Boolean;
+    begin
+        if IsCustomer then
+            RecRef.Open(Database::"Cust. Ledger Entry")
+        else
+            RecRef.Open(Database::"Vendor Ledger Entry");
+        if IsCustomer then
+            FieldsExist := RecRef.FieldExist(PopulateEntryLoadNos.CustomerLedgerEntryLoadNoFieldNo())
+        else
+            FieldsExist := RecRef.FieldExist(PopulateEntryLoadNos.VendorLedgerEntryLoadNoFieldNo());
+        RecRef.Close();
+        if not FieldsExist then
+            exit(false);
+
+        RecRef.Open(Database::"G/L Entry");
+        FieldsExist := RecRef.FieldExist(PopulateEntryLoadNos.GeneralLedgerEntryLoadNoFieldNo());
+        RecRef.Close();
+        exit(FieldsExist);
+    end;
+
+
+    local procedure JoinLoadNos(var LoadNos: List of [Code[20]]) MultiLoadNo: Text
+    var
+        LoadNo: Code[20];
+    begin
+        foreach LoadNo in LoadNos do
+            if MultiLoadNo = '' then
+                MultiLoadNo := LoadNo
+            else
+                MultiLoadNo := StrSubstNo('%1,%2', MultiLoadNo, LoadNo);
+    end;
+
+
+    local procedure UpdateMultiLoadNoOnGLEntries(IsCustomer: Boolean; SourceNo: Code[20]; TransactionNo: Integer; PostingDate: Date; MultiLoadNo: Text)
+    var
+        GLEntry: Record "G/L Entry";
+    begin
+        GLEntry.SetRange("Transaction No.", TransactionNo);
+        GLEntry.SetRange("Posting Date", PostingDate);
+        if IsCustomer then
+            GLEntry.SetRange("Source Type", GLEntry."Source Type"::Customer)
+        else
+            GLEntry.SetRange("Source Type", GLEntry."Source Type"::Vendor);
+        GLEntry.SetRange("Source No.", SourceNo);
+        SetMultiLoadNoOnGLEntries(GLEntry, MultiLoadNo);
+
+        GLEntry.SetRange("Source Type");
+        GLEntry.SetRange("Source No.");
+        if IsCustomer then
+            GLEntry.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::Customer)
+        else
+            GLEntry.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::Vendor);
+        GLEntry.SetRange("Bal. Account No.", SourceNo);
+        SetMultiLoadNoOnGLEntries(GLEntry, MultiLoadNo);
+    end;
+
+
+    local procedure SetMultiLoadNoOnGLEntries(var GLEntry: Record "G/L Entry"; MultiLoadNo: Text)
+    var
+        NewMultiLoadNo: Code[2048];
+    begin
+        NewMultiLoadNo := CopyStr(MultiLoadNo, 1, MaxStrLen(GLEntry."BA Multi-Load No."));
+        if not GLEntry.FindSet() then
+            exit;
+        repeat
+            if GLEntry."BA Multi-Load No." <> NewMultiLoadNo then begin
+                GLEntry."BA Multi-Load No." := NewMultiLoadNo;
+                GLEntry.Modify(false);
+            end;
+        until GLEntry.Next() = 0;
     end;
 
 
