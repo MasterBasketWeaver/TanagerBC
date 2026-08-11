@@ -25,7 +25,7 @@ codeunit 80203 "BA Install"
         // FixMultiLoadNos();
         // PopulateManualMultiLoadNos();
 
-        // PopulateManualEntries();
+        PopulateManualEntries();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -158,12 +158,15 @@ codeunit 80203 "BA Install"
         GLEntry: Record "G/L Entry";
         CustLedgerEntry: Record "Cust. Ledger Entry";
     begin
-        GLEntry.SetFilter("Entry No.", '%1|%2', 96, 145);
-        GLEntry.ModifyAll("G/L Account No.", '199000');
-        GLEntry.SetFilter("Entry No.", '%1|%2', 30, 143);
-        GLEntry.ModifyAll("G/L Account No.", '171005');
+        // GLEntry.SetFilter("Entry No.", '%1|%2', 96, 145);
+        // GLEntry.ModifyAll("G/L Account No.", '199000');
+        // GLEntry.SetFilter("Entry No.", '%1|%2', 30, 143);
+        // GLEntry.ModifyAll("G/L Account No.", '171005');
 
-        CustLedgerEntry.SetFilter("Entry No.", '%1..%2', 656839, 656848);
-        CustLedgerEntry.ModifyAll("Customer No.", 'C05940');
+        // CustLedgerEntry.SetFilter("Entry No.", '%1..%2', 656839, 656848);
+        // CustLedgerEntry.ModifyAll("Customer No.", 'C05940');
+
+        GLEntry.SetFilter("Entry No.", '%1|%2', 6496, 6420);
+        GLEntry.ModifyAll("G/L Account No.", '224400');
     end;
 }
