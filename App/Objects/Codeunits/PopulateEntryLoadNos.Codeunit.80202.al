@@ -112,6 +112,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
 
         PopulateAppliedVendorEntries();
         PopulatePurchaseCreditMemoEntries();
+        PopulatePurchaseEntriesFromInvoiceCreditMemoEntries();
+        PopulatePurchaseEntriesFromNonDocumentEntries();
         CopyVendorLoadNosToGLEntries();
         SetMultiLoadNos(false);
     end;
@@ -378,6 +380,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
 
         PopulateAppliedCustomerEntries();
         PopulateSalesCreditMemoEntries();
+        PopulateSalesEntriesFromInvoiceCreditMemoEntries();
+        PopulateSalesEntriesFromNonDocumentEntries();
         CopyCustomerLoadNosToGLEntries();
         SetMultiLoadNos(true);
     end;
@@ -999,6 +1003,140 @@ codeunit 80202 "BA Populate Entry Load Nos."
 
 
 
+
+
+
+    local procedure PopulateSalesEntriesFromInvoiceCreditMemoEntries()
+    var
+        CustLedgerEntry, CustLedgerEntry2 : Record "Cust. Ledger Entry";
+        RecRef: RecordRef;
+        LoadNo: Code[20];
+    begin
+        CustLedgerEntry.SetLoadFields("Document Type");
+        RecRef.GetTable(CustLedgerEntry);
+        RecRef.AddLoadFields(CustomerLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(CustLedgerEntry);
+        CustLedgerEntry.SetFilter("Document Type", '%1|%2', CustLedgerEntry."Document Type"::Invoice, CustLedgerEntry."Document Type"::"Credit Memo");
+
+        CustLedgerEntry2.SetLoadFields("Closed By Entry No.");
+        RecRef.GetTable(CustLedgerEntry2);
+        RecRef.AddLoadFields(CustomerLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(CustLedgerEntry2);
+
+        if CustLedgerEntry.FindSet() then
+            repeat
+                CustLedgerEntry2.SetRange("Closed By Entry No.", CustLedgerEntry."Entry No.");
+                if CustLedgerEntry2.FindFirst() then begin
+                    LoadNo := GetCustLedgerEntryLoadNoValue(CustLedgerEntry);
+                    if LoadNo = '' then begin
+                        LoadNo := CustLedgerEntry."Document No.";
+                        SetCustLedgerEntryLoadNoValue(CustLedgerEntry, LoadNo);
+                        CustLedgerEntry.Modify(false);
+                    end;
+                    SetCustLedgerEntryLoadNoValue(CustLedgerEntry2, LoadNo);
+                    CustLedgerEntry2.Modify(false);
+                end;
+            until CustLedgerEntry.Next() = 0;
+    end;
+
+    local procedure PopulateSalesEntriesFromNonDocumentEntries()
+    var
+        CustLedgerEntry, CustLedgerEntry2 : Record "Cust. Ledger Entry";
+        RecRef: RecordRef;
+        LoadNo: Code[20];
+    begin
+        CustLedgerEntry.SetLoadFields("Document Type");
+        RecRef.GetTable(CustLedgerEntry);
+        RecRef.AddLoadFields(CustomerLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(CustLedgerEntry);
+        CustLedgerEntry.SetRange("Document Type", CustLedgerEntry."Document Type"::" ");
+
+        CustLedgerEntry2.SetLoadFields("Closed By Entry No.");
+        RecRef.GetTable(CustLedgerEntry2);
+        RecRef.AddLoadFields(CustomerLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(CustLedgerEntry2);
+
+        if CustLedgerEntry.FindSet() then
+            repeat
+                CustLedgerEntry2.SetRange("Closed By Entry No.", CustLedgerEntry."Entry No.");
+                if CustLedgerEntry2.FindFirst() then begin
+                    LoadNo := GetCustLedgerEntryLoadNoValue(CustLedgerEntry);
+                    if LoadNo = '' then begin
+                        LoadNo := CustLedgerEntry."Document No.";
+                        SetCustLedgerEntryLoadNoValue(CustLedgerEntry, LoadNo);
+                        CustLedgerEntry.Modify(false);
+                    end;
+                    SetCustLedgerEntryLoadNoValue(CustLedgerEntry2, LoadNo);
+                    CustLedgerEntry2.Modify(false);
+                end;
+            until CustLedgerEntry.Next() = 0;
+    end;
+
+    local procedure PopulatePurchaseEntriesFromInvoiceCreditMemoEntries()
+    var
+        VendorLedgerEntry, VendorLedgerEntry2 : Record "Vendor Ledger Entry";
+        RecRef: RecordRef;
+        LoadNo: Code[20];
+    begin
+        VendorLedgerEntry.SetLoadFields("Document Type");
+        RecRef.GetTable(VendorLedgerEntry);
+        RecRef.AddLoadFields(VendorLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(VendorLedgerEntry);
+        VendorLedgerEntry.SetFilter("Document Type", '%1|%2', VendorLedgerEntry."Document Type"::Invoice, VendorLedgerEntry."Document Type"::"Credit Memo");
+
+        VendorLedgerEntry2.SetLoadFields("Closed By Entry No.");
+        RecRef.GetTable(VendorLedgerEntry2);
+        RecRef.AddLoadFields(VendorLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(VendorLedgerEntry2);
+
+        if VendorLedgerEntry.FindSet() then
+            repeat
+                VendorLedgerEntry2.SetRange("Closed By Entry No.", VendorLedgerEntry."Entry No.");
+                if VendorLedgerEntry2.FindFirst() then begin
+                    LoadNo := GetVendorLedgerEntryLoadNoValue(VendorLedgerEntry);
+                    if LoadNo = '' then begin
+                        LoadNo := VendorLedgerEntry."Document No.";
+                        SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, LoadNo);
+                        VendorLedgerEntry.Modify(false);
+                    end;
+                    SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry2, LoadNo);
+                    VendorLedgerEntry2.Modify(false);
+                end;
+            until VendorLedgerEntry.Next() = 0;
+    end;
+
+    local procedure PopulatePurchaseEntriesFromNonDocumentEntries()
+    var
+        VendorLedgerEntry, VendorLedgerEntry2 : Record "Vendor Ledger Entry";
+        RecRef: RecordRef;
+        LoadNo: Code[20];
+    begin
+        VendorLedgerEntry.SetLoadFields("Document Type");
+        RecRef.GetTable(VendorLedgerEntry);
+        RecRef.AddLoadFields(VendorLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(VendorLedgerEntry);
+        VendorLedgerEntry.SetRange("Document Type", VendorLedgerEntry."Document Type"::" ");
+
+        VendorLedgerEntry2.SetLoadFields("Closed By Entry No.");
+        RecRef.GetTable(VendorLedgerEntry2);
+        RecRef.AddLoadFields(VendorLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(VendorLedgerEntry2);
+
+        if VendorLedgerEntry.FindSet() then
+            repeat
+                VendorLedgerEntry2.SetRange("Closed By Entry No.", VendorLedgerEntry."Entry No.");
+                if VendorLedgerEntry2.FindFirst() then begin
+                    LoadNo := GetVendorLedgerEntryLoadNoValue(VendorLedgerEntry);
+                    if LoadNo = '' then begin
+                        LoadNo := VendorLedgerEntry."Document No.";
+                        SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, LoadNo);
+                        VendorLedgerEntry.Modify(false);
+                    end;
+                    SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry2, LoadNo);
+                    VendorLedgerEntry2.Modify(false);
+                end;
+            until VendorLedgerEntry.Next() = 0;
+    end;
 
 
 
