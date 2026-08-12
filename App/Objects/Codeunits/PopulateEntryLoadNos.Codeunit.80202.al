@@ -663,94 +663,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
 
 
 
-    local procedure PopulateRelatedGLEntries()
-    var
-        GLEntry, GLEntry2 : Record "G/L Entry";
-        DictOfEntryNos: Dictionary of [Integer, List of [Integer]];
-        EntryNos: List of [Integer];
-        RecRef: RecordRef;
-        LoadNo: Code[20];
-        EntryNo: Integer;
-    begin
-        RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
-        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."));
-        RecRef.SetTable(GLEntry);
-        RecRef.Close();
 
-        RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
-        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."));
-        RecRef.SetTable(GLEntry2);
-        RecRef.Close();
-
-        if GLEntry.FindSet() then
-            repeat
-                GLEntry2.SetFilter("Entry No.", '<>%1', GLEntry."Entry No.");
-                GLEntry2.SetRange("Posting Date", GLEntry."Posting Date");
-                GLEntry2.SetRange("Document No.", GLEntry."Document No.");
-                if GLEntry2.FindSet() then begin
-                    Clear(EntryNos);
-                    repeat
-                        EntryNos.Add(GLEntry2."Entry No.");
-                    until GLEntry2.Next() = 0;
-                    DictOfEntryNos.Add(GLEntry."Entry No.", EntryNos);
-                end;
-            until GLEntry.Next() = 0;
-
-        foreach EntryNo in DictOfEntryNos.Keys() do begin
-            GLEntry.Get(EntryNo);
-            RecRef.GetTable(GLEntry);
-            LoadNo := RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value();
-            RecRef.Close();
-            foreach EntryNo in DictOfEntryNos.Get(GLEntry."Entry No.") do begin
-                GLEntry2.Get(EntryNo);
-                RecRef.GetTable(GLEntry2);
-                RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
-                RecRef.Modify(false);
-                RecRef.Close();
-            end;
-        end;
-    end;
-
-
-    local procedure PopulateMatchingGLEntries()
-    var
-        GLEntry, GLEntry2 : Record "G/L Entry";
-        RecRef: RecordRef;
-        LoadNo: Code[20];
-        EntryNo: Integer;
-    begin
-        RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetRange('');
-        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Amount"));
-        RecRef.SetTable(GLEntry);
-        RecRef.Close();
-
-        RecRef.Open(Database::"G/L Entry");
-        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).SetFilter('<>%1', '');
-        RecRef.SetLoadFields(GeneralLedgerEntryLoadNoFieldNo(), GLEntry.FieldNo("Entry No."), GLEntry.FieldNo("Posting Date"), GLEntry.FieldNo("Document No."), GLEntry.FieldNo("Amount"));
-        RecRef.SetTable(GLEntry2);
-        RecRef.Close();
-
-        GLEntry.SetAutoCalcFields(Amount);
-        if GLEntry.FindSet() then
-            repeat
-                GLEntry2.SetFilter("Entry No.", '<>%1', GLEntry."Entry No.");
-                GLEntry2.SetRange("Posting Date", GLEntry."Posting Date");
-                GLEntry2.SetRange("Document No.", GLEntry."Document No.");
-                GLEntry2.SetRange(Amount, -GLEntry."Amount");
-                if GLEntry2.FindFirst() then begin
-                    RecRef.GetTable(GLEntry2);
-                    LoadNo := RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value();
-                    RecRef.Close();
-                    RecRef.GetTable(GLEntry);
-                    RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
-                    RecRef.Modify(false);
-                    RecRef.Close();
-                end;
-            until GLEntry.Next() = 0;
-    end;
 
 
     local procedure SetMultiLoadNos(IsCustomer: Boolean)
@@ -860,6 +773,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                     CustLedgerEntry.Modify(false);
                 end;
             until CustLedgerEntry.Next() = 0;
+        Commit();
 
         CustLedgerEntry.SetFilter("Document No.", '<>%1', '');
         CustLedgerEntry.SetRange("Closed by Entry No.", 0);
@@ -869,6 +783,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
                 SetCustLedgerEntryLoadNoValue(CustLedgerEntry, CustLedgerEntry."Document No.");
                 CustLedgerEntry.Modify(false);
             until CustLedgerEntry.Next() = 0;
+
+        Commit();
     end;
 
 
@@ -932,6 +848,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                     VendorLedgerEntry.Modify(false);
                 end;
             until VendorLedgerEntry.Next() = 0;
+        Commit();
 
         VendorLedgerEntry.SetFilter("Document No.", '<>%1', '');
         VendorLedgerEntry.SetRange("Closed by Entry No.", 0);
@@ -941,6 +858,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                 SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, VendorLedgerEntry."Document No.");
                 VendorLedgerEntry.Modify(false);
             until VendorLedgerEntry.Next() = 0;
+        Commit();
 
         VendorLedgerEntry.SetRange("Open");
         if not VendorLedgerEntry.FindSet() then
@@ -956,6 +874,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
             SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, LoadNo);
             VendorLedgerEntry.Modify(false);
         until VendorLedgerEntry.Next() = 0;
+        Commit();
     end;
 
     local procedure GetInvoiceNoFromCommentLine(var PurchCrMemoLine: Record "Purch. Cr. Memo Line"): Code[20]
@@ -1037,6 +956,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                     CustLedgerEntry2.Modify(false);
                 end;
             until CustLedgerEntry.Next() = 0;
+        Commit();
     end;
 
     local procedure PopulateSalesEntriesFromNonDocumentEntries()
@@ -1070,6 +990,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                     CustLedgerEntry2.Modify(false);
                 end;
             until CustLedgerEntry.Next() = 0;
+        Commit();
     end;
 
     local procedure PopulatePurchaseEntriesFromInvoiceCreditMemoEntries()
@@ -1103,6 +1024,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                     VendorLedgerEntry2.Modify(false);
                 end;
             until VendorLedgerEntry.Next() = 0;
+        Commit();
     end;
 
     local procedure PopulatePurchaseEntriesFromNonDocumentEntries()
@@ -1136,6 +1058,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
                     VendorLedgerEntry2.Modify(false);
                 end;
             until VendorLedgerEntry.Next() = 0;
+        Commit();
     end;
 
 
