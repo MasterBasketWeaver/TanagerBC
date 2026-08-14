@@ -11,8 +11,12 @@ codeunit 80202 "BA Populate Entry Load Nos."
         DisableAggregateTableUpdate: Codeunit "Disable Aggregate Table Update";
     begin
         DisableAggregateTableUpdate.SetDisableAllRecords(true);
-        PopulatePurchLoadNos();
-        PopulateSalesLoadNos();
+        // PopulatePurchLoadNos();
+        // PopulateSalesLoadNos();
+        PopulatePurchaseEntriesFromNonDocumentEntries();
+        CopyVendorLoadNosToGLEntries();
+        PopulateSalesEntriesFromNonDocumentEntries();
+        CopyCustomerLoadNosToGLEntries();
         DisableAggregateTableUpdate.SetDisableAllRecords(false);
     end;
 
