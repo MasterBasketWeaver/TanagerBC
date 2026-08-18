@@ -13,9 +13,9 @@ codeunit 80202 "BA Populate Entry Load Nos."
         DisableAggregateTableUpdate.SetDisableAllRecords(true);
         // PopulatePurchLoadNos();
         // PopulateSalesLoadNos();
-        PopulatePurchaseEntriesFromNonDocumentEntries();
+        PopulatePurchaseEntriesFromReversedEntries();
         CopyVendorLoadNosToGLEntries();
-        PopulateSalesEntriesFromNonDocumentEntries();
+        PopulateSalesEntriesFromReversedEntries();
         CopyCustomerLoadNosToGLEntries();
         DisableAggregateTableUpdate.SetDisableAllRecords(false);
     end;
@@ -112,6 +112,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
         PopulatePurchaseCreditMemoEntries();
         PopulatePurchaseEntriesFromInvoiceCreditMemoEntries();
         PopulatePurchaseEntriesFromNonDocumentEntries();
+        PopulatePurchaseEntriesFromReversedEntries();
         CopyVendorLoadNosToGLEntries();
         SetMultiLoadNos(false);
     end;
@@ -322,6 +323,7 @@ codeunit 80202 "BA Populate Entry Load Nos."
         PopulateSalesCreditMemoEntries();
         PopulateSalesEntriesFromInvoiceCreditMemoEntries();
         PopulateSalesEntriesFromNonDocumentEntries();
+        PopulateSalesEntriesFromReversedEntries();
         CopyCustomerLoadNosToGLEntries();
         SetMultiLoadNos(true);
     end;
@@ -916,6 +918,8 @@ codeunit 80202 "BA Populate Entry Load Nos."
         Commit();
     end;
 
+
+
     local procedure PopulatePurchaseEntriesFromNonDocumentEntries()
     var
         VendorLedgerEntry, VendorLedgerEntry2 : Record "Vendor Ledger Entry";
@@ -949,6 +953,89 @@ codeunit 80202 "BA Populate Entry Load Nos."
             until VendorLedgerEntry.Next() = 0;
         Commit();
     end;
+
+
+
+
+
+
+
+    local procedure PopulatePurchaseEntriesFromReversedEntries()
+    var
+        VendorLedgerEntry, VendorLedgerEntry2 : Record "Vendor Ledger Entry";
+        RecRef: RecordRef;
+        LoadNo, LoadNo2 : Code[20];
+    begin
+        VendorLedgerEntry.SetLoadFields("Reversed by Entry No.", "Document No.");
+        RecRef.GetTable(VendorLedgerEntry);
+        RecRef.AddLoadFields(VendorLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(VendorLedgerEntry);
+        VendorLedgerEntry.SetFilter("Reversed by Entry No.", '<>%1', 0);
+
+        VendorLedgerEntry2.SetLoadFields("Entry No.");
+        RecRef.GetTable(VendorLedgerEntry2);
+        RecRef.AddLoadFields(VendorLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(VendorLedgerEntry2);
+
+        if VendorLedgerEntry.FindSet() then
+            repeat
+                if VendorLedgerEntry2.Get(VendorLedgerEntry."Reversed by Entry No.") then begin
+                    LoadNo := GetVendorLedgerEntryLoadNoValue(VendorLedgerEntry);
+                    if LoadNo = '' then begin
+                        LoadNo := GetVendorLedgerEntryLoadNoValue(VendorLedgerEntry2);
+                        if LoadNo = '' then
+                            LoadNo := VendorLedgerEntry."Document No.";
+                        SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry, LoadNo);
+                        VendorLedgerEntry.Modify(false);
+                    end;
+                    SetVendorLedgerEntryLoadNoValue(VendorLedgerEntry2, LoadNo);
+                    VendorLedgerEntry2.Modify(false);
+                end;
+            until VendorLedgerEntry.Next() = 0;
+        Commit();
+    end;
+
+    local procedure PopulateSalesEntriesFromReversedEntries()
+    var
+        CustLedgerEntry, CustLedgerEntry2 : Record "Cust. Ledger Entry";
+        RecRef: RecordRef;
+        LoadNo, LoadNo2 : Code[20];
+    begin
+        CustLedgerEntry.SetLoadFields("Reversed by Entry No.", "Document No.");
+        RecRef.GetTable(CustLedgerEntry);
+        RecRef.AddLoadFields(CustomerLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(CustLedgerEntry);
+        CustLedgerEntry.SetFilter("Reversed by Entry No.", '<>%1', 0);
+
+        CustLedgerEntry2.SetLoadFields("Entry No.");
+        RecRef.GetTable(CustLedgerEntry2);
+        RecRef.AddLoadFields(CustomerLedgerEntryLoadNoFieldNo());
+        RecRef.SetTable(CustLedgerEntry2);
+
+        if CustLedgerEntry.FindSet() then
+            repeat
+                if CustLedgerEntry2.Get(CustLedgerEntry."Reversed by Entry No.") then begin
+                    LoadNo := GetCustLedgerEntryLoadNoValue(CustLedgerEntry);
+                    if LoadNo = '' then begin
+                        LoadNo := GetCustLedgerEntryLoadNoValue(CustLedgerEntry2);
+                        if LoadNo = '' then
+                            LoadNo := CustLedgerEntry."Document No.";
+                        SetCustLedgerEntryLoadNoValue(CustLedgerEntry, LoadNo);
+                        CustLedgerEntry.Modify(false);
+                    end;
+                    SetCustLedgerEntryLoadNoValue(CustLedgerEntry2, LoadNo);
+                    CustLedgerEntry2.Modify(false);
+                end;
+            until CustLedgerEntry.Next() = 0;
+        Commit();
+    end;
+
+
+
+
+
+
+
 
 
 
