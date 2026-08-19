@@ -157,6 +157,8 @@ codeunit 80203 "BA Install"
     var
         GLEntry: Record "G/L Entry";
         CustLedgerEntry: Record "Cust. Ledger Entry";
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        PopulateEntryLoadNo: Codeunit "BA Populate Entry Load Nos.";
     begin
         // GLEntry.SetFilter("Entry No.", '%1|%2', 96, 145);
         // GLEntry.ModifyAll("G/L Account No.", '199000');
@@ -166,7 +168,11 @@ codeunit 80203 "BA Install"
         // CustLedgerEntry.SetFilter("Entry No.", '%1..%2', 656839, 656848);
         // CustLedgerEntry.ModifyAll("Customer No.", 'C05940');
 
-        GLEntry.SetFilter("Entry No.", '%1|%2', 6496, 6420);
-        GLEntry.ModifyAll("G/L Account No.", '224400');
+        // GLEntry.SetFilter("Entry No.", '%1|%2', 6496, 6420);
+        // GLEntry.ModifyAll("G/L Account No.", '224400');
+
+        VendorLedgerEntry.Get(220977);
+        PopulateEntryLoadNo.SetVendorLedgerEntryLoadNoValue(vendorLedgerEntry, '1030474');
+        VendorLedgerEntry.Modify(false);
     end;
 }
