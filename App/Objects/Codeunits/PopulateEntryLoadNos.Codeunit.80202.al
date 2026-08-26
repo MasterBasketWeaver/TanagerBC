@@ -713,6 +713,27 @@ codeunit 80202 "BA Populate Entry Load Nos."
     end;
 
 
+    procedure GetGeneralLedgerEntryLoadNoValue(var GLEntry: Record "G/L Entry"): Code[20]
+    var
+        RecRef: RecordRef;
+    begin
+        RecRef.GetTable(GLEntry);
+        if not RecRef.FieldExist(GeneralLedgerEntryLoadNoFieldNo()) then
+            exit('');
+        exit(RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value());
+    end;
+
+    procedure SetGeneralLedgerEntryLoadNoValue(var GLEntry: Record "G/L Entry"; LoadNo: Code[20])
+    var
+        RecRef: RecordRef;
+    begin
+        RecRef.GetTable(GLEntry);
+        if not RecRef.FieldExist(GeneralLedgerEntryLoadNoFieldNo()) then
+            exit;
+        RecRef.Field(GeneralLedgerEntryLoadNoFieldNo()).Value(LoadNo);
+        RecRef.SetTable(GLEntry);
+    end;
+
 
 
     local procedure PopulatePurchaseCreditMemoEntries()

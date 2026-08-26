@@ -21,11 +21,11 @@ codeunit 80203 "BA Install"
 
         // PopulateCustomerEntries();
         // PopulateVendorEntries();
-        // ClearMultiLoadNos()
+        // ClearMultiLoadNos();
         // FixMultiLoadNos();
         // PopulateManualMultiLoadNos();
 
-        // PopulateManualEntries();
+        PopulateManualEntries();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -155,10 +155,16 @@ codeunit 80203 "BA Install"
 
     local procedure PopulateManualEntries()
     var
-        GLEntry: Record "G/L Entry";
+        GLEntry, GLEntry2 : Record "G/L Entry";
         CustLedgerEntry: Record "Cust. Ledger Entry";
         VendorLedgerEntry: Record "Vendor Ledger Entry";
         PopulateEntryLoadNo: Codeunit "BA Populate Entry Load Nos.";
+        // TempRec: Record "BA Temp";
+        Amount: Decimal;
+        MultiLoadNo, LoadNo : Text;
+        CustomerNos: List of [Code[20]];
+        CustomerNo: Code[20];
+        EntryNo: Integer;
     begin
         // GLEntry.SetFilter("Entry No.", '%1|%2', 96, 145);
         // GLEntry.ModifyAll("G/L Account No.", '199000');
@@ -171,8 +177,111 @@ codeunit 80203 "BA Install"
         // GLEntry.SetFilter("Entry No.", '%1|%2', 6496, 6420);
         // GLEntry.ModifyAll("G/L Account No.", '224400');
 
-        VendorLedgerEntry.Get(220977);
-        PopulateEntryLoadNo.SetVendorLedgerEntryLoadNoValue(vendorLedgerEntry, '1030474');
-        VendorLedgerEntry.Modify(false);
+        // VendorLedgerEntry.Get(220977);
+        // PopulateEntryLoadNo.SetVendorLedgerEntryLoadNoValue(vendorLedgerEntry, '1030474');
+        // VendorLedgerEntry.Modify(false);
+
+        // 2082302..2082324|2758813
+
+
+
+        if true then begin
+            GLEntry.SetFilter("Entry No.", '%1..%2', 2082302, 2082324);
+            if GLEntry.FindSet() then
+                repeat
+                    GLEntry."Bal. Account Type" := GLEntry."Bal. Account Type"::"Bank Account";
+                    GLEntry."Bal. Account No." := 'B020';
+                    LoadNo := PopulateEntryLoadNo.GetGeneralLedgerEntryLoadNoValue(GLEntry);
+                    if LoadNo <> '' then
+                        if MultiLoadNo = '' then
+                            MultiLoadNo := LoadNo
+                        else
+                            MultiLoadNo += ',' + LoadNo;
+                    GLEntry.Modify(false);
+                until GLEntry.Next() = 0;
+
+            GLEntry2.Get(2082325);
+            Amount := 36655.52;
+
+            GLEntry.Reset();
+            GLEntry.LockTable();
+            GLEntry.FindLast();
+            GLEntry2."Entry No." := GLEntry."Entry No." + 1;
+            GLEntry2."Bal. Account No." := 'C06310';
+            GLEntry2.Amount := Amount;
+            GLEntry2."Debit Amount" := Amount;
+            GLEntry2."Source Currency Amount" := Amount;
+            GLEntry2."BA Multi-Load No." := CopyStr(MultiLoadNo, 1, MaxStrLen(GLEntry2."BA Multi-Load No."));
+            GLEntry2.Insert(false);
+            // TempRec."Entry No." := GLEntry2."Entry No.";
+            // TempRec.Insert(false);
+        end;
+
+
+
+        GLEntry.Reset();
+        GLEntry.SetRange("Document No.", 'OTR 06.25.2026');
+        GLEntry.SetFilter("Entry No.", '<>%1&<>%2', 2105804, 2105958);
+        if GLEntry.FindSet() then
+            repeat
+                GLEntry."Bal. Account No." := 'B015';
+                GLEntry.Modify(false);
+                if GLEntry."Source Type" = GLEntry."Source Type"::Customer then
+                    if not CustomerNos.Contains(GLEntry."Source No.") then
+                        CustomerNos.Add(GLEntry."Source No.");
+            until GLEntry.Next() = 0;
+
+        GLEntry.Reset();
+        GLEntry.LockTable();
+        GLEntry.FindLast();
+        EntryNo := GLEntry."Entry No.";
+
+        // TempRec."Entry No." := EntryNo + 1;
+        // TempRec.Insert(false);
+
+        GLEntry.Reset();
+        GLEntry.SetRange("Document No.", 'OTR 06.25.2026');
+        GLEntry.SetFilter("Entry No.", '<>%1&<>%2', 2105804, 2105958);
+        GLEntry.SetRange("Source Type", GLEntry."Source Type"::Customer);
+        foreach CustomerNo in CustomerNos do begin
+            MultiLoadNo := '';
+            GLEntry.SetRange("Source No.", CustomerNo);
+            GLEntry.FindSet();
+            repeat
+                LoadNo := PopulateEntryLoadNo.GetGeneralLedgerEntryLoadNoValue(GLEntry);
+                if LoadNo <> '' then
+                    if MultiLoadNo = '' then
+                        MultiLoadNo := LoadNo
+                    else
+                        MultiLoadNo += ',' + LoadNo;
+            until GLEntry.Next() = 0;
+            GLEntry.CalcSums("Amount");
+            Amount := -GLEntry."Amount";
+            EntryNo += 1;
+            GLEntry2.Get(2105958);
+            GLEntry2."Document Type" := GLEntry."Document Type";
+            GlEntry2."Transaction No." := GLEntry."Transaction No.";
+            GLEntry2."Entry No." := EntryNo;
+            GLEntry2."Bal. Account No." := CustomerNo;
+            GLEntry2.Amount := Amount;
+            GLEntry2."Debit Amount" := Amount;
+            GLEntry2."Credit Amount" := 0;
+            GLEntry2."Source Currency Amount" := Amount;
+            if MultiLoadNo.Contains(',') then
+                GLEntry2."BA Multi-Load No." := CopyStr(MultiLoadNo, 1, MaxStrLen(GLEntry2."BA Multi-Load No."))
+            else
+                PopulateEntryLoadNo.SetGeneralLedgerEntryLoadNoValue(GLEntry2, CopyStr(MultiLoadNo, 1, 20));
+            GLentry2.SystemCreatedBy := GLEntry.SystemCreatedBy;
+            GLEntry2.SystemCreatedAt := GLEntry.SystemCreatedAt;
+            GLEntry2.SystemModifiedBy := GLEntry.SystemModifiedBy;
+            GLEntry2.SystemModifiedAt := GLEntry.SystemModifiedAt;
+            GLEntry2.Insert(false);
+        end;
+
+        // TempRec."Entry No." := EntryNo;
+        // TempRec.Insert(false);
     end;
+
+    var
+        PopulateEntryLoadNo: Codeunit "BA Populate Entry Load Nos.";
 }

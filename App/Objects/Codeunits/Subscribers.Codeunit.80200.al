@@ -828,6 +828,29 @@ codeunit 80200 "BA Subscribers"
 
 
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"G/L Reg.-Gen. Ledger", OnBeforeRun, '', true, true)]
+    local procedure GLRegGenLedgerOnBeforeRun(GLRegister: Record "G/L Register"; var IsHandled: Boolean)
+    var
+        GLEntry: Record "G/L Entry";
+    begin
+        exit;
+        case GLRegister."No." of
+            344120:
+                begin
+                    GLEntry.SetFilter("Entry No.", '%1..%2|%3', GLRegister."From Entry No.", GLRegister."To Entry No.", 3022288);
+                    PAGE.Run(PAGE::"General Ledger Entries", GLEntry);
+                    IsHandled := true;
+                end;
+            350395:
+                begin
+                    GLEntry.SetFilter("Entry No.", '%1..%2|%3..%4', GLRegister."From Entry No.", GLRegister."To Entry No.", 3022289, 3022314);
+                    PAGE.Run(PAGE::"General Ledger Entries", GLEntry);
+                    IsHandled := true;
+                end;
+        end;
+    end;
+
+
     var
         NoSeries: Codeunit "No. Series";
         SingleInstance: Codeunit "BA Single Instance";
