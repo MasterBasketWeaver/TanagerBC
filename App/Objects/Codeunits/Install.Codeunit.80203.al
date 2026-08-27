@@ -3,7 +3,8 @@ codeunit 80203 "BA Install"
     Subtype = Install;
     Permissions = tabledata "G/L Entry" = RIMD,
         tabledata "Cust. Ledger Entry" = RIMD,
-        tabledata "Vendor Ledger Entry" = RIMD;
+        tabledata "Vendor Ledger Entry" = RIMD,
+        tabledata "Bank Account Ledger Entry" = RIMD;
 
     trigger OnInstallAppPerCompany()
     begin
@@ -11,11 +12,7 @@ codeunit 80203 "BA Install"
     end;
 
     procedure InstallData()
-    var
-        EnvInfo: Codeunit "Environment Information";
     begin
-        // if not EnvInfo.IsProduction() then
-        //     exit;
         if CompanyName() <> 'Texas Transportation Group' then
             exit;
 
@@ -25,7 +22,11 @@ codeunit 80203 "BA Install"
         // FixMultiLoadNos();
         // PopulateManualMultiLoadNos();
 
-        PopulateManualEntries();
+        // PopulateManualEntries();
+
+        // DeleteBankAccountEntry();
+
+        // DeleteGLEntries();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -158,7 +159,6 @@ codeunit 80203 "BA Install"
         GLEntry, GLEntry2 : Record "G/L Entry";
         CustLedgerEntry: Record "Cust. Ledger Entry";
         VendorLedgerEntry: Record "Vendor Ledger Entry";
-        PopulateEntryLoadNo: Codeunit "BA Populate Entry Load Nos.";
         // TempRec: Record "BA Temp";
         Amount: Decimal;
         MultiLoadNo, LoadNo : Text;
@@ -280,6 +280,33 @@ codeunit 80203 "BA Install"
 
         // TempRec."Entry No." := EntryNo;
         // TempRec.Insert(false);
+    end;
+
+
+    local procedure DeleteBankAccountEntry()
+    var
+        GLEntry: Record "G/L Entry";
+        BankAccountEntry: Record "Bank Account Ledger Entry";
+    begin
+        if BankAccountEntry.Get(2646625) then
+            BankAccountEntry.Delete(false);
+        if GLEntry.Get(2646625) then
+            GLEntry.Delete(false);
+    end;
+
+    local procedure DeleteGLEntries()
+    var
+        GLEntry: Record "G/L Entry";
+        GLEntries: Page "General Ledger Entries";
+    begin
+        GLEntry.SetFilter("Entry No.", '%1|%2..%3', 3022360, 3022355, 3022359);
+        if GUIAllowed then begin
+            GLEntries.SetTableView(GLEntry);
+            GLEntries.LookupMode(true);
+            if GLEntries.RunModal() <> ACTION::LookupOK then
+                exit;
+        end;
+        GLEntry.DeleteAll(false);
     end;
 
     var
