@@ -29,7 +29,7 @@ codeunit 80203 "BA Install"
 
         // DeleteBankAccountEntry();
 
-        // DeleteGLEntries();
+        DeleteGLEntries();
 
         // UpdateEntityCode();
     end;
@@ -304,7 +304,8 @@ codeunit 80203 "BA Install"
         GLEntry: Record "G/L Entry";
         GLEntries: Page "General Ledger Entries";
     begin
-        GLEntry.SetFilter("Entry No.", '%1|%2..%3', 3022360, 3022355, 3022359);
+        // GLEntry.SetFilter("Entry No.", '%1|%2..%3', 3022360, 3022355, 3022359);
+        GLEntry.SetRange("Entry No.", 2554130);
         if GUIAllowed then begin
             GLEntries.SetTableView(GLEntry);
             GLEntries.LookupMode(true);
