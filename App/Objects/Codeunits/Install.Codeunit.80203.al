@@ -4,7 +4,10 @@ codeunit 80203 "BA Install"
     Permissions = tabledata "G/L Entry" = RIMD,
         tabledata "Cust. Ledger Entry" = RIMD,
         tabledata "Vendor Ledger Entry" = RIMD,
-        tabledata "Bank Account Ledger Entry" = RIMD;
+        tabledata "Detailed Vendor Ledg. Entry" = RIMD,
+        tabledata "Bank Account Ledger Entry" = RIMD,
+        tabledata "Purch. Inv. Header" = RIMD,
+        tabledata "Purch. Inv. Line" = RIMD;
 
     trigger OnInstallAppPerCompany()
     begin
@@ -27,6 +30,8 @@ codeunit 80203 "BA Install"
         // DeleteBankAccountEntry();
 
         // DeleteGLEntries();
+
+        // UpdateEntityCode();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -307,6 +312,41 @@ codeunit 80203 "BA Install"
                 exit;
         end;
         GLEntry.DeleteAll(false);
+    end;
+
+
+    local procedure UpdateEntityCode()
+    var
+        PurchInvHeader: Record "Purch. Inv. Header";
+        PurchInvLine: Record "Purch. Inv. Line";
+        GLEntry: Record "G/L Entry";
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        DetailedVendorLedgEntry: Record "Detailed Vendor Ledg. Entry";
+    begin
+        PurchInvHeader.Get('VCH115147');
+        PurchInvHeader."Shortcut Dimension 1 Code" := 'TTG';
+        PurchInvHeader."Dimension Set ID" := 2;
+        PurchInvHeader.Modify(false);
+        PurchInvLine.Get('VCH115147', 10000);
+        PurchInvLine."Shortcut Dimension 1 Code" := 'TTG';
+        PurchInvLine."Dimension Set ID" := 2;
+        PurchInvLine.Modify(false);
+
+        GLEntry.SetFilter("Entry No.", '%1..%2|%3', 1839877, 1839880, 1838882);
+        GLEntry.FindSet();
+        repeat
+            GLEntry."Global Dimension 1 Code" := 'TTG';
+            GLEntry."Dimension Set ID" := 2;
+            GLEntry.Modify(false);
+        until GLEntry.Next() = 0;
+
+        VendorLedgerEntry.SetRange("Entry No.", 1839878, 1839879);
+        VendorLedgerEntry.FindSet();
+        repeat
+            VendorLedgerEntry."Global Dimension 1 Code" := 'TTG';
+            VendorLedgerEntry."Dimension Set ID" := 2;
+            VendorLedgerEntry.Modify(false);
+        until VendorLedgerEntry.Next() = 0;
     end;
 
     var
