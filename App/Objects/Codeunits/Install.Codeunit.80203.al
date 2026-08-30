@@ -29,9 +29,11 @@ codeunit 80203 "BA Install"
 
         // DeleteBankAccountEntry();
 
-        DeleteGLEntries();
+        // DeleteGLEntries();
 
         // UpdateEntityCode();
+
+        // UpdateGLEntries();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -348,6 +350,103 @@ codeunit 80203 "BA Install"
             VendorLedgerEntry."Dimension Set ID" := 2;
             VendorLedgerEntry.Modify(false);
         until VendorLedgerEntry.Next() = 0;
+    end;
+
+    local procedure UpdateGLEntries()
+    var
+        GLEntry, GLEntry2 : Record "G/L Entry";
+        Amount: Decimal;
+    begin
+        // //0004187862
+        // GLEntry.Get(2568117);
+        // Amount := GLEntry."Amount" + 250;
+        // GLEntry.Amount := Amount;
+        // GLEntry."Debit Amount" := Amount;
+        // GLEntry."Source Currency Amount" := Amount;
+        // GLEntry."BA Multi-Load No." := GLEntry."BA Multi-Load No." + ',1209915';
+        // GLEntry.Modify(false);
+
+        // //PCM006654|VCH136132
+        // GLEntry.SetFilter("Entry No.", '%1|%2', 2646660, 2566571);
+        // GLEntry.DeleteAll(false);
+
+        // //VCH136055
+        // GLEntry.Get(2566033);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //VCH136083
+        // GLEntry.Get(2566130);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //VCH136087
+        // GLEntry.Get(2566147);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //VCH136099
+        // GLEntry.Get(2566195);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //VCH136123
+        // GLEntry.Get(2566427);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //VCH136137
+        // GLEntry.Get(2566599);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //VCH136148
+        // GLEntry.Get(2566655);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //VCH136163
+        // GLEntry.Get(2566782);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //VCH114840
+        // GLEntry.Get(1838882);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        // //4898
+        // GLEntry.Get(2497981);
+        // GLEntry."Global Dimension 1 Code" := 'TL';
+        // GLEntry."Dimension Set ID" := 1;
+        // GLEntry.Modify(false);
+
+        //PCM000465
+        GLEntry.Get(2554129);
+        GLEntry."Debit Amount" := 0;
+        GLEntry."Credit Amount" := 200;
+        PopulateEntryLoadNo.SetGeneralLedgerEntryLoadNoValue(GLEntry, 'VCH011018');
+        GLEntry.Modify(false);
+
+        GLEntry2.LockTable();
+        GLEntry2.FindLast();
+
+        GLEntry."Entry No." := GLEntry2."Entry No." + 1;
+        GLEntry.Amount := 200;
+        GLEntry."Debit Amount" := 200;
+        GLEntry."Credit Amount" := 0;
+        GLEntry."Source Currency Amount" := 200;
+        GLEntry.Validate("G/L Account No.", '520001');
+        GLEntry.Insert(false);
     end;
 
     var

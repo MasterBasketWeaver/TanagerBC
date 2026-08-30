@@ -20,13 +20,13 @@
         //     // "schemaUpdateMode": "ForceSync"
         // },
         {
-            //https://businesscentral.dynamics.com/0b8281e8-7af6-4870-bd74-03d5eed3e4a0/ATB_Sandbox_2026_08_25
-            "name": "ATB_Sandbox_2026_08_25",
+            //https://businesscentral.dynamics.com/0b8281e8-7af6-4870-bd74-03d5eed3e4a0/ATB_Sandbox_2026_08_27
+            "name": "ATB_Sandbox_2026_08_27",
             "request": "launch",
             "type": "al",
             "tenant": "0b8281e8-7af6-4870-bd74-03d5eed3e4a0",
             "environmentType": "Sandbox",
-            "environmentName": "ATB_Sandbox_2026_08_25",
+            "environmentName": "ATB_Sandbox_2026_08_27",
             "startupObjectId": 256,
             "startupObjectType": "Page",
             "startupCompany": "Texas Transportation Group",
