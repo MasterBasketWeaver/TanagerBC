@@ -33,7 +33,7 @@ codeunit 80203 "BA Install"
 
         // UpdateEntityCode();
 
-        // UpdateGLEntries();
+        UpdateGLEntries();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -430,22 +430,35 @@ codeunit 80203 "BA Install"
         // GLEntry."Dimension Set ID" := 1;
         // GLEntry.Modify(false);
 
-        //PCM000465
-        GLEntry.Get(2554129);
-        GLEntry."Debit Amount" := 0;
-        GLEntry."Credit Amount" := 200;
-        PopulateEntryLoadNo.SetGeneralLedgerEntryLoadNoValue(GLEntry, 'VCH011018');
-        GLEntry.Modify(false);
+        // //PCM000465
+        // GLEntry.Get(2554129);
+        // GLEntry."Debit Amount" := 0;
+        // GLEntry."Credit Amount" := 200;
+        // PopulateEntryLoadNo.SetGeneralLedgerEntryLoadNoValue(GLEntry, 'VCH011018');
+        // GLEntry.Modify(false);
+
+        // GLEntry2.LockTable();
+        // GLEntry2.FindLast();
+
+        // GLEntry."Entry No." := GLEntry2."Entry No." + 1;
+        // GLEntry.Amount := 200;
+        // GLEntry."Debit Amount" := 200;
+        // GLEntry."Credit Amount" := 0;
+        // GLEntry."Source Currency Amount" := 200;
+        // GLEntry.Validate("G/L Account No.", '520001');
+        // GLEntry.Insert(false);
+
+        //JE010352
+        GLEntry.Get(2568118);
 
         GLEntry2.LockTable();
         GLEntry2.FindLast();
 
         GLEntry."Entry No." := GLEntry2."Entry No." + 1;
-        GLEntry.Amount := 200;
-        GLEntry."Debit Amount" := 200;
-        GLEntry."Credit Amount" := 0;
-        GLEntry."Source Currency Amount" := 200;
-        GLEntry.Validate("G/L Account No.", '520001');
+        GLEntry.Amount := -250;
+        GLEntry."Debit Amount" := 0;
+        GLEntry."Credit Amount" := 250;
+        GLEntry."Source Currency Amount" := -250;
         GLEntry.Insert(false);
     end;
 
