@@ -33,7 +33,9 @@ codeunit 80203 "BA Install"
 
         // UpdateEntityCode();
 
-        UpdateGLEntries();
+        // UpdateGLEntries();
+
+        UpdateReversedEntityCodes();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -460,6 +462,49 @@ codeunit 80203 "BA Install"
         GLEntry."Credit Amount" := 250;
         GLEntry."Source Currency Amount" := -250;
         GLEntry.Insert(false);
+    end;
+
+    local procedure UpdateReversedEntityCodes()
+    var
+        GLSetup: Record "General Ledger Setup";
+        GLEntry: Record "G/L Entry";
+        TempDimSetEntry: Record "Dimension Set Entry" temporary;
+        DimMgt: Codeunit DimensionManagement;
+        DataTrans: DataTransfer;
+        DimSetIDs: List of [Integer];
+        DimSetID: Integer;
+        EntryNoFilter: Text;
+    begin
+        // Originals posted as TTG and reversed as TL, 06/21/2024..08/05/2024. The gaps are entries already corrected to TL.
+        EntryNoFilter := '2348517..2351750|2351753..2357342|2357344..2357348|2357353..2357406|2357411..2358516';
+        GLSetup.Get();
+
+        GLEntry.SetFilter("Entry No.", EntryNoFilter);
+        GLEntry.SetRange("Global Dimension 1 Code", 'TTG');
+        GLEntry.SetLoadFields("Dimension Set ID");
+        if GLEntry.FindSet() then
+            repeat
+                if not DimSetIDs.Contains(GLEntry."Dimension Set ID") then
+                    DimSetIDs.Add(GLEntry."Dimension Set ID");
+            until GLEntry.Next() = 0;
+
+        foreach DimSetID in DimSetIDs do begin
+            DimMgt.GetDimensionSet(TempDimSetEntry, DimSetID);
+            TempDimSetEntry.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+            TempDimSetEntry.FindFirst();
+            TempDimSetEntry.Validate("Dimension Value Code", 'TL');
+            TempDimSetEntry.Modify();
+            TempDimSetEntry.SetRange("Dimension Code");
+
+            Clear(DataTrans);
+            DataTrans.SetTables(Database::"G/L Entry", Database::"G/L Entry");
+            DataTrans.AddSourceFilter(GLEntry.FieldNo("Entry No."), EntryNoFilter);
+            DataTrans.AddSourceFilter(GLEntry.FieldNo("Global Dimension 1 Code"), '%1', 'TTG');
+            DataTrans.AddSourceFilter(GLEntry.FieldNo("Dimension Set ID"), '%1', DimSetID);
+            DataTrans.AddConstantValue('TL', GLEntry.FieldNo("Global Dimension 1 Code"));
+            DataTrans.AddConstantValue(DimMgt.GetDimensionSetID(TempDimSetEntry), GLEntry.FieldNo("Dimension Set ID"));
+            DataTrans.CopyFields();
+        end;
     end;
 
     var
