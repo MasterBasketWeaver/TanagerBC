@@ -35,7 +35,7 @@ codeunit 80203 "BA Install"
 
         // UpdateGLEntries();
 
-        UpdateReversedEntityCodes();
+        // UpdateReversedEntityCodes();
     end;
 
     local procedure PopulateCustomerEntries()
