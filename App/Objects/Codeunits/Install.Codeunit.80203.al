@@ -36,6 +36,8 @@ codeunit 80203 "BA Install"
         // UpdateGLEntries();
 
         // UpdateReversedEntityCodes();
+
+        // MoveVoucherEntriesToB010();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -505,6 +507,77 @@ codeunit 80203 "BA Install"
             DataTrans.AddConstantValue(DimMgt.GetDimensionSetID(TempDimSetEntry), GLEntry.FieldNo("Dimension Set ID"));
             DataTrans.CopyFields();
         end;
+    end;
+
+    local procedure MoveVoucherEntriesToB010()
+    var
+        BankAccount: Record "Bank Account";
+        BankAccLedgEntry, BankAccLedgEntry2 : Record "Bank Account Ledger Entry";
+        GLEntry: Record "G/L Entry";
+        VendorLedgerEntry: Record "Vendor Ledger Entry";
+        DocNoFilter: Text;
+    begin
+        // TL invoices paid from C010; each voucher's B005 payment/refund entries net to zero and are moved to TL's B010 as a set.
+        DocNoFilter := 'VCH114991|VCH115137|VCH115140|VCH115142|VCH115143|VCH115144|VCH115145';
+        BankAccount.Get('B010');
+
+        BankAccLedgEntry.SetRange("Bank Account No.", 'B005');
+        BankAccLedgEntry.SetFilter("Document No.", DocNoFilter);
+        if BankAccLedgEntry.IsEmpty() then
+            exit;
+        BankAccLedgEntry.CalcSums(Amount);
+        if (BankAccLedgEntry.Count() <> 16) or (BankAccLedgEntry.Amount <> 0) then
+            Error('Expected 16 B005 entries netting to 0 for %1, found %2 totalling %3.', DocNoFilter, BankAccLedgEntry.Count(), BankAccLedgEntry.Amount);
+        BankAccLedgEntry.FindSet();
+        repeat
+            BankAccLedgEntry2.Get(BankAccLedgEntry."Entry No.");
+            BankAccLedgEntry2."Bank Account No." := BankAccount."No.";
+            BankAccLedgEntry2."Bank Acc. Posting Group" := BankAccount."Bank Acc. Posting Group";
+            if BankAccLedgEntry2."Global Dimension 1 Code" <> 'TL' then begin
+                BankAccLedgEntry2."Global Dimension 1 Code" := 'TL';
+                BankAccLedgEntry2."Dimension Set ID" := GetDimSetIDWithEntity(BankAccLedgEntry2."Dimension Set ID", 'TL');
+            end;
+            BankAccLedgEntry2.Modify(false);
+        until BankAccLedgEntry.Next() = 0;
+
+        GLEntry.SetFilter("Document No.", DocNoFilter);
+        GLEntry.SetRange("Source Type", GLEntry."Source Type"::"Bank Account");
+        GLEntry.SetRange("Source No.", 'B005');
+        GLEntry.ModifyAll("Source No.", BankAccount."No.", false);
+
+        GLEntry.Reset();
+        GLEntry.SetFilter("Document No.", DocNoFilter);
+        GLEntry.SetRange("Bal. Account Type", GLEntry."Bal. Account Type"::"Bank Account");
+        GLEntry.SetRange("Bal. Account No.", 'B005');
+        GLEntry.ModifyAll("Bal. Account No.", BankAccount."No.", false);
+
+        VendorLedgerEntry.SetFilter("Document No.", DocNoFilter);
+        VendorLedgerEntry.SetRange("Bal. Account Type", VendorLedgerEntry."Bal. Account Type"::"Bank Account");
+        VendorLedgerEntry.SetRange("Bal. Account No.", 'B005');
+        VendorLedgerEntry.ModifyAll("Bal. Account No.", BankAccount."No.", false);
+    end;
+
+    local procedure GetDimSetIDWithEntity(DimSetID: Integer; EntityCode: Code[20]): Integer
+    var
+        GLSetup: Record "General Ledger Setup";
+        TempDimSetEntry: Record "Dimension Set Entry" temporary;
+        DimMgt: Codeunit DimensionManagement;
+    begin
+        GLSetup.Get();
+        DimMgt.GetDimensionSet(TempDimSetEntry, DimSetID);
+        TempDimSetEntry.SetRange("Dimension Code", GLSetup."Global Dimension 1 Code");
+        if TempDimSetEntry.FindFirst() then begin
+            TempDimSetEntry.Validate("Dimension Value Code", EntityCode);
+            TempDimSetEntry.Modify();
+        end else begin
+            TempDimSetEntry.Init();
+            TempDimSetEntry."Dimension Set ID" := DimSetID;
+            TempDimSetEntry.Validate("Dimension Code", GLSetup."Global Dimension 1 Code");
+            TempDimSetEntry.Validate("Dimension Value Code", EntityCode);
+            TempDimSetEntry.Insert();
+        end;
+        TempDimSetEntry.SetRange("Dimension Code");
+        exit(DimMgt.GetDimensionSetID(TempDimSetEntry));
     end;
 
     var
