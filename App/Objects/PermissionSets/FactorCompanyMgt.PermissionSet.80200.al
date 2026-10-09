@@ -2,10 +2,13 @@ permissionset 80200 "BA Factor Comp. Mgt."
 {
     Assignable = true;
     Caption = 'Factor Company Mgt. Permissions';
-    Permissions = report "BA Export Elec Payments" = X,
+    Permissions = table "BA Transaction No. Repair" = X,
+        tabledata "BA Transaction No. Repair" = RIMD,
+        report "BA Export Elec Payments" = X,
         codeunit "BA Subscribers" = X,
         codeunit "BA Single Instance" = X,
         codeunit "BA Install" = X,
         codeunit "BA Populate Entry Load Nos." = X,
-        codeunit "BA Upgrade" = X;
+        codeunit "BA Upgrade" = X,
+        codeunit "BA Repair Transaction Nos." = X;
 }

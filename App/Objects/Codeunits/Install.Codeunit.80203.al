@@ -38,6 +38,8 @@ codeunit 80203 "BA Install"
         // UpdateReversedEntityCodes();
 
         // MoveVoucherEntriesToB010();
+
+        RepairTransactionNos.RepairTransactionNos();
     end;
 
     local procedure PopulateCustomerEntries()
@@ -582,4 +584,5 @@ codeunit 80203 "BA Install"
 
     var
         PopulateEntryLoadNo: Codeunit "BA Populate Entry Load Nos.";
+        RepairTransactionNos: Codeunit "BA Repair Transaction Nos.";
 }

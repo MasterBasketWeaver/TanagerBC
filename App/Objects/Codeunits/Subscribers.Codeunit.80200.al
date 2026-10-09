@@ -240,6 +240,21 @@ codeunit 80200 "BA Subscribers"
         ClearSavedValues();
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Gen. Jnl.-Post Line", OnAfterInitNextEntryNo, '', true, true)]
+    local procedure GenJnlPostLineOnAfterInitNextEntryNo(var NextTransactionNo: Integer)
+    var
+        GLEntry: Record "G/L Entry";
+    begin
+        // BC continues from the Transaction No. of the last G/L entry by Entry No., so a G/L entry
+        // inserted at the end with an older Transaction No. rewinds the counter and later postings
+        // reuse numbers that already belong to other transactions.
+        GLEntry.SetCurrentKey("Transaction No.");
+        GLEntry.SetLoadFields("Transaction No.");
+        if GLEntry.FindLast() then
+            if GLEntry."Transaction No." >= NextTransactionNo then
+                NextTransactionNo := GLEntry."Transaction No." + 1;
+    end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Gen. Jnl.-Post Line", OnAfterPostApply, '', true, true)]
     local procedure GenJnlPostLineOnAfterPostApply(GenJnlLine: Record "Gen. Journal Line"; var DtldCVLedgEntryBuf: Record "Detailed CV Ledg. Entry Buffer"; var OldCVLedgEntryBuf: Record "CV Ledger Entry Buffer"; var NewCVLedgEntryBuf: Record "CV Ledger Entry Buffer"; var NewCVLedgEntryBuf2: Record "CV Ledger Entry Buffer")
     begin
