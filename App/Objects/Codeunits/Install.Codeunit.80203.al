@@ -39,7 +39,7 @@ codeunit 80203 "BA Install"
 
         // MoveVoucherEntriesToB010();
 
-        RepairTransactionNos.RepairTransactionNos();
+        // RepairTransactionNos.RepairTransactionNos();
     end;
 
     local procedure PopulateCustomerEntries()
