@@ -40,6 +40,29 @@ codeunit 80203 "BA Install"
         // MoveVoucherEntriesToB010();
 
         // RepairTransactionNos.RepairTransactionNos();
+
+        MarkOTRReceiptsReversed();
+    end;
+
+    local procedure MarkOTRReceiptsReversed()
+    begin
+        // These split OTR receipts are flagged rather than reversed: Reverse Transaction can't handle them.
+        MarkGLEntriesReversed('OTR 03.26.26');
+        MarkGLEntriesReversed('OTR 04.30.2026');
+        MarkGLEntriesReversed('OTR 06.25.2026');
+        MarkGLEntriesReversed('OTR 03.18.2026');
+        MarkGLEntriesReversed('OTR 05.07.2026');
+        MarkGLEntriesReversed('OTR 09.10.2026');
+        MarkGLEntriesReversed('OTR 09.17.2026');
+    end;
+
+    local procedure MarkGLEntriesReversed(DocumentNo: Code[20])
+    var
+        GLEntry: Record "G/L Entry";
+    begin
+        GLEntry.SetRange("Document No.", DocumentNo);
+        GLEntry.SetRange(Reversed, false);
+        GLEntry.ModifyAll(Reversed, true, false);
     end;
 
     local procedure PopulateCustomerEntries()
