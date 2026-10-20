@@ -41,7 +41,7 @@ codeunit 80203 "BA Install"
 
         // RepairTransactionNos.RepairTransactionNos();
 
-        MarkOTRReceiptsReversed();
+        // MarkOTRReceiptsReversed();
     end;
 
     local procedure MarkOTRReceiptsReversed()
