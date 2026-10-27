@@ -7,7 +7,9 @@ codeunit 80203 "BA Install"
         tabledata "Detailed Vendor Ledg. Entry" = RIMD,
         tabledata "Bank Account Ledger Entry" = RIMD,
         tabledata "Purch. Inv. Header" = RIMD,
-        tabledata "Purch. Inv. Line" = RIMD;
+        tabledata "Purch. Inv. Line" = RIMD,
+        tabledata "Purch. Cr. Memo Hdr." = R,
+        tabledata "Purch. Cr. Memo Line" = R;
 
     trigger OnInstallAppPerCompany()
     begin
@@ -44,6 +46,10 @@ codeunit 80203 "BA Install"
         // MarkOTRReceiptsReversed();
 
         // MoveVCH114840EntriesToTL();
+
+        // SetAccountsOnBlankVCH004308Entries();
+
+        RestoreVCH136132AndPCM006654GLEntries();
     end;
 
     local procedure MarkOTRReceiptsReversed()
@@ -615,6 +621,124 @@ codeunit 80203 "BA Install"
         VendorLedgerEntry.SetRange("Bal. Account Type", VendorLedgerEntry."Bal. Account Type"::"Bank Account");
         VendorLedgerEntry.SetRange("Bal. Account No.", 'B005');
         VendorLedgerEntry.ModifyAll("Bal. Account No.", BankAccount."No.", false);
+    end;
+
+    local procedure SetAccountsOnBlankVCH004308Entries()
+    begin
+        // VCH004308 and its JE0007742 offset were posted with a blank account.
+        SetGLEntryAccount(68213, 'VCH004308', '171040');
+        SetGLEntryAccount(862330, 'JE0007742', '610005');
+    end;
+
+    local procedure SetGLEntryAccount(EntryNo: Integer; DocumentNo: Code[20]; GLAccountNo: Code[20])
+    var
+        GLEntry: Record "G/L Entry";
+    begin
+        GLEntry.Get(EntryNo);
+        GLEntry.TestField("Document No.", DocumentNo);
+        if GLEntry."G/L Account No." = GLAccountNo then
+            exit;
+        GLEntry."G/L Account No." := GLAccountNo;
+        GLEntry.Modify(false);
+    end;
+
+    local procedure RestoreVCH136132AndPCM006654GLEntries()
+    begin
+        // Both 122090 lines were deleted by mistake by UpdateGLEntries in 28.0.1.14 (2026-08-30).
+        RestorePurchInvGLEntry(2566571, 2566572, 'VCH136132');
+        RestorePurchCrMemoGLEntry(2646660, 2646661, 'PCM006654');
+    end;
+
+    local procedure RestorePurchInvGLEntry(EntryNo: Integer; PayableEntryNo: Integer; DocumentNo: Code[20])
+    var
+        GLEntry: Record "G/L Entry";
+        PurchInvHeader: Record "Purch. Inv. Header";
+        PurchInvLine: Record "Purch. Inv. Line";
+        TempPurchLine: Record "Purchase Line" temporary;
+    begin
+        if GLEntry.Get(EntryNo) then
+            exit;
+        PurchInvHeader.Get(DocumentNo);
+        PurchInvLine.SetRange("Document No.", DocumentNo);
+        PurchInvLine.SetFilter(Type, '<>%1', PurchInvLine.Type::" ");
+        if PurchInvLine.Count() <> 1 then
+            Error('%1 should have exactly one posted line.', DocumentNo);
+        PurchInvLine.FindFirst();
+        TempPurchLine.TransferFields(PurchInvLine);
+        RestorePurchaseLineGLEntry(EntryNo, PayableEntryNo, GLEntry."Document Type"::Invoice, DocumentNo,
+            TempPurchLine, PurchInvLine.Amount, PurchInvHeader."Posting Description");
+    end;
+
+    local procedure RestorePurchCrMemoGLEntry(EntryNo: Integer; PayableEntryNo: Integer; DocumentNo: Code[20])
+    var
+        GLEntry: Record "G/L Entry";
+        PurchCrMemoHdr: Record "Purch. Cr. Memo Hdr.";
+        PurchCrMemoLine: Record "Purch. Cr. Memo Line";
+        TempPurchLine: Record "Purchase Line" temporary;
+    begin
+        if GLEntry.Get(EntryNo) then
+            exit;
+        PurchCrMemoHdr.Get(DocumentNo);
+        PurchCrMemoLine.SetRange("Document No.", DocumentNo);
+        PurchCrMemoLine.SetFilter(Type, '<>%1', PurchCrMemoLine.Type::" ");
+        if PurchCrMemoLine.Count() <> 1 then
+            Error('%1 should have exactly one posted line.', DocumentNo);
+        PurchCrMemoLine.FindFirst();
+        TempPurchLine.TransferFields(PurchCrMemoLine);
+        RestorePurchaseLineGLEntry(EntryNo, PayableEntryNo, GLEntry."Document Type"::"Credit Memo", DocumentNo,
+            TempPurchLine, -PurchCrMemoLine.Amount, PurchCrMemoHdr."Posting Description");
+    end;
+
+    // Mirrors what Purch. Post Invoice writes for a G/L Account line; everything else comes from the
+    // payable entry of the same posting (same transaction, dates, source, user, load no.).
+    local procedure RestorePurchaseLineGLEntry(EntryNo: Integer; PayableEntryNo: Integer; DocumentType: Enum "Gen. Journal Document Type"; DocumentNo: Code[20]; PurchLine: Record "Purchase Line"; LineAmount: Decimal; PostingDescription: Text[100])
+    var
+        GLEntry, PayableGLEntry, TransactionGLEntry : Record "G/L Entry";
+        PurchSetup: Record "Purchases & Payables Setup";
+        DimMgt: Codeunit DimensionManagement;
+    begin
+        PurchLine.TestField(Type, PurchLine.Type::"G/L Account");
+        PayableGLEntry.Get(PayableEntryNo);
+        PayableGLEntry.TestField("Document No.", DocumentNo);
+        PayableGLEntry.TestField("Document Type", DocumentType);
+        PayableGLEntry.TestField(Amount, -LineAmount);
+
+        TransactionGLEntry.SetRange("Transaction No.", PayableGLEntry."Transaction No.");
+        TransactionGLEntry.CalcSums(Amount);
+        if TransactionGLEntry.Amount <> -LineAmount then
+            Error('Transaction %1 of %2 is out of balance by %3, not %4.', PayableGLEntry."Transaction No.", DocumentNo, TransactionGLEntry.Amount, -LineAmount);
+
+        GLEntry := PayableGLEntry;
+        GLEntry."Entry No." := EntryNo;
+        GLEntry."G/L Account No." := PurchLine."No.";
+        GLEntry.UpdateAccountID();
+        PurchSetup.Get();
+        if PurchSetup."Copy Line Descr. to G/L Entry" then
+            GLEntry.Description := PurchLine.Description
+        else
+            GLEntry.Description := PostingDescription;
+        GLEntry.Amount := LineAmount;
+        GLEntry."Source Currency Amount" := LineAmount;
+        GLEntry."Additional-Currency Amount" := -PayableGLEntry."Additional-Currency Amount";
+        if LineAmount > 0 then begin
+            GLEntry."Debit Amount" := LineAmount;
+            GLEntry."Credit Amount" := 0;
+        end else begin
+            GLEntry."Debit Amount" := 0;
+            GLEntry."Credit Amount" := -LineAmount;
+        end;
+        GLEntry."Add.-Currency Debit Amount" := PayableGLEntry."Add.-Currency Credit Amount";
+        GLEntry."Add.-Currency Credit Amount" := PayableGLEntry."Add.-Currency Debit Amount";
+        GLEntry."Gen. Posting Type" := GLEntry."Gen. Posting Type"::Purchase;
+        GLEntry."Gen. Bus. Posting Group" := PurchLine."Gen. Bus. Posting Group";
+        GLEntry."Gen. Prod. Posting Group" := PurchLine."Gen. Prod. Posting Group";
+        GLEntry."VAT Bus. Posting Group" := PurchLine."VAT Bus. Posting Group";
+        GLEntry."VAT Prod. Posting Group" := PurchLine."VAT Prod. Posting Group";
+        GLEntry."Job No." := PurchLine."Job No.";
+        GLEntry."Dimension Set ID" := PurchLine."Dimension Set ID";
+        DimMgt.UpdateGlobalDimFromDimSetID(GLEntry."Dimension Set ID", GLEntry."Global Dimension 1 Code", GLEntry."Global Dimension 2 Code");
+        GLEntry."System-Created Entry" := true;
+        GLEntry.Insert(false);
     end;
 
     local procedure GetDimSetIDWithEntity(DimSetID: Integer; EntityCode: Code[20]): Integer
