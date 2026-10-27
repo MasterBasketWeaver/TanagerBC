@@ -656,8 +656,10 @@ codeunit 80203 "BA Install"
         PurchInvLine: Record "Purch. Inv. Line";
         TempPurchLine: Record "Purchase Line" temporary;
     begin
-        if GLEntry.Get(EntryNo) then
+        if GLEntry.Get(EntryNo) then begin
+            SetDimensionsFromPayableEntry(GLEntry, PayableEntryNo, DocumentNo);
             exit;
+        end;
         PurchInvHeader.Get(DocumentNo);
         PurchInvLine.SetRange("Document No.", DocumentNo);
         PurchInvLine.SetFilter(Type, '<>%1', PurchInvLine.Type::" ");
@@ -676,8 +678,10 @@ codeunit 80203 "BA Install"
         PurchCrMemoLine: Record "Purch. Cr. Memo Line";
         TempPurchLine: Record "Purchase Line" temporary;
     begin
-        if GLEntry.Get(EntryNo) then
+        if GLEntry.Get(EntryNo) then begin
+            SetDimensionsFromPayableEntry(GLEntry, PayableEntryNo, DocumentNo);
             exit;
+        end;
         PurchCrMemoHdr.Get(DocumentNo);
         PurchCrMemoLine.SetRange("Document No.", DocumentNo);
         PurchCrMemoLine.SetFilter(Type, '<>%1', PurchCrMemoLine.Type::" ");
@@ -690,12 +694,12 @@ codeunit 80203 "BA Install"
     end;
 
     // Mirrors what Purch. Post Invoice writes for a G/L Account line; everything else comes from the
-    // payable entry of the same posting (same transaction, dates, source, user, load no.).
+    // payable entry of the same posting (same transaction, dates, source, user, load no.). The posted
+    // lines say ENTITY DDT, but the entries go back as TL like the payable side (user, 2026-10-27).
     local procedure RestorePurchaseLineGLEntry(EntryNo: Integer; PayableEntryNo: Integer; DocumentType: Enum "Gen. Journal Document Type"; DocumentNo: Code[20]; PurchLine: Record "Purchase Line"; LineAmount: Decimal; PostingDescription: Text[100])
     var
         GLEntry, PayableGLEntry, TransactionGLEntry : Record "G/L Entry";
         PurchSetup: Record "Purchases & Payables Setup";
-        DimMgt: Codeunit DimensionManagement;
     begin
         PurchLine.TestField(Type, PurchLine.Type::"G/L Account");
         PayableGLEntry.Get(PayableEntryNo);
@@ -735,10 +739,26 @@ codeunit 80203 "BA Install"
         GLEntry."VAT Bus. Posting Group" := PurchLine."VAT Bus. Posting Group";
         GLEntry."VAT Prod. Posting Group" := PurchLine."VAT Prod. Posting Group";
         GLEntry."Job No." := PurchLine."Job No.";
-        GLEntry."Dimension Set ID" := PurchLine."Dimension Set ID";
-        DimMgt.UpdateGlobalDimFromDimSetID(GLEntry."Dimension Set ID", GLEntry."Global Dimension 1 Code", GLEntry."Global Dimension 2 Code");
         GLEntry."System-Created Entry" := true;
         GLEntry.Insert(false);
+    end;
+
+    local procedure SetDimensionsFromPayableEntry(var GLEntry: Record "G/L Entry"; PayableEntryNo: Integer; DocumentNo: Code[20])
+    var
+        PayableGLEntry: Record "G/L Entry";
+    begin
+        GLEntry.TestField("Document No.", DocumentNo);
+        PayableGLEntry.Get(PayableEntryNo);
+        PayableGLEntry.TestField("Document No.", DocumentNo);
+        if (GLEntry."Dimension Set ID" = PayableGLEntry."Dimension Set ID") and
+           (GLEntry."Global Dimension 1 Code" = PayableGLEntry."Global Dimension 1 Code") and
+           (GLEntry."Global Dimension 2 Code" = PayableGLEntry."Global Dimension 2 Code")
+        then
+            exit;
+        GLEntry."Dimension Set ID" := PayableGLEntry."Dimension Set ID";
+        GLEntry."Global Dimension 1 Code" := PayableGLEntry."Global Dimension 1 Code";
+        GLEntry."Global Dimension 2 Code" := PayableGLEntry."Global Dimension 2 Code";
+        GLEntry.Modify(false);
     end;
 
     local procedure GetDimSetIDWithEntity(DimSetID: Integer; EntityCode: Code[20]): Integer
