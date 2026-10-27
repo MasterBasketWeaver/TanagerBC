@@ -43,7 +43,7 @@ codeunit 80203 "BA Install"
 
         // MarkOTRReceiptsReversed();
 
-        MoveVCH114840EntriesToTL();
+        // MoveVCH114840EntriesToTL();
     end;
 
     local procedure MarkOTRReceiptsReversed()
