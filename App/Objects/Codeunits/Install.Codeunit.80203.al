@@ -42,6 +42,8 @@ codeunit 80203 "BA Install"
         // RepairTransactionNos.RepairTransactionNos();
 
         // MarkOTRReceiptsReversed();
+
+        MoveVCH114840EntriesToTL();
     end;
 
     local procedure MarkOTRReceiptsReversed()
@@ -535,15 +537,43 @@ codeunit 80203 "BA Install"
     end;
 
     local procedure MoveVoucherEntriesToB010()
+    begin
+        // TL invoices paid from C010; each voucher's B005 payment/refund entries net to zero and are moved to TL's B010 as a set.
+        MoveB005EntriesToB010('VCH114991|VCH115137|VCH115140|VCH115142|VCH115143|VCH115144|VCH115145', 16);
+    end;
+
+    local procedure MoveVCH114840EntriesToTL()
+    var
+        BankAccLedgEntry: Record "Bank Account Ledger Entry";
+        GLEntry, GLEntry2 : Record "G/L Entry";
+        DocNoFilter: Text;
+    begin
+        // TL invoice paid from C010 (PMT006836). Its B005 payment was offset by refund BRRF-2604-CYB1 (posted 10/26/2026),
+        // and G/L 1838881/1838882 had been set to TTG: the whole set goes to TL and B010 like MoveVoucherEntriesToB010.
+        DocNoFilter := 'VCH114840|BRRF-2604-CYB1';
+        BankAccLedgEntry.SetRange("Document No.", 'BRRF-2604-CYB1');
+        if BankAccLedgEntry.IsEmpty() then
+            exit;
+        MoveB005EntriesToB010(DocNoFilter, 2);
+
+        GLEntry.SetFilter("Document No.", DocNoFilter);
+        GLEntry.SetFilter("Global Dimension 1 Code", '<>%1', 'TL');
+        if GLEntry.FindSet() then
+            repeat
+                GLEntry2.Get(GLEntry."Entry No.");
+                GLEntry2."Global Dimension 1 Code" := 'TL';
+                GLEntry2."Dimension Set ID" := GetDimSetIDWithEntity(GLEntry2."Dimension Set ID", 'TL');
+                GLEntry2.Modify(false);
+            until GLEntry.Next() = 0;
+    end;
+
+    local procedure MoveB005EntriesToB010(DocNoFilter: Text; ExpectedCount: Integer)
     var
         BankAccount: Record "Bank Account";
         BankAccLedgEntry, BankAccLedgEntry2 : Record "Bank Account Ledger Entry";
         GLEntry: Record "G/L Entry";
         VendorLedgerEntry: Record "Vendor Ledger Entry";
-        DocNoFilter: Text;
     begin
-        // TL invoices paid from C010; each voucher's B005 payment/refund entries net to zero and are moved to TL's B010 as a set.
-        DocNoFilter := 'VCH114991|VCH115137|VCH115140|VCH115142|VCH115143|VCH115144|VCH115145';
         BankAccount.Get('B010');
 
         BankAccLedgEntry.SetRange("Bank Account No.", 'B005');
@@ -551,8 +581,13 @@ codeunit 80203 "BA Install"
         if BankAccLedgEntry.IsEmpty() then
             exit;
         BankAccLedgEntry.CalcSums(Amount);
-        if (BankAccLedgEntry.Count() <> 16) or (BankAccLedgEntry.Amount <> 0) then
-            Error('Expected 16 B005 entries netting to 0 for %1, found %2 totalling %3.', DocNoFilter, BankAccLedgEntry.Count(), BankAccLedgEntry.Amount);
+        if (BankAccLedgEntry.Count() <> ExpectedCount) or (BankAccLedgEntry.Amount <> 0) then
+            Error('Expected %1 B005 entries netting to 0 for %2, found %3 totalling %4.', ExpectedCount, DocNoFilter, BankAccLedgEntry.Count(), BankAccLedgEntry.Amount);
+        // A match on a bank reconciliation would be left pointing at the wrong bank account.
+        BankAccLedgEntry.SetFilter("Statement No.", '<>%1', '');
+        if not BankAccLedgEntry.IsEmpty() then
+            Error('B005 entries for %1 are on a bank reconciliation (statement %2).', DocNoFilter, BankAccLedgEntry."Statement No.");
+        BankAccLedgEntry.SetRange("Statement No.");
         BankAccLedgEntry.FindSet();
         repeat
             BankAccLedgEntry2.Get(BankAccLedgEntry."Entry No.");
