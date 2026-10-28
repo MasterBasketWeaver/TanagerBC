@@ -7,9 +7,7 @@ codeunit 80203 "BA Install"
         tabledata "Detailed Vendor Ledg. Entry" = RIMD,
         tabledata "Bank Account Ledger Entry" = RIMD,
         tabledata "Purch. Inv. Header" = RIMD,
-        tabledata "Purch. Inv. Line" = RIMD,
-        tabledata "Purch. Cr. Memo Hdr." = R,
-        tabledata "Purch. Cr. Memo Line" = R;
+        tabledata "Purch. Inv. Line" = RIMD;
 
     trigger OnInstallAppPerCompany()
     begin
@@ -49,7 +47,7 @@ codeunit 80203 "BA Install"
 
         // SetAccountsOnBlankVCH004308Entries();
 
-        RestoreVCH136132AndPCM006654GLEntries();
+        RestoreVCH136132GLEntry();
     end;
 
     local procedure MarkOTRReceiptsReversed()
@@ -642,11 +640,11 @@ codeunit 80203 "BA Install"
         GLEntry.Modify(false);
     end;
 
-    local procedure RestoreVCH136132AndPCM006654GLEntries()
+    local procedure RestoreVCH136132GLEntry()
     begin
-        // Both 122090 lines were deleted by mistake by UpdateGLEntries in 28.0.1.14 (2026-08-30).
+        // Deleted by mistake by UpdateGLEntries in 28.0.1.14 (2026-08-30), together with 2646660
+        // (PCM006654, credit 19,000), which is deliberately not restored (user, 2026-10-28).
         RestorePurchInvGLEntry(2566571, 2566572, 'VCH136132');
-        RestorePurchCrMemoGLEntry(2646660, 2646661, 'PCM006654');
     end;
 
     local procedure RestorePurchInvGLEntry(EntryNo: Integer; PayableEntryNo: Integer; DocumentNo: Code[20])
@@ -669,28 +667,6 @@ codeunit 80203 "BA Install"
         TempPurchLine.TransferFields(PurchInvLine);
         RestorePurchaseLineGLEntry(EntryNo, PayableEntryNo, GLEntry."Document Type"::Invoice, DocumentNo,
             TempPurchLine, PurchInvLine.Amount, PurchInvHeader."Posting Description");
-    end;
-
-    local procedure RestorePurchCrMemoGLEntry(EntryNo: Integer; PayableEntryNo: Integer; DocumentNo: Code[20])
-    var
-        GLEntry: Record "G/L Entry";
-        PurchCrMemoHdr: Record "Purch. Cr. Memo Hdr.";
-        PurchCrMemoLine: Record "Purch. Cr. Memo Line";
-        TempPurchLine: Record "Purchase Line" temporary;
-    begin
-        if GLEntry.Get(EntryNo) then begin
-            SetDimensionsFromPayableEntry(GLEntry, PayableEntryNo, DocumentNo);
-            exit;
-        end;
-        PurchCrMemoHdr.Get(DocumentNo);
-        PurchCrMemoLine.SetRange("Document No.", DocumentNo);
-        PurchCrMemoLine.SetFilter(Type, '<>%1', PurchCrMemoLine.Type::" ");
-        if PurchCrMemoLine.Count() <> 1 then
-            Error('%1 should have exactly one posted line.', DocumentNo);
-        PurchCrMemoLine.FindFirst();
-        TempPurchLine.TransferFields(PurchCrMemoLine);
-        RestorePurchaseLineGLEntry(EntryNo, PayableEntryNo, GLEntry."Document Type"::"Credit Memo", DocumentNo,
-            TempPurchLine, -PurchCrMemoLine.Amount, PurchCrMemoHdr."Posting Description");
     end;
 
     // Mirrors what Purch. Post Invoice writes for a G/L Account line; everything else comes from the
