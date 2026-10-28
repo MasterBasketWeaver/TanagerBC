@@ -47,7 +47,7 @@ codeunit 80203 "BA Install"
 
         // SetAccountsOnBlankVCH004308Entries();
 
-        RestoreVCH136132GLEntry();
+        // RestoreVCH136132GLEntry();
     end;
 
     local procedure MarkOTRReceiptsReversed()
